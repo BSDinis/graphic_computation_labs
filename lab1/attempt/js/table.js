@@ -26,6 +26,7 @@ function init()
   render();
 
   window.addEventListener("resize", onResize);
+  window.addEventListener("keydown", onKeyDown);
 }
 
 function createScene()
@@ -48,6 +49,29 @@ function onResize()
     camera.updateProjectionMatrix();
   }
 }
+
+
+function onKeyDown(k) {
+  'use strict';
+
+  switch (k.keyCode) {
+    case 65:
+    case 97:
+      scene.traverse(function (node) {
+        if (node instanceof THREE.Mesh) {
+          // toggle solid <> wireframe
+          node.material.wireframe = !node.material.wireframe;
+        }
+      });
+      break;
+    case 83:
+    case 115:
+      // togle moving <> stopped
+      ball.userData.jumping = !ball.userData.jumping;
+      break;
+  }
+}
+
 
 function createCamera()
 {
@@ -115,4 +139,19 @@ function createBall(x, y, z)
   ball.position.set(x, y, z);
 
   scene.add(ball);
+}
+
+function animate() {
+  'use strict';
+
+  console.log("hey");
+  if (ball.userData.jumping) {
+    console.log("hoy");
+    ball.userData.step += 0.04;
+    ball.position.y = Math.abs(30 * (Math.sin(ball.userData.step)));
+    ball.position.z = 15 * Math.cos(ball.userData.step);
+  }
+  render();
+
+  requestAnimationFrame(animate);
 }
