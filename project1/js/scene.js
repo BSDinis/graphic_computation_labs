@@ -22,8 +22,8 @@ const chairY = 0;
 
 class Scene {
   constructor() {
-    this.lamp = new Lamp(lampX, lampY);
-    this.table = new Table(tableX, tableY);
-    this.chair = new Chair(chairX, chairY);
+    this.lamp = new Lamp(lampX, lampY, #ff0000);
+    this.table = new Table(tableX, tableY, #00ff00);
+    this.chair = new Chair(chairX, chairY, #0000ff);
   }
 }
