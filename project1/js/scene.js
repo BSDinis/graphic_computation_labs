@@ -28,8 +28,21 @@ const lampDimensions = {
 }
 
 // position of the center of the chair
-const chairX = 0;
-const chairZ = 0;
+const chairDimensions = {
+  seatRadius: 30,
+  seatThickness: 5,
+  rodHeight: 50,
+  rodRadius: 3,
+  legLength: 30,
+  legRadius: 3,
+  wheelRadius: 5,
+  backRodHeight: 30,
+  backRodRadius: 3,
+  backWidth: 80,
+  backHeight: 50,
+  backThickness: 5,
+  noLegs: 4
+}
 
 
 class Scene {
