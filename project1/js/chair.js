@@ -23,11 +23,11 @@ class Chair {
     this._rod = constructRod(dimensions, this._material);
     this._chair.add(this._rod);
 
-    this._baseLegs = constructBaseLegs(dimensions, this._material);
+    this._baseLegs = [];
     for (var i = 0; i < dimensions.noLegs; i++) {
-      this._chair.add(this._baseLegs[i++])
+      this._baseLegs[i] = constructBaseLeg(dimensions, this._material, i);
+      this._chair.add(this._baseLegs[i])
     }
-
 
 
     this._chair.position.x = position.x;
@@ -45,26 +45,20 @@ class Chair {
 
         var mesh = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial(material));
         mesh.position.x = 0;
-        mesh.position.y = 0;
+        mesh.position.y = dimensions.rodHeight/2;
         mesh.position.z = 0;
 
         return mesh;
     }
 
-    function constructBaseLegs(dimensions, material) {
+    function constructBaseLeg(dimensions, material, legNo) {
+      var geometry = new THREE.CubeGeometry(2*dimensions.legRadius, 2*dimensions.legRadius, dimensions.legLength);
+      var mesh = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial(material));
+      mesh.position.x = 0;
+      mesh.position.y = 0;
+      mesh.position.z = 0;
 
-      var geometry = [];
-      var mesh = [];
-
-      for (var i = 0; i < dimensions.noLegs; i ++){
-        geometry[i] = new THREE.CubeGeometry(2*dimensions.legRadius, 2*dimensions.legRadius, dimensions.legLength);
-        mesh[i] = new THREE.Mesh(geometry[i], new THREE.MeshBasicMaterial(material));
-        mesh.position.x = 0;
-        mesh.position.y = 0;
-        mesh.position.z = 0;
-      }
-
-      return mesh
+      return mesh;
     }
 
     function constructSeat(dimensions, material) {
