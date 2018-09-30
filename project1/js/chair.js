@@ -23,7 +23,7 @@ class Chair {
 
     this._baseLegs = [];
     for (var i = 0; i < dimensions.noLegs; i++) {
-      this._baseLegs[i] = constructBaseLeg(dimensions, this._material, i);
+      this._baseLegs[i] = constructBaseLeg(dimensions, this._material);
       this._chair.add(this._baseLegs[i])
     }
 
@@ -49,16 +49,17 @@ class Chair {
         return mesh;
     }
 
-    function constructBaseLeg(dimensions, material, legNo) {
+    function constructBaseLeg(dimensions, material) {
       var geometry = new THREE.CubeGeometry(2*dimensions.legRadius, 2*dimensions.legRadius, dimensions.legLength);
       var mesh = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial(material));
 
-      mesh.rotation.y = (2 * legNo * Math.PI / dimensions.noLegs);
-
+      var angle = 2 * i * Math.PI / dimensions.noLegs;
 
       mesh.position.x = 0;
       mesh.position.y = dimensions.legRadius + 2 * dimensions.wheelRadius;
-      mesh.position.z = -dimensions.legLength/2;
+      mesh.position.z = -dimensions.legLength / 2
+      mesh.position.applyAxisAngle(new THREE.Vector3(0, 1, 0), angle);
+      mesh.rotateY(angle);
 
       return mesh;
     }
