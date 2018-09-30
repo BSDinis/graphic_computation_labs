@@ -77,8 +77,48 @@ function onKeyDown(e) {
         }
       });
       break;
+    case 37: // left arrow
+      //move left
+      accelerationFlag = 1;
+      break;
+    case 38: // up arrow
+      //move up
+      accelerationFlag = 1;
+      break;
+    case 39: // right arrow
+      // move right
+      accelerationFlag = 1;
+      break;
+    case 40: // down arrow
+      // move down
+      accelerationFlag = 1;
+      break;
 
     default:
+      break;
+  }
+}
+
+function onKeyUp(e) { //used an acceleration flag in order for the chair to be able to stop moving eventually when the key is released
+  'use strict';
+
+  switch (e.keyCode) {
+
+    case 37: // left arrow
+      //move left
+      accelerationFlag = 0;
+      break;
+    case 38: // up arrow
+      //move up
+      accelerationFlag = 0;
+      break;
+    case 39: // right arrow
+      // move right
+      accelerationFlag = 0;
+      break;
+    case 40: // down arrow
+      // move down
+      accelerationFlag = 0;
       break;
   }
 }
@@ -112,4 +152,3 @@ function initCameras(scene) {
   cameraNo = 0;
   return cameras;
 }
-
