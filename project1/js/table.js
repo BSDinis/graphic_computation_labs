@@ -19,7 +19,7 @@ class Table {
    *
    * @author BSDinis
    */
-  constructor(dimensions, input_color, scene) {
+  constructor(dimensions, inputColor, scene) {
     /**
      * Auxiliar constructor
      *
@@ -76,7 +76,7 @@ class Table {
     /****************************************/
 
     this._table = new THREE.Object3D();
-    this._material = new THREE.MeshBasicMaterial({color: input_color, wireframe: true});
+    this._material = new THREE.MeshBasicMaterial({color: inputColor, wireframe: true});
 
 
     this._legs = [];
