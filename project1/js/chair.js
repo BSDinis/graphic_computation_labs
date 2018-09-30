@@ -7,6 +7,8 @@
 class Chair {
   constructor(position, dimensions, inputColor, scene) {
     this._chair = new THREE.Object3D();
+    this._velocity = new THREE.Vector3(0, 0, 0);
+    this._acceleration = new THREE.Vector3(0, 0, 0);
     this._material = new THREE.MeshBasicMaterial({color: inputColor, wireframe: true});
 
     this._seat = constructSeat(dimensions, this._material);
@@ -20,6 +22,7 @@ class Chair {
 
     this._rod = constructRod(dimensions, this._material);
     this._chair.add(this._rod);
+
 
     this._baseLegs = [];
     for (var i = 0; i < dimensions.noLegs; i++) {
@@ -105,5 +108,36 @@ class Chair {
 
     function constructBaseLegs(dimensions, material) {
     }
+
+  }
+
+  function isMoving(){
+    return !this._velocity.equals(new THREE.Vector3(0, 0, 0));
+
+  }
+
+  function updateVelocity(delta){
+    this._velocity += delta * this._acceleration;
+    var speed = this._velocity.length();
+    if (speed > maxSpeed){
+      this._velocity = maxSpeed / speed * this._velocity;
+    }
+
+  }
+
+  function updatePosition(delta){
+    this._chair.position.x += delta * this._velocity.x;
+    this._chair.position.z += delta * this._velocity.z;
+  }
+
+  function setAcceleration(a){
+    this._acceleration = a;
+
+  }
+
+  function getFriction(){
+    var friction = new THREE.Vector3(-this._velocity);
+
+
   }
 }

@@ -8,6 +8,8 @@
 
 var myScene, camera, renderer;
 var cameras, cameraNo;
+var lamp, table, chair;
+var clock;
 
 function render()
 {
@@ -18,6 +20,15 @@ function render()
 function animate() {
   'use strict';
   camera = cameras[cameraNo];
+  var delta = clock.getDelta();
+
+  if (chair.isMoving() || chair.hasAcceleration()){
+    chair.updateVelocity(delta);
+    chair.updatePosition(delta);
+    chair.setAcceleration(chair.getFriction());
+  }
+
+
   render();
   requestAnimationFrame(animate);
 }
@@ -32,10 +43,13 @@ function init()
   myScene = new Scene();
   cameras = initCameras(myScene.scene);
   camera = cameras[cameraNo];
+  clock = new Clock(true);
+
   render();
 
   window.addEventListener('resize', onResize);
   window.addEventListener('keydown', onKeyDown);
+  window.------------------------
 }
 
 
@@ -77,21 +91,30 @@ function onKeyDown(e) {
         }
       });
       break;
+
+
     case 37: // left arrow
-      //move left
-      accelerationFlag = 1;
-      break;
     case 38: // up arrow
-      //move up
-      accelerationFlag = 1;
-      break;
     case 39: // right arrow
-      // move right
-      accelerationFlag = 1;
-      break;
     case 40: // down arrow
-      // move down
-      accelerationFlag = 1;
+      var verta = 0;
+      var horia = 0;
+
+      if(e.keyCode === 37){
+        horia -= 1;
+      }
+      else if(e.keyCode === 39){
+        horia += 1;
+      }
+      else if(e.keyCode === 38){
+        verta -= 1;
+      }
+      else if(e.keyCode === 40){
+        verta += 1;
+      }
+      chair.setAcceleration(new THREE.Vector3(horia, 0, verta))
+
+
       break;
 
     default:
