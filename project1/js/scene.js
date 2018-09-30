@@ -17,13 +17,13 @@ const tableDimensions = {
 
 // position of the center of the lamp
 const lampDimensions = {
-  baseRadius: 50,
+  baseRadius: 25,
   baseHeight: 10,
   rodHeight: 150,
-  rodRadius: 10,
-  bulbRadius: 15,
-  shadeSmallRadius: 40,
-  shadeBigRadius: 60
+  rodRadius: 5,
+  bulbRadius: 7.5,
+  shadeSmallRadius: 20,
+  shadeBigRadius: 40
 }
 
 // position of the center of the chair
