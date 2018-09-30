@@ -29,14 +29,14 @@ const lampDimensions = {
 
 // position of the center of the chair
 const chairDimensions = {
-  seatRadius: 30,
+  seatRadius: 40,
   seatThickness: 5,
   rodHeight: 50,
   rodRadius: 3,
   legLength: 30,
   legRadius: 3,
   wheelRadius: 5,
-  backRodHeight: 30,
+  backRodHeight: 50,
   backRodRadius: 3,
   backWidth: 80,
   backHeight: 50,
