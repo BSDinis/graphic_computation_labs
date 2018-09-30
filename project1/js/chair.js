@@ -52,6 +52,10 @@ class Chair {
     function constructBaseLeg(dimensions, material, legNo) {
       var geometry = new THREE.CubeGeometry(2*dimensions.legRadius, 2*dimensions.legRadius, dimensions.legLength);
       var mesh = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial(material));
+
+      mesh.rotation.y = (2 * legNo * Math.PI / dimensions.noLegs);
+
+
       mesh.position.x = 0;
       mesh.position.y = dimensions.legRadius + 2 * dimensions.wheelRadius;
       mesh.position.z = -dimensions.legLength/2;

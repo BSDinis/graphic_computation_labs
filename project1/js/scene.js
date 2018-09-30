@@ -41,7 +41,7 @@ const chairDimensions = {
   backWidth: 80,
   backHeight: 50,
   backThickness: 5,
-  noLegs: 4
+  noLegs: 5
 }
 
 

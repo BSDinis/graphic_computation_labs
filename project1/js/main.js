@@ -34,8 +34,8 @@ function init()
   camera = cameras[cameraNo];
   render();
 
-  window.addEventListener("resize", onResize);
-  window.addEventListener("keydown", onKeyDown);
+  window.addEventListener('resize', onResize);
+  window.addEventListener('keydown', onKeyDown);
 }
 
 
@@ -91,14 +91,7 @@ function initCameras(scene) {
   var width = 1000 / 2;
   var height = 500 / 2;
 
-  topCamera = new THREE.OrthographicCamera( 
-    -width * window.innerWidth / window.innerHeight ,
-    width * window.innerWidth / window.innerHeight ,
-    height * window.innerWidth / window.innerHeight ,
-    -height * window.innerWidth / window.innerHeight ,
-    1,
-    1000 
-  );
+  topCamera = new THREE.OrthographicCamera( window.innerWidth / - factor, window.innerWidth / factor, window.innerHeight / factor, window.innerHeight / - factor, 1, 1000 );
   topCamera.position.set(0, 1000, 0);
   topCamera.lookAt(scene.position);
 
