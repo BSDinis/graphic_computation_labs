@@ -18,6 +18,7 @@ function render()
 function animate() {
   'use strict';
   console.log("animating");
+  camera = cameras[cameraNo];
   render();
   requestAnimationFrame(animate);
 }
@@ -69,7 +70,6 @@ function onKeyDown(e) {
     case 50: // 2
     case 51: // 3
       cameraNo = e.keyCode - 48 - 1;
-      camera = cameras[cameraNo];
       break;
 
     default:
