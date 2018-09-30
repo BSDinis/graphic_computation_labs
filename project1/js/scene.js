@@ -11,8 +11,8 @@
 const tableDimensions = {
   width: 180,
   height: 100,
-  baseHeight: 150,
-  topDepth: 5
+  baseHeight: 100,
+  topDepth: 10
 }
 
 // position of the center of the lamp

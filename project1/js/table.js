@@ -28,11 +28,11 @@ class Table {
      */
     function construct_top(dimensions, material) {
 
-      var geometry = new THREE.CubeGeometry( dimensions.width, dimensions.depth, dimensions.height);
+      var geometry = new THREE.CubeGeometry( dimensions.width, dimensions.topDepth, dimensions.height);
       var mesh = new THREE.Mesh(geometry, material);
 
       // move to location 
-      mesh.position.set(dimensions.width/2, dimensions.baseHeight, dimensions.height/2);
+      mesh.position.set(dimensions.width/2, dimensions.baseHeight/2 + dimensions.topDepth/2, dimensions.height/2);
       return mesh;
     }
 
