@@ -55,7 +55,7 @@ class Scene {
     this.scene.add(axis);
 
     // private
-    this._chair = new Table({x: 0, y: 0, z: 0}, tableDimensions, 0xff0000, this.scene);
+    this._chair = new Chair({x: 0, y: 0, z: 0}, chairDimensions, 0x00ff00, this.scene);
     //this._table = new Table({x: 0, y: 0, z: 0}, tableDimensions, 0x00ff00, this.scene);
     //this._lamp = new Lamp({x: - 3 * tableDimensions.width / 4, y: 0, z: 0}, lampDimensions, 0x0000ff, this.scene);
   }
