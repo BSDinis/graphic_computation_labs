@@ -17,7 +17,6 @@ function render()
 
 function animate() {
   'use strict';
-  console.log("animating");
   camera = cameras[cameraNo];
   render();
   requestAnimationFrame(animate);
@@ -45,9 +44,7 @@ function onResize() {
   renderer.setSize(window.innerWidth, window.innerHeight);
 
   if (window.innerHeight > 0 && window.innerWidth > 0) {
-    console.log("before: " + camera.aspect);
     camera.aspect = window.innerWidth / window.innerHeight;
-    console.log("after: " + camera.aspect);
     camera.updateProjectionMatrix();
   }
 }
@@ -58,7 +55,7 @@ function onKeyDown(e) {
 
   switch (e.keyCode) {
     case 65: // A
-    case 97: // A
+    case 97: // a
       myScene.scene.traverse(function (node) {
         if (node instanceof THREE.Mesh) {
           node.material.wireframe = !node.material.wireframe;
@@ -70,6 +67,15 @@ function onKeyDown(e) {
     case 50: // 2
     case 51: // 3
       cameraNo = e.keyCode - 48 - 1;
+      break;
+
+    case 69: // E
+    case 101: // 3
+      myScene.scene.traverse(function (node) {
+        if (node instanceof THREE.AxisHelper) {
+          node.visible = !node.visible;
+        }
+      });
       break;
 
     default:
