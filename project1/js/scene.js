@@ -37,6 +37,10 @@ class Scene {
     // public
     this.scene = new THREE.Scene();
 
+    var axis = new THREE.AxisHelper(50);
+    axis.visible = false;
+    this.scene.add(axis);
+
     // private
     this._table = new Table({x: 0, y: 0, z: 0}, tableDimensions, 0x00ff00, this.scene);
     this._lamp = new Lamp({x: - 3 * tableDimensions.width / 4, y: 0, z: 0}, lampDimensions, 0x0000ff, this.scene);
