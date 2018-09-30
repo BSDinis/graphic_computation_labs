@@ -8,8 +8,12 @@
  */
 
 // position of the center of the table
-const tableX = 0;
-const tableZ = 0;
+const tableDimensions = {
+  width: 180,
+  height: 100,
+  baseHeight: 150,
+  topDepth: 5
+}
 
 // position of the center of the lamp
 const lampX = 0;
@@ -26,6 +30,6 @@ class Scene {
     this.scene = new THREE.Scene();
 
     // private
-    this._table = new Table(tableX, tableZ, #00ff00, this._scene);
+    this._table = new Table(tableDimensions, 0x00ff00, this.scene);
   }
 }

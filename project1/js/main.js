@@ -23,10 +23,10 @@ function init()
   document.body.appendChild(renderer.domElement);
 
   myScene = new Scene();
-  var factor = 16
-  var topCamera = new THREE.OrthographicCamera( window.innerWidth / - factor, window.innerWidth / factor, window.innerHeight / factor, window.innerHeight / - factor, 1, 1000 );
-  topCamera.position.set(0, 60, 0);
-  topCamera.lookAt(myScene.scene.position);
+  var factor = 4;
+  camera = new THREE.OrthographicCamera( window.innerWidth / - factor, window.innerWidth / factor, window.innerHeight / factor, window.innerHeight / - factor, 1, 1000 );
+  camera.position.set(0, 1000, 0);
+  camera.lookAt(myScene.scene.position);
 
   render();
 }
