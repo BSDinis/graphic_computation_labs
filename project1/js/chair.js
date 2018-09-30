@@ -8,17 +8,17 @@ class Chair {
   constructor(position, dimensions, inputColor, scene) {
     this._chair = new THREE.Object3D();
     this._material = new THREE.MeshBasicMaterial({color: inputColor, wireframe: true});
-  
+  /*
     this._seat = constructSeat(dimensions, this._material);
     this._chair.add(this._seat);
 
     this._backRod = constructBackRod(dimensions, this._material);
     this._chair.add(this._backRod);
 
-    /*
+
     this._back = constructBack(dimensions, this._material);
     this._chair.add(this._back);
-
+*/
 
     this._rod = constructRod(dimensions, this._material);
     this._chair.add(this._rod);
@@ -28,7 +28,7 @@ class Chair {
       this._chair.add(this._baseLegs[i++])
     }
 
-    */
+
 
     this._chair.position.x = position.x;
     this._chair.position.y = position.y;
@@ -37,10 +37,35 @@ class Chair {
     scene.add(this._chair);
     return;
 
-    /*
+
     function constructRod(dimensions, material) {
+      var geometry = new THREE.CubeGeometry(dimensions.rodRadius * 2,
+          dimensions.rodHeight,
+          dimensions.rodRadius * 2);
+
+        var mesh = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial(material));
+        mesh.position.x = 0;
+        mesh.position.y = 0;
+        mesh.position.z = 0;
+
+        return mesh;
     }
-    */
+
+    function constructBaseLegs(dimensions, material) {
+
+      var geometry = [];
+      var mesh = [];
+
+      for (var i = 0; i < dimensions.noLegs; i ++){
+        geometry[i] = new THREE.CubeGeometry(2*dimensions.legRadius, 2*dimensions.legRadius, dimensions.legLength);
+        mesh[i] = new THREE.Mesh(geometry[i], new THREE.MeshBasicMaterial(material));
+        mesh.position.x = 0;
+        mesh.position.y = 0;
+        mesh.position.z = 0;
+      }
+
+      return mesh
+    }
 
     function constructSeat(dimensions, material) {
 	  var geometry = new THREE.CubeGeometry(dimensions.seatRadius * 2,
