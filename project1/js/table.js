@@ -82,13 +82,15 @@ class Table {
     this._legs = [];
     for (var i = 0; i < 4; i++) {
       this._legs[i] = construct_leg(i, dimensions, this._material);
-
       this._table.add(this._legs[i]);
     }
+
     this._top = construct_top(dimensions, this._material);
     this._table.add(this._top);
 
-    this._table.position.set(-dimensions.width / 2, 0, -dimensions.height / 2);
     scene.add(this._table);
+    this._table.position.x = -dimensions.width / 2;
+    this._table.position.y = 0;
+    this._table.position.z = -dimensions.height / 2;
   }
 }
