@@ -9,21 +9,23 @@
 
 // position of the center of the table
 const tableX = 0;
-const tableY = 0;
+const tableZ = 0;
 
 // position of the center of the lamp
 const lampX = 0;
-const lampY = 0;
+const lampZ = 0;
 
 // position of the center of the chair
 const chairX = 0;
-const chairY = 0;
+const chairZ = 0;
 
 
 class Scene {
   constructor() {
-    this.lamp = new Lamp(lampX, lampY, #ff0000);
-    this.table = new Table(tableX, tableY, #00ff00);
-    this.chair = new Chair(chairX, chairY, #0000ff);
+    // public
+    this.scene = new THREE.Scene();
+
+    // private
+    this._table = new Table(tableX, tableZ, #00ff00, this._scene);
   }
 }
