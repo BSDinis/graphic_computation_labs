@@ -43,7 +43,7 @@ class Chair {
 
         var mesh = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial(material));
         mesh.position.x = 0;
-        mesh.position.y = dimensions.rodHeight/2;
+        mesh.position.y = 2 * dimensions.wheelRadius + dimensions.rodHeight/2;
         mesh.position.z = 0;
 
         return mesh;
@@ -53,8 +53,8 @@ class Chair {
       var geometry = new THREE.CubeGeometry(2*dimensions.legRadius, 2*dimensions.legRadius, dimensions.legLength);
       var mesh = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial(material));
       mesh.position.x = 0;
-      mesh.position.y = 0;
-      mesh.position.z = 0;
+      mesh.position.y = dimensions.legRadius + 2 * dimensions.wheelRadius;
+      mesh.position.z = -dimensions.legLength/2;
 
       return mesh;
     }
