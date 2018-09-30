@@ -18,12 +18,13 @@ const tableDimensions = {
 // position of the center of the lamp
 const lampDimensions = {
   baseRadius: 25,
-  baseHeight: 10,
+  baseHeight: 5,
   rodHeight: 150,
-  rodRadius: 5,
+  rodRadius: 2.5,
   bulbRadius: 7.5,
-  shadeSmallRadius: 20,
-  shadeBigRadius: 40
+  shadeSmallRadius: 25,
+  shadeBigRadius: 30,
+  shadeHeight: 35
 }
 
 // position of the center of the chair
@@ -37,7 +38,7 @@ class Scene {
     this.scene = new THREE.Scene();
 
     // private
-    this._table = new Table(tableDimensions, 0x00ff00, this.scene);
-    this._lamp = new Lamp(lampDimensions, 0x0000ff, this.scene);
+    this._table = new Table({x: 0, y: 0, z: 0}, tableDimensions, 0x00ff00, this.scene);
+    this._lamp = new Lamp({x: - 3 * tableDimensions.width / 4, y: 0, z: 0}, lampDimensions, 0x0000ff, this.scene);
   }
 }

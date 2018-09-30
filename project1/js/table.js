@@ -19,7 +19,7 @@ class Table {
    *
    * @author BSDinis
    */
-  constructor(dimensions, inputColor, scene) {
+  constructor(position, dimensions, inputColor, scene) {
     /**
      * Auxiliar constructor
      *
@@ -29,7 +29,7 @@ class Table {
     function construct_top(dimensions, material) {
 
       var geometry = new THREE.CubeGeometry( dimensions.width, dimensions.topDepth, dimensions.height);
-      var mesh = new THREE.Mesh(geometry, material);
+      var mesh = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial(material));
 
       // move to location 
       mesh.position.set(dimensions.width/2, dimensions.baseHeight/2 + dimensions.topDepth/2, dimensions.height/2);
@@ -49,8 +49,8 @@ class Table {
      *
      * these are the leg numbers
      *
-     * @param legNo 	the number of the leg, according to the scheme above
-     * @param dimension dimensions of the table
+     * @param legNo 	 the number of the leg, according to the scheme above
+     * @param dimensions dimensions of the table
      * @param material
      */
     function construct_leg(legNo, dimensions, material) {
@@ -64,7 +64,7 @@ class Table {
       
 
       var geometry = new THREE.CylinderGeometry(radius, radius, dimensions.baseHeight, 10, 10, false);
-      var mesh = new THREE.Mesh(geometry, material);
+      var mesh = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial(material));
       mesh.position.x = leg_positions[legNo].x;
       mesh.position.y = 0;
       mesh.position.z = leg_positions[legNo].z;
@@ -89,8 +89,8 @@ class Table {
     this._table.add(this._top);
 
     scene.add(this._table);
-    this._table.position.x = -dimensions.width / 2;
-    this._table.position.y = 0;
-    this._table.position.z = -dimensions.height / 2;
+    this._table.position.x = position.x - dimensions.width / 2;
+    this._table.position.y = position.y + dimensions.baseHeight / 2;
+    this._table.position.z = position.z - dimensions.height / 2;
   }
 }

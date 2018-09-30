@@ -5,7 +5,7 @@
  */
 
 class Lamp {
-  constructor(dimensions, inputColor, scene) {
+  constructor(position, dimensions, inputColor, scene) {
     this._lamp = new THREE.Object3D();
     this._material = new THREE.MeshBasicMaterial({color: inputColor, wireframe: true});
 
@@ -16,14 +16,15 @@ class Lamp {
     this._base = constructBase(dimensions, this._material);
     this._lamp.add(this._base);
 
+    this._shade = constructShade(dimensions, this._material);
+    this._lamp.add(this._shade);
+
     this._bulb = constructBulb(dimensions, this._material);
     this._lamp.add(this._bulb);
 
-    /*
-    this._shade = constructShade(dimensions, this._material);
-    this._lamp.add(this._shade);
-    */
-
+    this._lamp.position.x = position.x;
+    this._lamp.position.y = position.y;
+    this._lamp.position.z = position.z;
     scene.add(this._lamp);
     return;
 
@@ -35,7 +36,10 @@ class Lamp {
         10, 10, false
       );
 
-      var mesh = new THREE.Mesh(geometry, material);
+      var mesh = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial(material));
+      mesh.position.x = 0;
+      mesh.position.y = dimensions.baseHeight / 2;
+      mesh.position.z = 0;
       mesh.position.set = (0, dimensions.baseHeight / 2, 0);
 
       return mesh;
@@ -49,11 +53,10 @@ class Lamp {
         10, 10, false
       );
 
-      var mesh = new THREE.Mesh(geometry, material);
-      mesh.position.set = (0, 
-        dimensions.baseHeight + dimensions.rodHeight / 2, 
-        0
-      );
+      var mesh = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial(material));
+      mesh.position.x = 0;
+      mesh.position.y = dimensions.baseHeight + dimensions.rodHeight / 2;
+      mesh.position.z = 0;
 
       return mesh;
     }
@@ -64,28 +67,26 @@ class Lamp {
         15, 15
       );
 
-      var mesh = new THREE.Mesh(geometry, material);
-      mesh.position.set = (0, 
-        dimensions.rodHeight + dimensions.baseHeight + dimensions.bulbRadius,
-        0
-      );
+      var mesh = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial(material));
+      mesh.position.x = 0;
+      mesh.position.y = dimensions.baseHeight + dimensions.rodHeight + dimensions.bulbRadius;
+      mesh.position.z = 0;
 
       return mesh;
     }
 
     function constructShade(dimensions, material) {
       var geometry = new THREE.CylinderGeometry(
-        dimensions.rodRadius,
-        dimensions.rodRadius,
-        dimensions.rodHeight,
-        10, 10, false
+        dimensions.shadeSmallRadius,
+        dimensions.shadeBigRadius,
+        dimensions.shadeHeight,
+        20, 20, false
       );
 
-      var mesh = new THREE.Mesh(geometry, material);
-      mesh.position.set = (0, 
-        dimensions.baseHeight + dimensions.rodHeight / 2, 
-        0
-      );
+      var mesh = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial(material));
+      mesh.position.x = 0;
+      mesh.position.y = dimensions.baseHeight + dimensions.rodHeight + dimensions.bulbRadius;
+      mesh.position.z = 0;
 
       return mesh;
     }
