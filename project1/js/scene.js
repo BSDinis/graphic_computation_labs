@@ -28,8 +28,21 @@ const lampDimensions = {
 }
 
 // position of the center of the chair
-const chairX = 0;
-const chairZ = 0;
+const chairDimensions = {
+  seatRadius: 40,
+  seatThickness: 5,
+  rodHeight: 50,
+  rodRadius: 3,
+  legLength: 30,
+  legRadius: 3,
+  wheelRadius: 5,
+  backRodHeight: 50,
+  backRodRadius: 3,
+  backWidth: 80,
+  backHeight: 50,
+  backThickness: 5,
+  noLegs: 5
+}
 
 
 class Scene {
@@ -42,7 +55,8 @@ class Scene {
     this.scene.add(axis);
 
     // private
-    this._table = new Table({x: 0, y: 0, z: 0}, tableDimensions, 0x00ff00, this.scene);
-    this._lamp = new Lamp({x: - 3 * tableDimensions.width / 4, y: 0, z: 0}, lampDimensions, 0x0000ff, this.scene);
+    this._chair = new Chair({x: 0, y: 0, z: 0}, chairDimensions, 0x00ff00, this.scene);
+    //this._table = new Table({x: 0, y: 0, z: 0}, tableDimensions, 0x00ff00, this.scene);
+    //this._lamp = new Lamp({x: - 3 * tableDimensions.width / 4, y: 0, z: 0}, lampDimensions, 0x0000ff, this.scene);
   }
 }

@@ -34,8 +34,8 @@ function init()
   camera = cameras[cameraNo];
   render();
 
-  window.addEventListener("resize", onResize);
-  window.addEventListener("keydown", onKeyDown);
+  window.addEventListener('resize', onResize);
+  window.addEventListener('keydown', onKeyDown);
 }
 
 
@@ -77,8 +77,48 @@ function onKeyDown(e) {
         }
       });
       break;
+    case 37: // left arrow
+      //move left
+      accelerationFlag = 1;
+      break;
+    case 38: // up arrow
+      //move up
+      accelerationFlag = 1;
+      break;
+    case 39: // right arrow
+      // move right
+      accelerationFlag = 1;
+      break;
+    case 40: // down arrow
+      // move down
+      accelerationFlag = 1;
+      break;
 
     default:
+      break;
+  }
+}
+
+function onKeyUp(e) { //used an acceleration flag in order for the chair to be able to stop moving eventually when the key is released
+  'use strict';
+
+  switch (e.keyCode) {
+
+    case 37: // left arrow
+      //move left
+      accelerationFlag = 0;
+      break;
+    case 38: // up arrow
+      //move up
+      accelerationFlag = 0;
+      break;
+    case 39: // right arrow
+      // move right
+      accelerationFlag = 0;
+      break;
+    case 40: // down arrow
+      // move down
+      accelerationFlag = 0;
       break;
   }
 }
@@ -88,6 +128,8 @@ function initCameras(scene) {
   'use strict';
   var topCamera, frontalCamera, leftCamera;
   var factor = 4;
+  var width = 1000 / 2;
+  var height = 500 / 2;
 
   topCamera = new THREE.OrthographicCamera( window.innerWidth / - factor, window.innerWidth / factor, window.innerHeight / factor, window.innerHeight / - factor, 1, 1000 );
   topCamera.position.set(0, 1000, 0);
@@ -110,4 +152,3 @@ function initCameras(scene) {
   cameraNo = 0;
   return cameras;
 }
-
