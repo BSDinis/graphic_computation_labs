@@ -80,7 +80,7 @@ class Lamp {
         dimensions.shadeSmallRadius,
         dimensions.shadeBigRadius,
         dimensions.shadeHeight,
-        20, 20, false
+        20, 20, true
       );
 
       var mesh = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial(material));
