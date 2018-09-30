@@ -89,8 +89,8 @@ class Table {
     this._table.add(this._top);
 
     scene.add(this._table);
-    this._table.position.x = position.x - dimensions.width / 2;
-    this._table.position.y = position.y + dimensions.baseHeight / 2;
-    this._table.position.z = position.z - dimensions.height / 2;
+    this._table.position.x = -dimensions.width / 2;
+    this._table.position.y = 0;
+    this._table.position.z = -dimensions.height / 2;
   }
 }
