@@ -38,14 +38,15 @@ class Chair {
   }
 
   updateSpeed(delta){
-    this._speed += delta * this._acceleration;
+    var diff = delta * this._acceleration;
+    this._speed += diff;
     if (this._speed > maxSpeed) {
       this._speed = maxSpeed;
     }
     else if (this._speed < -maxSpeed) {
       this._speed = -maxSpeed;
     }
-    this.rod.updateWheels(this._angle, this._noLegs);
+    this.rod.updateWheels(this._angle, this._noLegs, Math.abs(this._speed/maxSpeed));
   }
 
   updateAngularSpeed(delta) {
@@ -128,9 +129,9 @@ class Rod {
     this.seat.updateRotation(angle);
   }
 
-  updateWheels(angle, noLegs) {
+  updateWheels(angle, noLegs, factor) {
     for (var i = 0; i < noLegs; i++) {
-      this.leg[i].updateWheel(angle);
+      this.leg[i].updateWheel(angle, factor);
     }
   }
 }
@@ -158,8 +159,8 @@ class Leg {
   }
 
 
-  updateWheel(angle) {
-    this.wheel.updateDirection(angle);
+  updateWheel(angle, factor) {
+    this.wheel.updateDirection(angle, factor);
   }
 }
 
@@ -175,9 +176,18 @@ class Wheel {
     parentObj.add(this.mesh);
   }
 
-  updateDirection(angle) {
+  updateDirection(angle, factor) {
     this._targetAngle = angle;
-    var step = (this._targetAngle - this._angle) / 10;
+    var step = (this._targetAngle - this._angle);
+    if (step > Math.PI) {
+      this._angle += Math.PI;
+      this.step -= Math.PI;
+    }
+    if (step < -Math.PI * 2) {
+      this._angle -= Math.PI;
+      this.step += Math.PI;
+    }
+    step *= factor;
     this.mesh.rotateY(step);
     this._angle += step;
   }
