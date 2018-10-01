@@ -121,8 +121,5 @@ class Chair {
 
       return mesh;
     }
-
-    function constructBaseLegs(dimensions, material) {
-    }
   }
 }
