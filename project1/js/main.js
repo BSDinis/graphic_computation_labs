@@ -11,6 +11,15 @@ var cameras, cameraNo;
 var lamp, table, chair;
 var clock;
 
+
+var keys = {
+  left: {code: 37, pressed: false},
+  up: {code: 38, pressed: false},
+  right: {code: 39, pressed: false},
+  down: {code: 40, pressed: false}
+}
+
+
 function render()
 {
   'use strict';
@@ -22,13 +31,28 @@ function animate() {
   camera = cameras[cameraNo];
   var delta = clock.getDelta();
 
+  var linear = 0;
+  var angular = 0;
+  if(keys.left.pressed){
+    angular += 5;
+  }
+  if(keys.right.pressed){
+    angular -= 5;
+  }
+  if(keys.up.pressed){
+    linear -= 400;
+  }
+  if(keys.down.pressed){
+    linear += 400;
+  }
+  chair.setAcceleration(linear + chair.getFriction())
+  chair.setAngularAcceleration(angular + chair.getAngularFriction())
+
   if (chair.isMoving() || chair.hasAcceleration()){
     chair.updateSpeed(delta);
     chair.updateAngularSpeed(delta);
     chair.updatePosition(delta);
     chair.updateRotation(delta);
-    chair.setAcceleration(chair.getFriction());
-    chair.setAngularAcceleration(chair.getAngularFriction());
   }
 
   render();
@@ -51,6 +75,7 @@ function init()
 
   window.addEventListener('resize', onResize);
   window.addEventListener('keydown', onKeyDown);
+  window.addEventListener('keyup', onKeyUp);
 }
 
 
@@ -93,28 +118,40 @@ function onKeyDown(e) {
       });
       break;
 
+    case keys.left.code: // left arrow
+      keys.left.pressed = true;
+      break;
+    case keys.up.code: // up arrow
+      keys.up.pressed = true;
+      break;
+    case keys.right.code: // right arrow
+      keys.right.pressed = true;
+      break;
+    case keys.down.code: // down arrow
+      keys.down.pressed = true;
+      break;
+      break;
 
-    case 37: // left arrow
-    case 38: // up arrow
-    case 39: // right arrow
-    case 40: // down arrow
-      var linear = 0;
-      var angular = 0;
+    default:
+      break;
+  }
+}
 
-      if(e.keyCode === 37){
-        angular += 5;
-      }
-      else if(e.keyCode === 39){
-        angular -= 5;
-      }
-      else if(e.keyCode === 38){
-        linear -= 400;
-      }
-      else if(e.keyCode === 40){
-        linear += 400;
-      }
-      chair.setAcceleration(linear)
-      chair.setAngularAcceleration(angular)
+function onKeyUp(e) {
+  'use strict';
+
+  switch (e.keyCode) {
+    case keys.left.code: // left arrow
+      keys.left.pressed = false;
+      break;
+    case keys.up.code: // up arrow
+      keys.up.pressed = false;
+      break;
+    case keys.right.code: // right arrow
+      keys.right.pressed = false;
+      break;
+    case keys.down.code: // down arrow
+      keys.down.pressed = false;
       break;
 
     default:
