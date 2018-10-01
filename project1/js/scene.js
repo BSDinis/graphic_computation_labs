@@ -31,6 +31,7 @@ const lampDimensions = {
 const chairDimensions = {
   seatRadius: 40,
   seatThickness: 5,
+  armRestRadius: 2,
   rodHeight: 50,
   rodRadius: 3,
   legLength: 30,
@@ -40,7 +41,6 @@ const chairDimensions = {
   backHeight: 120,
   backThickness: 5,
   noLegs: 5
-
 }
 const maxSpeed = 500;
 const maxAngularSpeed = 2 * Math.PI;
