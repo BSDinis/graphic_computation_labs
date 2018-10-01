@@ -207,13 +207,47 @@ class Seat {
       this.mesh
     );
 
+
+    this.armRest = [];
+    this.armRest[0] = new ArmRest(
+      {x: -dimensions.seatRadius + dimensions.armRestRadius, y: 2 * dimensions.seatRadius/3, z: dimensions.seatRadius/3},
+      dimensions, 
+      material, 
+      this.mesh
+    );
+    this.armRest[0] = new ArmRest(
+      {x: dimensions.seatRadius - dimensions.armRestRadius, y: 2 * dimensions.seatRadius/3, z: dimensions.seatRadius/3},
+      dimensions, 
+      material, 
+      this.mesh
+    );
     this.mesh.position.set(position.x, position.y, position.z);
     parentObj.add(this.mesh);
-
   }
 
   updateRotation(angle) {
     this.mesh.rotateY(angle);
+  }
+}
+
+class ArmRest {
+  constructor(position, dimensions, material, parentObj) {
+    var geometry1 = new THREE.CubeGeometry(dimensions.armRestRadius * 2,
+      dimensions.armRestRadius * 2,
+      4 * dimensions.seatRadius / 3
+    );
+    var geometry2 = new THREE.CubeGeometry(dimensions.armRestRadius * 2,
+      2 * dimensions.seatRadius/3,
+      dimensions.armRestRadius * 2
+    );
+
+    this.mesh1 = new THREE.Mesh(geometry1, new THREE.MeshBasicMaterial(material));
+    this.mesh2 = new THREE.Mesh(geometry2, new THREE.MeshBasicMaterial(material));
+    this.mesh2.position.set(0, -dimensions.seatRadius/3 + dimensions.armRestRadius, - 2 * dimensions.seatRadius/3);
+    this.mesh1.add(this.mesh2);
+    this.mesh1.position.set(position.x, position.y, position.z);
+    parentObj.add(this.mesh1);
+
   }
 }
 
