@@ -23,7 +23,6 @@ function animate() {
   var delta = clock.getDelta();
 
   if (chair.isMoving() || chair.hasAcceleration()){
-    console.log("updating");
     chair.updateSpeed(delta);
     chair.updateAngularSpeed(delta);
     chair.updatePosition(delta);
@@ -103,10 +102,10 @@ function onKeyDown(e) {
       var angular = 0;
 
       if(e.keyCode === 37){
-        angular -= 1;
+        angular += 10;
       }
       else if(e.keyCode === 39){
-        angular += 1;
+        angular -= 10;
       }
       else if(e.keyCode === 38){
         linear -= 1;
@@ -155,7 +154,7 @@ function initCameras(scene) {
   var width = 1000 / 2;
   var height = 500 / 2;
 
-  topCamera = new THREE.OrthographicCamera( window.innerWidth / - factor, window.innerWidth / factor, window.innerHeight / factor, window.innerHeight / - factor, 1, 1000 );
+  topCamera = new THREE.OrthographicCamera( window.innerWidth / - factor, window.innerWidth / factor, window.innerHeight / factor, window.innerHeight / - factor, -10000, 10000 );
   topCamera.position.set(0, 1000, 0);
   topCamera.lookAt(scene.position);
 
@@ -163,7 +162,7 @@ function initCameras(scene) {
   frontalCamera.position.set(0, 0, 2000);
   frontalCamera.lookAt(scene.position);
 
-  leftCamera = new THREE.OrthographicCamera( window.innerWidth / - factor, window.innerWidth / factor, window.innerHeight / factor, window.innerHeight / - factor, 1, 1000 );
+  leftCamera = new THREE.OrthographicCamera( window.innerWidth / - factor, window.innerWidth / factor, window.innerHeight / factor, window.innerHeight / - factor, -10000, 10000 );
   leftCamera.position.set(-1000, 0, 0);
   leftCamera.lookAt(scene.position);
 
