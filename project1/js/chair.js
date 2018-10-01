@@ -36,7 +36,7 @@ class Chair {
       this._chair.add(this._wheels[i])
     }
 
-    this._chair.position.set(position);
+    this._chair.position.set(position.x, position.y, position.z);
 
     scene.add(this._chair);
     return;
@@ -148,7 +148,7 @@ class Chair {
   updateAngularSpeed(delta) {
     this._angularSpeed += delta * this._angularAcceleration;
     if (this._angularSpeed > maxAngularSpeed) {
-      this._angularspeed = maxAngularSpeed;
+      this._angularSpeed = maxAngularSpeed;
     }
     else if (this._angularSpeed < -maxAngularSpeed) {
       this._angularSpeed = -maxAngularSpeed;
