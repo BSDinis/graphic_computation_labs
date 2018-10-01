@@ -9,86 +9,71 @@ class Lamp {
     this._lamp = new THREE.Object3D();
     this._material = new THREE.MeshBasicMaterial({color: inputColor, wireframe: true});
 
-    this._rod = constructRod(dimensions, this._material);
-    this._lamp.add(this._rod);
-
-
-    this._base = constructBase(dimensions, this._material);
-    this._lamp.add(this._base);
-
-    this._shade = constructShade(dimensions, this._material);
-    this._lamp.add(this._shade);
-
-    this._bulb = constructBulb(dimensions, this._material);
-    this._lamp.add(this._bulb);
-
-    this._lamp.position.x = position.x;
-    this._lamp.position.y = position.y;
-    this._lamp.position.z = position.z;
+    this.base = new Base({x: 0, y: dimensions.baseHeight/2, z: 0}, dimensions, this._material, this._lamp);
+    this._lamp.position.set(position.x, position.y, position.z);
     scene.add(this._lamp);
     return;
+  }
+}
 
-    function constructBase(dimensions, material) {
-      var geometry = new THREE.CylinderGeometry(
-        dimensions.baseRadius,
-        dimensions.baseRadius,
-        dimensions.baseHeight,
-        10, 10, false
-      );
 
-      var mesh = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial(material));
-      mesh.position.x = 0;
-      mesh.position.y = dimensions.baseHeight / 2;
-      mesh.position.z = 0;
-      mesh.position.set = (0, dimensions.baseHeight / 2, 0);
+class Base {
+  constructor(position, dimensions, material, parentObj) {
+    var geometry = new THREE.CylinderGeometry(
+      dimensions.baseRadius,
+      dimensions.baseRadius,
+      dimensions.baseHeight,
+      10, 10, false
+    );
 
-      return mesh;
-    }
+    this.mesh = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial(material));
+    this.rod = new LampRod ({x: 0, y: dimensions.rodHeight/2, z: 0}, dimensions, material, this.mesh);
+    this.mesh.position.set(position.x, position.y, position.z);
+    parentObj.add(this.mesh);
+  }
+}
 
-    function constructRod(dimensions, material) {
-      var geometry = new THREE.CylinderGeometry(
-        dimensions.rodRadius,
-        dimensions.rodRadius,
-        dimensions.rodHeight,
-        10, 10, false
-      );
+class LampRod {
+  constructor(position, dimensions, material, parentObj) {
+    var geometry = new THREE.CylinderGeometry(
+      dimensions.rodRadius,
+      dimensions.rodRadius,
+      dimensions.rodHeight,
+      10, 10, false
+    );
 
-      var mesh = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial(material));
-      mesh.position.x = 0;
-      mesh.position.y = dimensions.baseHeight + dimensions.rodHeight / 2;
-      mesh.position.z = 0;
+    this.mesh = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial(material));
+    this.bulb = new Bulb({x: 0, y: dimensions.bulbRadius + dimensions.rodHeight/2, z: 0}, dimensions, material, this.mesh);
+    this.mesh.position.set(position.x, position.y, position.z);
+    parentObj.add(this.mesh);
+  }
+}
 
-      return mesh;
-    }
+class Bulb {
+  constructor(position, dimensions, material, parentObj) {
+    var geometry = new THREE.SphereGeometry(
+      dimensions.bulbRadius,
+      15, 15
+    );
 
-    function constructBulb(dimensions, material) {
-      var geometry = new THREE.SphereGeometry(
-        dimensions.bulbRadius,
-        15, 15
-      );
+    this.mesh = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial(material));
+    this.shade = new Shade({x: 0, y: 0, z: 0}, dimensions, material, this.mesh);
+    this.mesh.position.set(position.x, position.y, position.z);
+    parentObj.add(this.mesh);
+  }
+}
 
-      var mesh = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial(material));
-      mesh.position.x = 0;
-      mesh.position.y = dimensions.baseHeight + dimensions.rodHeight + dimensions.bulbRadius;
-      mesh.position.z = 0;
+class Shade {
+  constructor(position, dimensions, material, parentObj) {
+    var geometry = new THREE.CylinderGeometry(
+      dimensions.shadeSmallRadius,
+      dimensions.shadeBigRadius,
+      dimensions.shadeHeight,
+      20, 20, true
+    );
 
-      return mesh;
-    }
-
-    function constructShade(dimensions, material) {
-      var geometry = new THREE.CylinderGeometry(
-        dimensions.shadeSmallRadius,
-        dimensions.shadeBigRadius,
-        dimensions.shadeHeight,
-        20, 20, true
-      );
-
-      var mesh = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial(material));
-      mesh.position.x = 0;
-      mesh.position.y = dimensions.baseHeight + dimensions.rodHeight + dimensions.bulbRadius;
-      mesh.position.z = 0;
-
-      return mesh;
-    }
+    this. mesh = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial(material));
+    this.mesh.position.set(position.x, position.y, position.z);
+    parentObj.add(this.mesh);
   }
 }

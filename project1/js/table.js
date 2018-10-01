@@ -20,77 +20,49 @@ class Table {
    * @author BSDinis
    */
   constructor(position, dimensions, inputColor, scene) {
-    /**
-     * Auxiliar constructor
-     *
-     * @param dimensions dimension of the table top
-     * @param material material of the tabletop
-     */
-    function construct_top(dimensions, material) {
-
-      var geometry = new THREE.CubeGeometry( dimensions.width, dimensions.topDepth, dimensions.height);
-      var mesh = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial(material));
-
-      // move to location 
-      mesh.position.set(dimensions.width/2, dimensions.baseHeight/2 + dimensions.topDepth/2, dimensions.height/2);
-      return mesh;
-    }
-
-    /**
-     * Construct a table leg
-     *
-     * from the top view:
-     *
-     * +----------+
-     * |0        1|
-     * |          |
-     * |2        3|
-     * +----------+
-     *
-     * these are the leg numbers
-     *
-     * @param legNo 	 the number of the leg, according to the scheme above
-     * @param dimensions dimensions of the table
-     * @param material
-     */
-    function construct_leg(legNo, dimensions, material) {
-      var radius = .1 * dimensions.height; // radius of the table leg
-      var leg_positions = [
-        {x: 2 * radius, z: 2 * radius},
-        {x: dimensions.width - 2 * radius, z: 2 * radius},
-        {x: 2 * radius, z: dimensions.height - 2 * radius},
-        {x: dimensions.width - 2 * radius, z: dimensions.height - 2 * radius},
-      ]
-      
-
-      var geometry = new THREE.CylinderGeometry(radius, radius, dimensions.baseHeight, 10, 10, false);
-      var mesh = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial(material));
-      mesh.position.x = leg_positions[legNo].x;
-      mesh.position.y = 0;
-      mesh.position.z = leg_positions[legNo].z;
-
-      return mesh
-    }
-
-
-    /****************************************/
-
     this._table = new THREE.Object3D();
     this._material = new THREE.MeshBasicMaterial({color: inputColor, wireframe: true});
 
-
-    this._legs = [];
-    for (var i = 0; i < 4; i++) {
-      this._legs[i] = construct_leg(i, dimensions, this._material);
-      this._table.add(this._legs[i]);
-    }
-
-    this._top = construct_top(dimensions, this._material);
-    this._table.add(this._top);
-
+    this.tableTop = new TableTop(
+      {x: 0, y: dimensions.baseHeight, z: 0},
+      dimensions,
+      this._material,
+      this._table
+    );
+    this._table.position.set(position.x, position.y, position.z);
     scene.add(this._table);
-    this._table.position.x = position.x - dimensions.width / 2;
-    this._table.position.y = position.y + dimensions.baseHeight / 2;
-    this._table.position.z = position.z - dimensions.height / 2;
+  }
+}
+
+
+class TableTop {
+  constructor(position, dimensions, material, parentObj) {
+    var geometry = new THREE.CubeGeometry(dimensions.width, dimensions.topDepth, dimensions.height);
+    this.mesh = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial(material));
+
+    var radius = .1 * dimensions.height; // radius of the table leg
+    var x0 = -dimensions.width/2 + 2 * radius;
+    var y0 = -dimensions.baseHeight/2 - dimensions.topDepth/2
+    var z0 = -dimensions.height/2 + 2 * radius;
+
+    this.leg = [];
+    this.leg[0] = new TableLeg(radius, {x: x0, y: y0, z: z0}, dimensions, material, this.mesh);
+    this.leg[1] = new TableLeg(radius, {x: -x0, y: y0, z: z0}, dimensions, material, this.mesh);
+    this.leg[2] = new TableLeg(radius, {x: x0, y: y0, z: -z0}, dimensions, material, this.mesh);
+    this.leg[3] = new TableLeg(radius, {x: -x0, y: y0, z: -z0}, dimensions, material, this.mesh);
+
+    // move to location 
+    this.mesh.position.set(position.x, position.y + dimensions.topDepth/2, position.z);
+    parentObj.add(this.mesh);
+  }
+}
+
+
+class TableLeg {
+  constructor(radius, position, dimensions, material, parentObj) {
+    var geometry = new THREE.CylinderGeometry(radius, radius, dimensions.baseHeight, 10, 10, false);
+    this.mesh = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial(material));
+    this.mesh.position.set(position.x, position.y, position.z);
+    parentObj.add(this.mesh);
   }
 }
