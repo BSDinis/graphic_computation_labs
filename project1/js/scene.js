@@ -36,10 +36,8 @@ const chairDimensions = {
   legLength: 30,
   legRadius: 3,
   wheelRadius: 3,
-  backRodHeight: 50,
-  backRodRadius: 3,
-  backWidth: 70,
-  backHeight: 50,
+  backWidth: 80,
+  backHeight: 120,
   backThickness: 5,
   noLegs: 5
 

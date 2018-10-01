@@ -14,116 +14,110 @@ class Chair {
 
     this._material = new THREE.MeshBasicMaterial({color: inputColor, wireframe: true});
 
-    this._seat = constructSeat(dimensions, this._material);
-    this._chair.add(this._seat);
+    this._rod = constructRod(
+      {x: 0,
+       y: 2*dimensions.wheelRadius + dimensions.rodHeight / 2,
+       z: 0}, 
+      dimensions,
+      this._material
+    );
 
-    this._backRod = constructBackRod(dimensions, this._material);
-    this._chair.add(this._backRod);
-
-    this._back = constructBack(dimensions, this._material);
-    this._chair.add(this._back);
-
-    this._rod = constructRod(dimensions, this._material);
     this._chair.add(this._rod);
-
-
-    this._baseLegs = [];
-    this._wheels = [];
-    for (var i = 0; i < dimensions.noLegs; i++) {
-      this._baseLegs[i] = constructBaseLeg(dimensions, this._material, i);
-      this._wheels[i] = constructWheel(dimensions, this._material, i);
-      this._chair.add(this._baseLegs[i])
-      this._chair.add(this._wheels[i])
-    }
-
     this._chair.position.set(position.x, position.y, position.z);
-
     scene.add(this._chair);
     return;
 
 
-    function constructRod(dimensions, material) {
+    function constructRod(position, dimensions, material) {
       var geometry = new THREE.CubeGeometry(dimensions.rodRadius * 2,
           dimensions.rodHeight,
           dimensions.rodRadius * 2);
 
-        var mesh = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial(material));
-        mesh.position.x = 0;
-        mesh.position.y = 2 * dimensions.wheelRadius + dimensions.rodHeight/2;
-        mesh.position.z = 0;
+      var rod = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial(material));
 
-        return mesh;
+      var seat = constructSeat(
+        {x: 0, y: dimensions.rodHeight/2 + dimensions.seatThickness / 2, z: 0},
+        dimensions,
+        material
+      );
+
+      rod.add(seat);
+
+      for (var i = 0; i < dimensions.noLegs; i++) {
+        var leg = constructLeg(
+          {x: 0, y: -dimensions.rodHeight/2 - dimensions.legRadius, z:0},
+          dimensions,
+          material,
+          i
+        );
+        rod.add(leg);
+      }
+
+      rod.position.x = position.x;
+      rod.position.y = position.y;
+      rod.position.z = position.z;
+      return rod;
     }
 
-    function constructWheel(dimensions, material, wheelNo) {
-      var geometry = new THREE.TorusGeometry(dimensions.wheelRadius, dimensions.wheelRadius, 16, 16);
-      var mesh = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial(material));
-
-      var angle = 2 * wheelNo * Math.PI / dimensions.noLegs;
-
-      mesh.position.x = 0;
-      mesh.position.y = dimensions.wheelRadius;
-      mesh.position.z = -dimensions.legLength + dimensions.wheelRadius / 2;
-
-      mesh.position.applyAxisAngle(new THREE.Vector3(0, 1, 0), angle);
-      mesh.rotateY(Math.PI / 2);
-
-      return mesh;
-    }
-
-    function constructBaseLeg(dimensions, material, legNo) {
-      var geometry = new THREE.CubeGeometry(2*dimensions.legRadius, 2*dimensions.legRadius, dimensions.legLength);
-      var mesh = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial(material));
-
-      var angle = 2 * legNo * Math.PI / dimensions.noLegs;
-
-      mesh.position.x = 0;
-      mesh.position.y = 2 * dimensions.wheelRadius;
-      mesh.position.z = -dimensions.legLength / 2
-
-      mesh.position.applyAxisAngle(new THREE.Vector3(0, 1, 0), angle);
-      mesh.rotateY(angle);
-
-      return mesh;
-    }
-
-    function constructSeat(dimensions, material) {
+    function constructSeat(position, dimensions, material) {
 	  var geometry = new THREE.CubeGeometry(dimensions.seatRadius * 2,
         dimensions.seatThickness,
         dimensions.seatRadius * 2);
 
-      var mesh = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial(material));
-      mesh.position.x = 0;
-      mesh.position.y = 2 * dimensions.wheelRadius + dimensions.rodHeight + dimensions.seatThickness / 2;
-      mesh.position.z = 0;
+      var seat = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial(material));
+      var back = constructBack(
+        {x: 0, y: dimensions.backHeight / 2 - dimensions.seatThickness/2, z: dimensions.seatRadius + dimensions.backThickness / 2},
+        dimensions,
+        material
+      );
+      seat.add(back);
 
-      return mesh;
+      seat.position.x = position.x;
+      seat.position.y = position.y;
+      seat.position.z = position.z;
+      return seat;
     }
 
-    function constructBack(dimensions, material) {
+    function constructBack(position, dimensions, material) {
 	  var geometry = new THREE.CubeGeometry(dimensions.backWidth,
         dimensions.backHeight,
         dimensions.backThickness);
 
-      var mesh = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial(material));
-      mesh.position.x = 0;
-      mesh.position.y = 2 * dimensions.wheelRadius + dimensions.rodHeight + dimensions.backRodHeight;
-      mesh.position.z = dimensions.seatRadius - dimensions.backRodRadius;
-
-      return mesh;
+      var back = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial(material));
+      back.position.x = position.x;
+      back.position.y = position.y;
+      back.position.z = position.z;
+      return back;
     }
 
-    function constructBackRod(dimensions, material) {
-	  var geometry = new THREE.CubeGeometry(dimensions.backRodRadius * 2,
-        dimensions.backRodHeight,
-        dimensions.backRodRadius * 2);
+    function constructLeg(position, dimensions, material, legNo) {
+      var geometry = new THREE.CubeGeometry(2*dimensions.legRadius, 2*dimensions.legRadius, dimensions.legLength);
+      var leg = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial(material));
 
-      var mesh = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial(material));
-      mesh.position.x = 0;
-      mesh.position.y = 2 * dimensions.wheelRadius + dimensions.rodHeight + dimensions.backRodHeight/2;
-      mesh.position.z = dimensions.seatRadius + dimensions.backRodRadius;
+      var wheel = new constructWheel(
+        {x: 0, y: -dimensions.wheelRadius, z: -dimensions.legLength/2},
+        dimensions,
+        material
+      );
 
-      return mesh;
+      leg.add(wheel);
+
+      var angle = 2 * legNo * Math.PI / dimensions.noLegs;
+      leg.position.x = 0;
+      leg.position.y = position.y;
+      leg.position.z = position.z - dimensions.legLength / 2
+      leg.position.applyAxisAngle(new THREE.Vector3(0, 1, 0), angle);
+      leg.rotateY(angle);
+
+      return leg;
+    }
+
+    function constructWheel(position, dimensions, material) {
+      var geometry = new THREE.TorusGeometry(dimensions.wheelRadius, dimensions.wheelRadius, 16, 16);
+      var wheel = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial(material));
+
+      wheel.position.set(position.x, position.y, position.z);
+      return wheel;
     }
   }
 
