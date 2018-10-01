@@ -15,7 +15,7 @@ class Chair {
     this._angle = 0;
     this._noLegs = dimensions.noLegs;
 
-    this.rod = new Rod(
+    this.rod = new ChairRod(
       {x: 0,
        y: 2*dimensions.wheelRadius + dimensions.rodHeight / 2,
        z: 0}, 
@@ -91,7 +91,7 @@ class Chair {
 }
 
 
-class Rod {
+class ChairRod {
   constructor(position, dimensions, material, parentObj) {
     var geometry = new THREE.CubeGeometry(dimensions.rodRadius * 2,
         dimensions.rodHeight,
