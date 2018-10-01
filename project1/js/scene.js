@@ -44,8 +44,8 @@ const chairDimensions = {
   noLegs: 5
 
 }
-const maxSpeed = 10;
-
+const maxSpeed = 1;
+const maxAngularSpeed = Math.PI / 1000;
 
 class Scene {
   constructor() {

@@ -7,8 +7,11 @@
 class Chair {
   constructor(position, dimensions, inputColor, scene) {
     this._chair = new THREE.Object3D();
-    this._velocity = new THREE.Vector3(0, 0, 0);
-    this._acceleration = new THREE.Vector3(0, 0, 0);
+    this._speed = 0;
+    this._acceleration = 0;
+    this._angularSpeed = 0;
+    this._angularAcceleration = 0;
+
     this._material = new THREE.MeshBasicMaterial({color: inputColor, wireframe: true});
 
     this._seat = constructSeat(dimensions, this._material);
@@ -31,9 +34,7 @@ class Chair {
     }
 
 
-    this._chair.position.x = position.x;
-    this._chair.position.y = position.y;
-    this._chair.position.z = position.z;
+    this._chair.position.set(position);
 
     scene.add(this._chair);
     return;
@@ -108,36 +109,59 @@ class Chair {
 
     function constructBaseLegs(dimensions, material) {
     }
-
   }
 
-  function isMoving(){
-    return !this._velocity.equals(new THREE.Vector3(0, 0, 0));
-
+  hasAcceleration(){
+    return this._acceleration != 0 || this._angularAcceleration != 0;
   }
 
-  function updateVelocity(delta){
-    this._velocity += delta * this._acceleration;
-    var speed = this._velocity.length();
-    if (speed > maxSpeed){
-      this._velocity = maxSpeed / speed * this._velocity;
+  isMoving(){
+    return this._speed != 0 || this._angularSpeed != 0;
+  }
+
+  updateSpeed(delta){
+    this._speed += delta * this._acceleration;
+    if (this._speed > maxSpeed) {
+      this._speed = maxSpeed;
     }
-
+    else if (this._speed < -maxSpeed) {
+      this._speed = -maxSpeed;
+    }
   }
 
-  function updatePosition(delta){
-    this._chair.position.x += delta * this._velocity.x;
-    this._chair.position.z += delta * this._velocity.z;
+  updateAngularSpeed(delta) {
+    this._angularSpeed += delta * this._angularAcceleration;
+    if (this._angularSpeed > maxAngularSpeed) {
+      this._angularspeed = maxAngularSpeed;
+    }
+    else if (this._angularSpeed < -maxAngularSpeed) {
+      this._angularSpeed = -maxAngularSpeed;
+    }
   }
 
-  function setAcceleration(a){
+  updatePosition(delta){
+    this._chair.position.z -= delta * this._speed;
+  }
+
+  updateRotation(delta){
+    this._chair.rotateY(delta * this._angularSpeed);
+  }
+
+  setAcceleration(a){
     this._acceleration = a;
-
   }
 
-  function getFriction(){
-    var friction = new THREE.Vector3(-this._velocity);
+  setAngularAcceleration(a){
+    this._angularAcceleration = a;
+  }
 
+  getAngularFriction(){
+    const factor = 0.5;
+    return - this._angularSpeed * factor;
+  }
 
+  getFriction(){
+    const factor = 0.5;
+    return - this._speed * factor;
   }
 }

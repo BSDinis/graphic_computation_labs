@@ -23,11 +23,14 @@ function animate() {
   var delta = clock.getDelta();
 
   if (chair.isMoving() || chair.hasAcceleration()){
-    chair.updateVelocity(delta);
+    console.log("updating");
+    chair.updateSpeed(delta);
+    chair.updateAngularSpeed(delta);
     chair.updatePosition(delta);
+    chair.updateRotation(delta);
     chair.setAcceleration(chair.getFriction());
+    chair.setAngularAcceleration(chair.getAngularFriction());
   }
-
 
   render();
   requestAnimationFrame(animate);
@@ -43,13 +46,12 @@ function init()
   myScene = new Scene();
   cameras = initCameras(myScene.scene);
   camera = cameras[cameraNo];
-  clock = new Clock(true);
+  clock = new THREE.Clock(true);
 
   render();
 
   window.addEventListener('resize', onResize);
   window.addEventListener('keydown', onKeyDown);
-  window.------------------------
 }
 
 
@@ -97,24 +99,23 @@ function onKeyDown(e) {
     case 38: // up arrow
     case 39: // right arrow
     case 40: // down arrow
-      var verta = 0;
-      var horia = 0;
+      var linear = 0;
+      var angular = 0;
 
       if(e.keyCode === 37){
-        horia -= 1;
+        angular -= 1;
       }
       else if(e.keyCode === 39){
-        horia += 1;
+        angular += 1;
       }
       else if(e.keyCode === 38){
-        verta -= 1;
+        linear -= 1;
       }
       else if(e.keyCode === 40){
-        verta += 1;
+        linear += 1;
       }
-      chair.setAcceleration(new THREE.Vector3(horia, 0, verta))
-
-
+      chair.setAcceleration(linear)
+      chair.setAngularAcceleration(angular)
       break;
 
     default:
