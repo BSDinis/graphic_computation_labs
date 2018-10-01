@@ -11,8 +11,9 @@ class Chair {
     this._acceleration = 0;
     this._angularSpeed = 0;
     this._angularAcceleration = 0;
-
     this._material = new THREE.MeshBasicMaterial({color: inputColor, wireframe: true});
+    this._angle = 0;
+    this._noLegs = dimensions.noLegs;
 
     this.rod = new Rod(
       {x: 0,
@@ -37,13 +38,15 @@ class Chair {
   }
 
   updateSpeed(delta){
-    this._speed += delta * this._acceleration;
+    var diff = delta * this._acceleration;
+    this._speed += diff;
     if (this._speed > maxSpeed) {
       this._speed = maxSpeed;
     }
     else if (this._speed < -maxSpeed) {
       this._speed = -maxSpeed;
     }
+    this.rod.updateWheels(this._angle, this._noLegs, Math.abs(this._speed/maxSpeed));
   }
 
   updateAngularSpeed(delta) {
@@ -57,11 +60,15 @@ class Chair {
   }
 
   updatePosition(delta){
-    this.chair.position.z += delta * this._speed;
+    var displacement = delta * this._speed;
+    this.chair.position.x += displacement * Math.sin(this._angle);
+    this.chair.position.z += displacement * Math.cos(this._angle);
   }
 
   updateRotation(delta){
-    this.rod.updateRotation(delta * this._angularSpeed);
+    var angle = delta * this._angularSpeed;
+    this._angle += angle;
+    this.rod.updateRotation(angle);
   }
 
   setAcceleration(a){
@@ -99,7 +106,7 @@ class Rod {
     );
 
     var angle = 0;
-    var angleStep = 2 * Math.PI / 5;
+    var angleStep = 2 * Math.PI / dimensions.noLegs;
     this.leg = []
     for (var i = 0; i < dimensions.noLegs; i++, angle += angleStep) {
       this.leg[i] = new Leg(
@@ -121,6 +128,12 @@ class Rod {
   updateRotation(angle) {
     this.seat.updateRotation(angle);
   }
+
+  updateWheels(angle, noLegs, factor) {
+    for (var i = 0; i < noLegs; i++) {
+      this.leg[i].updateWheel(angle, factor);
+    }
+  }
 }
 
 class Leg {
@@ -128,10 +141,11 @@ class Leg {
     var geometry = new THREE.CubeGeometry(2*dimensions.legRadius, 2*dimensions.legRadius, dimensions.legLength);
     this.mesh = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial(material));
 
-    var wheel = new Wheel(
+    this.wheel = new Wheel(
       {x: 0, y: -dimensions.wheelRadius, z: -dimensions.legLength/2},
       dimensions,
       material,
+      angle,
       this.mesh
     );
 
@@ -143,16 +157,39 @@ class Leg {
 
     parentObj.add(this.mesh);
   }
+
+
+  updateWheel(angle, factor) {
+    this.wheel.updateDirection(angle, factor);
+  }
 }
 
 class Wheel {
-  constructor(position, dimensions, material, parentObj) {
+  constructor(position, dimensions, material, angle, parentObj) {
     var geometry = new THREE.TorusGeometry(dimensions.wheelRadius, dimensions.wheelRadius, 16, 16);
     this.mesh = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial(material));
+    this._offsetAngle = Math.PI/2 - angle;
+    this._angle = this._targetAngle = 0;
 
     this.mesh.position.set(position.x, position.y, position.z);
-    this.mesh.rotateY(Math.PI / 2);
+    this.mesh.rotateY(this._angle + this._offsetAngle);
     parentObj.add(this.mesh);
+  }
+
+  updateDirection(angle, factor) {
+    this._targetAngle = angle;
+    var step = (this._targetAngle - this._angle);
+    if (step > Math.PI) {
+      this._angle += Math.PI;
+      this.step -= Math.PI;
+    }
+    if (step < -Math.PI * 2) {
+      this._angle -= Math.PI;
+      this.step += Math.PI;
+    }
+    step *= factor;
+    this.mesh.rotateY(step);
+    this._angle += step;
   }
 }
 
