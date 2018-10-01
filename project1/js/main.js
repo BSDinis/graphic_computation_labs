@@ -108,10 +108,10 @@ function onKeyDown(e) {
         angular -= 5;
       }
       else if(e.keyCode === 38){
-        linear -= 100;
+        linear -= 400;
       }
       else if(e.keyCode === 40){
-        linear += 100;
+        linear += 400;
       }
       chair.setAcceleration(linear)
       chair.setAngularAcceleration(angular)

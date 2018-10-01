@@ -157,7 +157,6 @@ class Chair {
 
   updatePosition(delta){
     this._chair.position.z += delta * this._speed;
-    console.log(this._speed);
   }
 
   updateRotation(delta){
@@ -173,12 +172,12 @@ class Chair {
   }
 
   getAngularFriction(){
-    const factor = 0.5;
+    const factor = 2;
     return - this._angularSpeed * factor;
   }
 
   getFriction(){
-    const factor = 0.5;
+    const factor = 2;
     return - this._speed * factor;
   }
 }
