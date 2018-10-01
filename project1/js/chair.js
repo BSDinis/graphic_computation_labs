@@ -80,12 +80,12 @@ class Chair {
   }
 
   getAngularFriction(){
-    const factor = 2;
+    const factor = 1;
     return - this._angularSpeed * factor;
   }
 
   getFriction(){
-    const factor = 2;
+    const factor = 1;
     return - this._speed * factor;
   }
 }
