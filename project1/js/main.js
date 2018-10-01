@@ -102,16 +102,16 @@ function onKeyDown(e) {
       var angular = 0;
 
       if(e.keyCode === 37){
-        angular += 10;
+        angular += 5;
       }
       else if(e.keyCode === 39){
-        angular -= 10;
+        angular -= 5;
       }
       else if(e.keyCode === 38){
-        linear -= 1;
+        linear -= 20;
       }
       else if(e.keyCode === 40){
-        linear += 1;
+        linear += 20;
       }
       chair.setAcceleration(linear)
       chair.setAngularAcceleration(angular)
@@ -121,31 +121,6 @@ function onKeyDown(e) {
       break;
   }
 }
-
-function onKeyUp(e) { //used an acceleration flag in order for the chair to be able to stop moving eventually when the key is released
-  'use strict';
-
-  switch (e.keyCode) {
-
-    case 37: // left arrow
-      //move left
-      accelerationFlag = 0;
-      break;
-    case 38: // up arrow
-      //move up
-      accelerationFlag = 0;
-      break;
-    case 39: // right arrow
-      // move right
-      accelerationFlag = 0;
-      break;
-    case 40: // down arrow
-      // move down
-      accelerationFlag = 0;
-      break;
-  }
-}
-
 
 function initCameras(scene) {
   'use strict';

@@ -156,7 +156,8 @@ class Chair {
   }
 
   updatePosition(delta){
-    this._chair.position.z -= delta * this._speed;
+    this._chair.position.z += delta * this._speed;
+    console.log(this._speed);
   }
 
   updateRotation(delta){
