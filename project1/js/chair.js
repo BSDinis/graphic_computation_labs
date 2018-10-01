@@ -11,8 +11,8 @@ class Chair {
     this._acceleration = 0;
     this._angularSpeed = 0;
     this._angularAcceleration = 0;
-
     this._material = new THREE.MeshBasicMaterial({color: inputColor, wireframe: true});
+    this._angle = 0;
 
     this.rod = new Rod(
       {x: 0,
@@ -57,11 +57,15 @@ class Chair {
   }
 
   updatePosition(delta){
-    this.chair.position.z += delta * this._speed;
+    var displacement = delta * this._speed;
+    this.chair.position.x += displacement * Math.sin(this._angle);
+    this.chair.position.z += displacement * Math.cos(this._angle);
   }
 
   updateRotation(delta){
-    this.rod.updateRotation(delta * this._angularSpeed);
+    var angle = delta * this._angularSpeed;
+    this._angle += angle;
+    this.rod.updateRotation(angle);
   }
 
   setAcceleration(a){
