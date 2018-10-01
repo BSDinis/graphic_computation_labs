@@ -8,6 +8,8 @@
 
 var myScene, camera, renderer;
 var cameras, cameraNo;
+var lamp, table, chair;
+var clock;
 
 function render()
 {
@@ -18,6 +20,18 @@ function render()
 function animate() {
   'use strict';
   camera = cameras[cameraNo];
+  var delta = clock.getDelta();
+
+  if (chair.isMoving() || chair.hasAcceleration()){
+    console.log("updating");
+    chair.updateSpeed(delta);
+    chair.updateAngularSpeed(delta);
+    chair.updatePosition(delta);
+    chair.updateRotation(delta);
+    chair.setAcceleration(chair.getFriction());
+    chair.setAngularAcceleration(chair.getAngularFriction());
+  }
+
   render();
   requestAnimationFrame(animate);
 }
@@ -32,6 +46,8 @@ function init()
   myScene = new Scene();
   cameras = initCameras(myScene.scene);
   camera = cameras[cameraNo];
+  clock = new THREE.Clock(true);
+
   render();
 
   window.addEventListener('resize', onResize);
@@ -78,7 +94,55 @@ function onKeyDown(e) {
       });
       break;
 
+
+    case 37: // left arrow
+    case 38: // up arrow
+    case 39: // right arrow
+    case 40: // down arrow
+      var linear = 0;
+      var angular = 0;
+
+      if(e.keyCode === 37){
+        angular -= 1;
+      }
+      else if(e.keyCode === 39){
+        angular += 1;
+      }
+      else if(e.keyCode === 38){
+        linear -= 1;
+      }
+      else if(e.keyCode === 40){
+        linear += 1;
+      }
+      chair.setAcceleration(linear)
+      chair.setAngularAcceleration(angular)
+      break;
+
     default:
+      break;
+  }
+}
+
+function onKeyUp(e) { //used an acceleration flag in order for the chair to be able to stop moving eventually when the key is released
+  'use strict';
+
+  switch (e.keyCode) {
+
+    case 37: // left arrow
+      //move left
+      accelerationFlag = 0;
+      break;
+    case 38: // up arrow
+      //move up
+      accelerationFlag = 0;
+      break;
+    case 39: // right arrow
+      // move right
+      accelerationFlag = 0;
+      break;
+    case 40: // down arrow
+      // move down
+      accelerationFlag = 0;
       break;
   }
 }
@@ -112,4 +176,3 @@ function initCameras(scene) {
   cameraNo = 0;
   return cameras;
 }
-
