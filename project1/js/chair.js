@@ -28,11 +28,13 @@ class Chair {
 
 
     this._baseLegs = [];
+    this._wheels = [];
     for (var i = 0; i < dimensions.noLegs; i++) {
-      this._baseLegs[i] = constructBaseLeg(dimensions, this._material);
+      this._baseLegs[i] = constructBaseLeg(dimensions, this._material, i);
+      this._wheels[i] = constructWheel(dimensions, this._material, i);
       this._chair.add(this._baseLegs[i])
+      this._chair.add(this._wheels[i])
     }
-
 
     this._chair.position.set(position);
 
@@ -53,15 +55,32 @@ class Chair {
         return mesh;
     }
 
-    function constructBaseLeg(dimensions, material) {
+    function constructWheel(dimensions, material, wheelNo) {
+      var geometry = new THREE.TorusGeometry(dimensions.wheelRadius, dimensions.wheelRadius, 16, 16);
+      var mesh = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial(material));
+
+      var angle = 2 * wheelNo * Math.PI / dimensions.noLegs;
+
+      mesh.position.x = 0;
+      mesh.position.y = dimensions.wheelRadius;
+      mesh.position.z = -dimensions.legLength + dimensions.wheelRadius / 2;
+
+      mesh.position.applyAxisAngle(new THREE.Vector3(0, 1, 0), angle);
+      mesh.rotateY(Math.PI / 2);
+
+      return mesh;
+    }
+
+    function constructBaseLeg(dimensions, material, legNo) {
       var geometry = new THREE.CubeGeometry(2*dimensions.legRadius, 2*dimensions.legRadius, dimensions.legLength);
       var mesh = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial(material));
 
-      var angle = 2 * i * Math.PI / dimensions.noLegs;
+      var angle = 2 * legNo * Math.PI / dimensions.noLegs;
 
       mesh.position.x = 0;
-      mesh.position.y = dimensions.legRadius + 2 * dimensions.wheelRadius;
+      mesh.position.y = 2 * dimensions.wheelRadius;
       mesh.position.z = -dimensions.legLength / 2
+
       mesh.position.applyAxisAngle(new THREE.Vector3(0, 1, 0), angle);
       mesh.rotateY(angle);
 

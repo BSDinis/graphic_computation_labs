@@ -159,8 +159,8 @@ function initCameras(scene) {
   topCamera.position.set(0, 1000, 0);
   topCamera.lookAt(scene.position);
 
-  frontalCamera = new THREE.OrthographicCamera( window.innerWidth / - factor, window.innerWidth / factor, window.innerHeight / factor, window.innerHeight / - factor, 1, 1000 );
-  frontalCamera.position.set(0, 0, 1000);
+  frontalCamera = new THREE.OrthographicCamera( window.innerWidth / - factor, window.innerWidth / factor, window.innerHeight / factor, window.innerHeight / - factor, -10000, 10000 );
+  frontalCamera.position.set(0, 0, 2000);
   frontalCamera.lookAt(scene.position);
 
   leftCamera = new THREE.OrthographicCamera( window.innerWidth / - factor, window.innerWidth / factor, window.innerHeight / factor, window.innerHeight / - factor, 1, 1000 );
