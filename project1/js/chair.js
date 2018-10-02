@@ -5,7 +5,7 @@
  */
 
 class Chair {
-  constructor(position, dimensions, inputColor, scene) {
+  constructor(position, dimensions, inputColor, parentObj) {
     this.chair = new THREE.Object3D();
     this._speed = 0;
     this._acceleration = 0;
@@ -25,7 +25,7 @@ class Chair {
     );
 
     this.chair.position.set(position.x, position.y, position.z);
-    scene.add(this.chair);
+    parentObj.add(this.chair);
   }
 
 
