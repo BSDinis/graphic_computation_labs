@@ -56,9 +56,9 @@ class Scene {
 
     this.rug = new Rug(800, 500, 5, this.scene);
     // private
-    this.chair = new Chair({x: 0, y: 0, z: 100}, chairDimensions, 0xff0000, this.rug.obj);
-    this.table = new Table({x: 0, y: 0, z: 0}, tableDimensions, 0x00ff00, this.rug.obj);
-    this.lamp = new Lamp({x: - 3 * tableDimensions.width / 4, y: 0, z: 0}, lampDimensions, 0x0000ff, this.rug.obj);
+    this.chair = new Chair({x: 0, y: 0, z: 100}, chairDimensions, 0xff0000, this.rug);
+    this.table = new Table({x: 0, y: 0, z: 0}, tableDimensions, 0x00ff00, this.rug);
+    this.lamp = new Lamp({x: - 3 * tableDimensions.width / 4, y: 0, z: 0}, lampDimensions, 0x0000ff, this.rug);
   }
 
   getChair() {
@@ -84,5 +84,9 @@ class Rug {
     this.mesh.position.y = -thickness/2;
     this.obj.add(this.mesh);
     parentObj.add(this.obj);
+  }
+
+  add(child) {
+    this.obj.add(child);
   }
 }
