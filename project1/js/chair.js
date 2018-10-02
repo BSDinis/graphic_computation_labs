@@ -17,7 +17,7 @@ class Chair {
 
     this.rod = new ChairRod(
       {x: 0,
-       y: 2*dimensions.wheelRadius + dimensions.rodHeight / 2,
+       y: 4*dimensions.wheelRadius + dimensions.rodHeight / 2,
        z: 0}, 
       dimensions,
       this._material,
