@@ -67,6 +67,10 @@ function init()
   document.body.appendChild(renderer.domElement);
 
   myScene = new Scene();
+  chair = myScene.getChair();
+  table = myScene.getTable();
+  lamp = myScene.getLamp();
+
   cameras = initCameras(myScene.scene);
   camera = cameras[cameraNo];
   clock = new THREE.Clock(true);

@@ -54,9 +54,35 @@ class Scene {
     axis.visible = false;
     this.scene.add(axis);
 
+    this.rug = new Rug(800, 500, 5, this.scene);
     // private
-    chair = new Chair({x: 0, y: 0, z: 100}, chairDimensions, 0xff0000, this.scene);
-    this.table = new Table({x: 0, y: 0, z: 0}, tableDimensions, 0x00ff00, this.scene);
-    this.lamp = new Lamp({x: - 3 * tableDimensions.width / 4, y: 0, z: 0}, lampDimensions, 0x0000ff, this.scene);
+    this.chair = new Chair({x: 0, y: 0, z: 100}, chairDimensions, 0xff0000, this.rug.obj);
+    this.table = new Table({x: 0, y: 0, z: 0}, tableDimensions, 0x00ff00, this.rug.obj);
+    this.lamp = new Lamp({x: - 3 * tableDimensions.width / 4, y: 0, z: 0}, lampDimensions, 0x0000ff, this.rug.obj);
+  }
+
+  getChair() {
+    return this.chair;
+  }
+
+  getTable() {
+    return this.table;
+  }
+
+  getLamp() {
+    return this.lamp;
+  }
+}
+
+
+class Rug {
+  constructor(width, height, thickness, parentObj) {
+    this.obj = new THREE.Object3D();
+    var material = new THREE.MeshBasicMaterial({color: 0xbbbb00, wireframe: true});
+    var geometry = new THREE.CubeGeometry(width, thickness, height);
+    this.mesh = new THREE.Mesh(geometry, material);
+    this.mesh.position.y = -thickness/2;
+    this.obj.add(this.mesh);
+    parentObj.add(this.obj);
   }
 }
