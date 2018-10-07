@@ -219,7 +219,7 @@ class Seat {
       material, 
       this.mesh
     );
-    this.armRest[0] = new ArmRest(
+    this.armRest[1] = new ArmRest(
       {x: dimensions.seatRadius - dimensions.armRestRadius, y: 2 * dimensions.seatRadius/3, z: dimensions.seatRadius/3},
       dimensions, 
       material, 
