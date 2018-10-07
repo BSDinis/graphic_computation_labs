@@ -24,6 +24,7 @@ class Chair {
       this.chair
     );
 
+    this.chair.rotateY(this._angle);
     this.chair.position.set(position.x, position.y, position.z);
     parentObj.add(this.chair);
   }
@@ -46,7 +47,7 @@ class Chair {
     else if (this._speed < -maxSpeed) {
       this._speed = -maxSpeed;
     }
-    this.rod.updateWheels(this._angle, this._noLegs, Math.abs(this._speed/maxSpeed));
+    this.rod.updateWheels(this._angle, this._noLegs, this._speed/maxSpeed);
   }
 
   updateAngularSpeed(delta) {
@@ -140,6 +141,7 @@ class Leg {
   constructor(position, dimensions, material, angle, parentObj) {
     var geometry = new THREE.CubeGeometry(2*dimensions.legRadius, 2*dimensions.legRadius, dimensions.legLength);
     this.mesh = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial(material));
+    this._wheelAngle = this._targetAngle = 0;
 
     this.wheel = new Wheel(
       {x: 0, y: -dimensions.wheelRadius, z: -dimensions.legLength/2},
@@ -160,36 +162,38 @@ class Leg {
 
 
   updateWheel(angle, factor) {
-    this.wheel.updateDirection(angle, factor);
+    this._targetAngle = angle;
+    var step = (this._targetAngle - this._wheelAngle);
+    if (step > Math.PI) {
+      this._wheelAngle += Math.PI;
+      step -= Math.PI;
+    }
+    if (step < -Math.PI) {
+      this._wheelAngle -= Math.PI;
+      step += Math.PI;
+    }
+    step *= Math.abs(factor) / 2;
+    this._wheelAngle += step;
+    this.wheel.obj.rotateY(step);
+    this.wheel.updateRotation(factor);
   }
 }
 
 class Wheel {
   constructor(position, dimensions, material, angle, parentObj) {
-    var geometry = new THREE.TorusGeometry(dimensions.wheelRadius, dimensions.wheelRadius, 16, 16);
+    this.obj = new THREE.Object3D()
+    var geometry = new THREE.TorusGeometry(dimensions.wheelRadius, dimensions.wheelRadius, 8, 8);
     this.mesh = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial(material));
-    this._offsetAngle = Math.PI/2 - angle;
-    this._angle = this._targetAngle = 0;
 
-    this.mesh.position.set(position.x, position.y, position.z);
-    this.mesh.rotateY(this._angle + this._offsetAngle);
-    parentObj.add(this.mesh);
+    this.obj.add(this.mesh)
+    this.obj.rotateY(Math.PI/2-angle);
+    this.obj.position.set(position.x, position.y, position.z);
+    parentObj.add(this.obj);
   }
 
-  updateDirection(angle, factor) {
-    this._targetAngle = angle;
-    var step = (this._targetAngle - this._angle);
-    if (step > Math.PI) {
-      this._angle += Math.PI;
-      this.step -= Math.PI;
-    }
-    if (step < -Math.PI * 2) {
-      this._angle -= Math.PI;
-      this.step += Math.PI;
-    }
-    step *= factor;
-    this.mesh.rotateY(step);
-    this._angle += step;
+  updateRotation(factor) {
+    const step = Math.PI / 16;
+    this.mesh.rotateZ(step * factor);
   }
 }
 
