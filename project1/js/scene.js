@@ -32,13 +32,13 @@ const chairDimensions = {
   seatRadius: 40,
   seatThickness: 5,
   armRestRadius: 2,
-  rodHeight: 50,
+  rodHeight: 40,
   rodRadius: 3,
   legLength: 30,
   legRadius: 3,
   wheelRadius: 3,
   backWidth: 80,
-  backHeight: 120,
+  backHeight: 105,
   backThickness: 5,
   noLegs: 5
 }
@@ -54,7 +54,7 @@ class Scene {
     axis.visible = false;
     this.scene.add(axis);
 
-    this.rug = new Rug(800, 500, 5, this.scene);
+    this.rug = new Rug(550, 300, 5, this.scene);
     // private
     this.chair = new Chair({x: 0, y: 0, z: 100}, chairDimensions, 0xff0000, this.rug);
     this.table = new Table({x: 0, y: 0, z: 0}, tableDimensions, 0x00ff00, this.rug);
