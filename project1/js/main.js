@@ -89,11 +89,14 @@ function onResize() {
   renderer.setSize(window.innerWidth, window.innerHeight);
 
   if (window.innerHeight > 0 && window.innerWidth > 0) {
-    camera.left = -window.innerWidth / camFactor;
-    camera.right = window.innerWidth / camFactor;
-    camera.top = window.innerHeight / camFactor;
-    camera.bottom = -window.innerHeight / camFactor;
-    camera.updateProjectionMatrix();
+    for (var i = 0; i < 3; i++) {
+      var step = (i == 0) ? 0 : window.innerHeight * 0.2;
+      cameras[i].left = -window.innerWidth / camFactor;
+      cameras[i].right = window.innerWidth / camFactor;
+      cameras[i].top = window.innerHeight / camFactor + step;
+      cameras[i].bottom = -window.innerHeight / camFactor + step;
+      cameras[i].updateProjectionMatrix();
+    }
   }
 }
 
@@ -174,17 +177,17 @@ function initCameras(scene) {
   var height = 500 / 2;
   var aspectRatio = window.innerWidth / window.innerHeigth;
 
-  topCamera = createCamera();
+  topCamera = createCamera(0);
   topCamera.position.set(0, 1000, 0);
   topCamera.lookAt(scene.position);
   topCamera.updateProjectionMatrix();
 
-  frontalCamera = createCamera();
+  frontalCamera = createCamera(0.2);
   frontalCamera.position.set(0, 0, 2000);
   frontalCamera.lookAt(scene.position);
   frontalCamera.updateProjectionMatrix();
 
-  leftCamera = createCamera();
+  leftCamera = createCamera(0.2);
   leftCamera.position.set(-1000, 0, 0);
   leftCamera.lookAt(scene.position);
   leftCamera.updateProjectionMatrix();
@@ -199,14 +202,14 @@ function initCameras(scene) {
   return cameras;
 }
 
-function createCamera() {
+function createCamera(vertDisplacement) {
   'use strict';
 
   var camera = new THREE.OrthographicCamera(0, 0, 0, 0, -10000, 10000 );
   camera.left = -window.innerWidth / camFactor;
   camera.right = window.innerWidth / camFactor;
-  camera.top = window.innerHeight / camFactor;
-  camera.bottom = -window.innerHeight / camFactor;
+  camera.top = window.innerHeight / camFactor + window.innerHeight * vertDisplacement;
+  camera.bottom = -window.innerHeight / camFactor + window.innerHeight * vertDisplacement;
   return camera;
 }
 
