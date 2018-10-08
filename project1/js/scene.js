@@ -7,7 +7,7 @@
  *   - chair
  */
 
-// position of the center of the table
+// dimensions of the table
 const tableDimensions = {
   width: 180,
   height: 100,
@@ -15,7 +15,7 @@ const tableDimensions = {
   topDepth: 10
 }
 
-// position of the center of the lamp
+// dimensions of the lamp
 const lampDimensions = {
   baseRadius: 25,
   baseHeight: 5,
@@ -27,7 +27,7 @@ const lampDimensions = {
   shadeHeight: 35
 }
 
-// position of the center of the chair
+// dimensions of the chair
 const chairDimensions = {
   seatRadius: 40,
   seatThickness: 5,
@@ -42,8 +42,17 @@ const chairDimensions = {
   backThickness: 5,
   noLegs: 5
 }
+
 const maxSpeed = 500;
 const maxAngularSpeed = 2 * Math.PI;
+
+// dimensions of the rug
+const rugDimensions = {
+  width: 550,
+  height: 300,
+  thickness: 5
+}
+
 
 class Scene {
   constructor() {
@@ -54,11 +63,11 @@ class Scene {
     axis.visible = false;
     this.scene.add(axis);
 
-    this.rug = new Rug(550, 300, 5, this.scene);
+    this.rug = new Rug(rugDimensions, this.scene);
     // private
-    this.chair = new Chair({x: 0, y: 0, z: 100}, chairDimensions, 0xff0000, this.rug);
-    this.table = new Table({x: 0, y: 0, z: 0}, tableDimensions, 0x00ff00, this.rug);
-    this.lamp = new Lamp({x: - 3 * tableDimensions.width / 4, y: 0, z: 0}, lampDimensions, 0x0000ff, this.rug);
+    this.chair = new Chair({x: 0, y: rugDimensions.thickness, z: 100}, chairDimensions, 0xff0000, this.rug);
+    this.table = new Table({x: 0, y: rugDimensions.thickness, z: 0}, tableDimensions, 0x00ff00, this.rug);
+    this.lamp = new Lamp({x: - 3 * tableDimensions.width / 4, y: rugDimensions.thickness, z: 0}, lampDimensions, 0x0000ff, this.rug);
   }
 
   getChair() {
@@ -76,13 +85,13 @@ class Scene {
 
 
 class Rug {
-  constructor(width, height, thickness, parentObj) {
+  constructor(dimensions, parentObj) {
     this.obj = new THREE.Object3D();
     var material = new THREE.MeshBasicMaterial({color: 0xbbbb00, wireframe: true});
-    var geometry = new THREE.CubeGeometry(width, thickness, height);
+    var geometry = new THREE.CubeGeometry(dimensions.width, dimensions.thickness, dimensions.height);
     this.mesh = new THREE.Mesh(geometry, material);
-    this.mesh.position.y = -thickness/2;
     this.obj.add(this.mesh);
+    this.obj.translateY(-dimensions.thickness / 2);
     parentObj.add(this.obj);
   }
 

@@ -11,6 +11,7 @@ var cameras, cameraNo;
 var lamp, table, chair;
 var clock;
 
+const camFactor = 3;
 
 var keys = {
   left: {code: 37, pressed: false},
@@ -88,8 +89,14 @@ function onResize() {
   renderer.setSize(window.innerWidth, window.innerHeight);
 
   if (window.innerHeight > 0 && window.innerWidth > 0) {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
+    for (var i = 0; i < 3; i++) {
+      var step = (i == 0) ? 0 : window.innerHeight * 0.2;
+      cameras[i].left = -window.innerWidth / camFactor;
+      cameras[i].right = window.innerWidth / camFactor;
+      cameras[i].top = window.innerHeight / camFactor + step;
+      cameras[i].bottom = -window.innerHeight / camFactor + step;
+      cameras[i].updateProjectionMatrix();
+    }
   }
 }
 
@@ -166,21 +173,24 @@ function onKeyUp(e) {
 function initCameras(scene) {
   'use strict';
   var topCamera, frontalCamera, leftCamera;
-  var factor = 4;
   var width = 1000 / 2;
   var height = 500 / 2;
+  var aspectRatio = window.innerWidth / window.innerHeigth;
 
-  topCamera = new THREE.OrthographicCamera( window.innerWidth / - factor, window.innerWidth / factor, window.innerHeight / factor, window.innerHeight / - factor, -10000, 10000 );
+  topCamera = createCamera(0);
   topCamera.position.set(0, 1000, 0);
   topCamera.lookAt(scene.position);
+  topCamera.updateProjectionMatrix();
 
-  frontalCamera = new THREE.OrthographicCamera( window.innerWidth / - factor, window.innerWidth / factor, window.innerHeight / factor, window.innerHeight / - factor, -10000, 10000 );
+  frontalCamera = createCamera(0.2);
   frontalCamera.position.set(0, 0, 2000);
   frontalCamera.lookAt(scene.position);
+  frontalCamera.updateProjectionMatrix();
 
-  leftCamera = new THREE.OrthographicCamera( window.innerWidth / - factor, window.innerWidth / factor, window.innerHeight / factor, window.innerHeight / - factor, -10000, 10000 );
+  leftCamera = createCamera(0.2);
   leftCamera.position.set(-1000, 0, 0);
   leftCamera.lookAt(scene.position);
+  leftCamera.updateProjectionMatrix();
 
   var cameras = [
     topCamera,
@@ -191,3 +201,15 @@ function initCameras(scene) {
   cameraNo = 0;
   return cameras;
 }
+
+function createCamera(vertDisplacement) {
+  'use strict';
+
+  var camera = new THREE.OrthographicCamera(0, 0, 0, 0, -10000, 10000 );
+  camera.left = -window.innerWidth / camFactor;
+  camera.right = window.innerWidth / camFactor;
+  camera.top = window.innerHeight / camFactor + window.innerHeight * vertDisplacement;
+  camera.bottom = -window.innerHeight / camFactor + window.innerHeight * vertDisplacement;
+  return camera;
+}
+
