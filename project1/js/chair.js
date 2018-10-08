@@ -13,6 +13,7 @@ class Chair {
     this._angularAcceleration = 0;
     this._material = new THREE.MeshBasicMaterial({color: inputColor, wireframe: true});
     this._noLegs = dimensions.noLegs;
+    this._angle = 0;
 
     this.rod = new ChairRod(
       {x: 0,
@@ -23,6 +24,7 @@ class Chair {
       this.chair
     );
 
+    this.chair.rotateY(this._angle);
     this.chair.position.set(position.x, position.y, position.z);
     parentObj.add(this.chair);
   }
