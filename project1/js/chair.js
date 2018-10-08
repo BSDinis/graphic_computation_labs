@@ -17,7 +17,7 @@ class Chair {
 
     this.rod = new ChairRod(
       {x: 0,
-       y: 2*dimensions.wheelRadius + dimensions.rodHeight / 2,
+       y: dimensions.wheelRadius + dimensions.legRadius + dimensions.rodHeight / 2,
        z: 0}, 
       dimensions,
       this._material,
@@ -111,7 +111,7 @@ class ChairRod {
     this.leg = []
     for (var i = 0; i < dimensions.noLegs; i++, angle += angleStep) {
       this.leg[i] = new Leg(
-        {x: 0, y: -dimensions.rodHeight/2 - dimensions.legRadius, z:0},
+        {x: 0, y: -dimensions.rodHeight/2 - dimensions.legRadius + dimensions.wheelRadius, z:0},
         dimensions,
         material,
         angle,
