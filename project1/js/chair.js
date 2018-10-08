@@ -17,7 +17,7 @@ class Chair {
 
     this.rod = new ChairRod(
       {x: 0,
-       y: 4*dimensions.wheelRadius + dimensions.rodHeight / 2,
+       y: 2*dimensions.wheelRadius + dimensions.rodHeight / 2,
        z: 0}, 
       dimensions,
       this._material,
@@ -144,7 +144,7 @@ class Leg {
     this._wheelAngle = this._targetAngle = 0;
 
     this.wheel = new Wheel(
-      {x: 0, y: -dimensions.wheelRadius, z: -dimensions.legLength/2},
+      {x: 0, y: 0, z: -dimensions.legLength/2},
       dimensions,
       material,
       angle,
