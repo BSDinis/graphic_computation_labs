@@ -5,13 +5,13 @@
  */
 
 class Lamp {
-  constructor(position, dimensions, inputColor, scene) {
-    this._lamp = new THREE.Object3D();
+  constructor(position, dimensions, inputColor, parentObj) {
+    this.lamp = new THREE.Object3D();
     this._material = new THREE.MeshBasicMaterial({color: inputColor, wireframe: true});
 
-    this.base = new Base({x: 0, y: dimensions.baseHeight/2, z: 0}, dimensions, this._material, this._lamp);
-    this._lamp.position.set(position.x, position.y, position.z);
-    scene.add(this._lamp);
+    this.base = new Base({x: 0, y: dimensions.baseHeight/2, z: 0}, dimensions, this._material, this.lamp);
+    this.lamp.position.set(position.x, position.y, position.z);
+    parentObj.add(this.lamp);
     return;
   }
 }

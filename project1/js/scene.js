@@ -50,7 +50,7 @@ const maxAngularSpeed = 2 * Math.PI;
 const rugDimensions = {
   width: 550,
   height: 300,
-  thickness: 5
+  thickness: 10
 }
 
 
@@ -90,8 +90,8 @@ class Rug {
     var material = new THREE.MeshBasicMaterial({color: 0xbbbb00, wireframe: true});
     var geometry = new THREE.CubeGeometry(dimensions.width, dimensions.thickness, dimensions.height);
     this.mesh = new THREE.Mesh(geometry, material);
+    this.mesh.position.y += dimensions.thickness / 2;
     this.obj.add(this.mesh);
-    this.obj.translateY(-dimensions.thickness / 2);
     parentObj.add(this.obj);
   }
 

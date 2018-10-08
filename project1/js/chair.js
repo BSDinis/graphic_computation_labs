@@ -12,19 +12,17 @@ class Chair {
     this._angularSpeed = 0;
     this._angularAcceleration = 0;
     this._material = new THREE.MeshBasicMaterial({color: inputColor, wireframe: true});
-    this._angle = 0;
     this._noLegs = dimensions.noLegs;
 
     this.rod = new ChairRod(
       {x: 0,
-       y: 2*dimensions.wheelRadius + dimensions.rodHeight / 2,
+       y: dimensions.wheelRadius + dimensions.legRadius + dimensions.rodHeight / 2,
        z: 0}, 
       dimensions,
       this._material,
       this.chair
     );
 
-    this.chair.rotateY(this._angle);
     this.chair.position.set(position.x, position.y, position.z);
     parentObj.add(this.chair);
   }
@@ -111,7 +109,7 @@ class ChairRod {
     this.leg = []
     for (var i = 0; i < dimensions.noLegs; i++, angle += angleStep) {
       this.leg[i] = new Leg(
-        {x: 0, y: -dimensions.rodHeight/2 - dimensions.legRadius, z:0},
+        {x: 0, y: -dimensions.rodHeight/2 - dimensions.legRadius + dimensions.wheelRadius, z:0},
         dimensions,
         material,
         angle,
@@ -199,16 +197,18 @@ class Wheel {
 
 class Seat {
   constructor(position, dimensions, material, parentObj) {
+    this.obj = new THREE.Object3D();
     var geometry = new THREE.CubeGeometry(dimensions.seatRadius * 2,
       dimensions.seatThickness,
       dimensions.seatRadius * 2);
 
     this.mesh = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial(material));
+    this.obj.add(this.mesh);
     this.back = new Back(
       {x: 0, y: dimensions.backHeight / 2 - dimensions.seatThickness/2, z: dimensions.seatRadius + dimensions.backThickness / 2},
       dimensions,
       material,
-      this.mesh
+      this.obj
     );
 
 
@@ -217,20 +217,20 @@ class Seat {
       {x: -dimensions.seatRadius + dimensions.armRestRadius, y: 2 * dimensions.seatRadius/3, z: dimensions.seatRadius/3},
       dimensions, 
       material, 
-      this.mesh
+      this.obj
     );
     this.armRest[1] = new ArmRest(
       {x: dimensions.seatRadius - dimensions.armRestRadius, y: 2 * dimensions.seatRadius/3, z: dimensions.seatRadius/3},
       dimensions, 
       material, 
-      this.mesh
+      this.obj
     );
-    this.mesh.position.set(position.x, position.y, position.z);
-    parentObj.add(this.mesh);
+    this.obj.position.set(position.x, position.y, position.z);
+    parentObj.add(this.obj);
   }
 
   updateRotation(angle) {
-    this.mesh.rotateY(angle);
+    this.obj.rotateY(angle);
   }
 }
 
