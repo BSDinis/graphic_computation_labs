@@ -199,16 +199,18 @@ class Wheel {
 
 class Seat {
   constructor(position, dimensions, material, parentObj) {
+    this.obj = new THREE.Object3D();
     var geometry = new THREE.CubeGeometry(dimensions.seatRadius * 2,
       dimensions.seatThickness,
       dimensions.seatRadius * 2);
 
     this.mesh = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial(material));
+    this.obj.add(this.mesh);
     this.back = new Back(
       {x: 0, y: dimensions.backHeight / 2 - dimensions.seatThickness/2, z: dimensions.seatRadius + dimensions.backThickness / 2},
       dimensions,
       material,
-      this.mesh
+      this.obj
     );
 
 
@@ -217,20 +219,20 @@ class Seat {
       {x: -dimensions.seatRadius + dimensions.armRestRadius, y: 2 * dimensions.seatRadius/3, z: dimensions.seatRadius/3},
       dimensions, 
       material, 
-      this.mesh
+      this.obj
     );
     this.armRest[1] = new ArmRest(
       {x: dimensions.seatRadius - dimensions.armRestRadius, y: 2 * dimensions.seatRadius/3, z: dimensions.seatRadius/3},
       dimensions, 
       material, 
-      this.mesh
+      this.obj
     );
-    this.mesh.position.set(position.x, position.y, position.z);
-    parentObj.add(this.mesh);
+    this.obj.position.set(position.x, position.y, position.z);
+    parentObj.add(this.obj);
   }
 
   updateRotation(angle) {
-    this.mesh.rotateY(angle);
+    this.obj.rotateY(angle);
   }
 }
 
