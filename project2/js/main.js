@@ -8,7 +8,6 @@
 
 var scene, camera, renderer;
 var cameras, cameraNo, updateCamera;
-var lamp, table, chair;
 var clock;
 
 function render()
@@ -146,8 +145,11 @@ function onResize() {
 }
 
 function updateTopOrtographic(w, h) {
+  // FIXME
 }
 function updateFixedPerspective(w, h) {
+  // FIXME
 }
 function updateAttachedPerspective(w, h) {
+  // FIXME
 }
