@@ -6,7 +6,8 @@
 
 const dimensions = {
   width: .5,
-  height: .25
+  height: .25,
+  thickness: 0.005
 }
 
 dimensions.depth = dimensions.width * 0.11180339887498948482
@@ -17,15 +18,27 @@ class Ring {
     this.width = dimensions.width * factor;
     this.height = dimensions.height * factor;
     this.depth = dimensions.depth * factor;
+    this.thickness = dimensions.thickness * factor;
 
-    /*
-    this.left = new Wall(this.height, inputColor, this.obj);
-    this.right = new Wall(this.height, inputColor, this.obj);
-    this.top = new Wall(this.width, inputColor, this.obj);
-    this.bottom = new Wall(this.width, inputColor, this.obj);
-    */
+    this.left = new Wall(this.height + 2 * this.thickness, this.depth, this.thickness, 0x00ff00, this.obj);
+    this.left.obj.rotateY(Math.PI/2);
+    this.left.obj.position.x -= this.width / 2 + this.thickness/2
+    this.left.obj.position.y += this.depth / 2
+
+    this.right = new Wall(this.height + 2 * this.thickness, this.depth, this.thickness, 0x00ff00, this.obj);
+    this.right.obj.rotateY(Math.PI/2);
+    this.right.obj.position.x += this.width / 2 + this.thickness/2
+    this.right.obj.position.y += this.depth / 2
+
+    this.top = new Wall(this.width, this.depth, this.thickness, 0x0000ff, this.obj);
+    this.top.obj.position.z += this.height / 2 + this.thickness/2
+    this.top.obj.position.y += this.depth / 2
+
+    this.bottom = new Wall(this.width, this.depth, this.thickness, 0x0000ff, this.obj);
+    this.bottom.obj.position.z -= this.height / 2 + this.thickness/2
+    this.bottom.obj.position.y += this.depth / 2
+
     this.base = new Base(this.width, this.height, inputColor, this.obj);
-    // FIXME - shift the walls
     parentObj.add(this.obj);
   }
 
@@ -49,7 +62,7 @@ class Base {
     var material = new THREE.MeshBasicMaterial(
       {color: inputColor, wireframe: false}
     )
-    var geometry = new THREE.BoxGeometry(width, 0.0007 * width * height, height);
+    var geometry = new THREE.BoxGeometry(width, dimensions.thickness, height);
     this.mesh = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial(material));
     parentObj.add(this.mesh);
   }
@@ -57,9 +70,14 @@ class Base {
 
 
 class Wall {
-  constructor(length, inputColor, parentObj) {
+  constructor(length, depth, thickness, inputColor, parentObj) {
     this.obj = new THREE.Object3D();
-    // FIXME
+    var material = new THREE.MeshBasicMaterial(
+      {color: inputColor, wireframe: false}
+    )
+    var geometry = new THREE.BoxGeometry(length, depth, thickness)
+    this.mesh = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial(material));
+    this.obj.add(this.mesh)
     parentObj.add(this.obj);
   }
 }
