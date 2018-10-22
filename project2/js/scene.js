@@ -4,7 +4,8 @@
  * define the scene class
  */
 
-const nBalls = 10;
+const nBalls = 1;
+const initMaxSpeed = 5;
 
 class Scene {
   constructor() {
@@ -20,10 +21,11 @@ class Scene {
 
     this.ballArr = [];    
     for (var i = 0; i < nBalls; i++) {
-      this.ballArr[i] = new Ball(radius, genRandomColor(), this.scene);
+      this.ballArr[i] = new Ball(radius, initMaxSpeed, genRandomColor(), this.scene);
       this.ballArr[i].obj.position.x = initialPosition[i].x
       this.ballArr[i].obj.position.z = initialPosition[i].z
       this.ballArr[i].obj.position.y += radius;
+      this.ballArr[i].rotate(genRandomAngle())
     }
   }
 
@@ -44,7 +46,13 @@ class Scene {
   }
 
   updateScene(delta) {
-    // FIXME
+    for (var i = 0; i < nBalls; i++) {
+      this.ballArr[i].updateBall(delta);
+      var x_disp = delta * this.ballArr[i].getSpeed() * Math.sin(this.ballArr[i].getAngle());
+      var z_disp = delta * this.ballArr[i].getSpeed() * Math.cos(this.ballArr[i].getAngle());
+      this.ballArr[i].obj.position.x += x_disp
+      this.ballArr[i].obj.position.z += z_disp
+    }
   }
 }
 
@@ -85,4 +93,9 @@ function genRandomColor()
   var g = Math.floor(Math.random() * 200) + 56;
   var b = Math.floor(Math.random() * 200) + 56;
   return (r * 256 + g) * 256 + b;
+}
+
+function genRandomAngle() 
+{
+  return Math.random() * 2 * Math.PI 
 }
