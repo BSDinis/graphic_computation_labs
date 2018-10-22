@@ -63,7 +63,7 @@ class Base {
       {color: inputColor, wireframe: false}
     )
     var geometry = new THREE.BoxGeometry(width, dimensions.thickness, height);
-    this.mesh = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial(material));
+    this.mesh = new THREE.Mesh(geometry, material);
     parentObj.add(this.mesh);
   }
 }
@@ -76,7 +76,7 @@ class Wall {
       {color: inputColor, wireframe: false}
     )
     var geometry = new THREE.BoxGeometry(length, depth, thickness)
-    this.mesh = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial(material));
+    this.mesh = new THREE.Mesh(geometry, material);
     this.obj.add(this.mesh)
     parentObj.add(this.obj);
   }
