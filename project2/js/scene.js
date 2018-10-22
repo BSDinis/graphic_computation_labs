@@ -5,13 +5,16 @@
  */
 
 const nBalls = 10;
+const initMaxSpeed = 2.5;
+var accum = 0;
+const speedThreshold = 100;
 
 class Scene {
   constructor() {
     // public
     this.scene = new THREE.Scene();
 
-    this.ring = new Ring(100, 0xff0000, this.scene);
+    this.ring = new Ring(100, 0xffffff, 0x228b22, this.scene);
 
     var innerWidth = this.ring.getWidth() - this.ring.getDepth() * 1.1
     var innerHeight = this.ring.getHeight() - this.ring.getDepth() * 1.1
@@ -20,10 +23,11 @@ class Scene {
 
     this.ballArr = [];    
     for (var i = 0; i < nBalls; i++) {
-      this.ballArr[i] = new Ball(radius, genRandomColor(), this.scene);
-      this.ballArr[i].obj.position.x = initialPosition[i].x
-      this.ballArr[i].obj.position.z = initialPosition[i].z
-      this.ballArr[i].obj.position.y += radius;
+      this.ballArr[i] = new Ball(radius, initMaxSpeed, genRandomColor(), this.scene);
+      this.ballArr[i].capsule.position.x = initialPosition[i].x
+      this.ballArr[i].capsule.position.z = initialPosition[i].z
+      this.ballArr[i].capsule.position.y += radius;
+      this.ballArr[i].rotate(genRandomAngle())
     }
   }
 
@@ -44,7 +48,41 @@ class Scene {
   }
 
   updateScene(delta) {
-    // FIXME
+    for (var i = 0; i < nBalls; i++) {
+      this.ballArr[i].updateBall(delta);
+
+      var wallCol = [];
+      wallCol.push(this.ballArr[i].checkWallCollision(this.ring.left))
+      wallCol.push(this.ballArr[i].checkWallCollision(this.ring.right))
+      wallCol.push(this.ballArr[i].checkWallCollision(this.ring.top))
+      wallCol.push(this.ballArr[i].checkWallCollision(this.ring.bottom))
+
+      for (var j = 0; j < 4; j++) {
+        if (wallCol[j].happened) {
+          this.ballArr[i].treatWallCollision(wallCol[j]);
+        }
+      }
+
+      var x_disp = delta * this.ballArr[i].getSpeed() * Math.sin(this.ballArr[i].getAngle());
+      var z_disp = delta * this.ballArr[i].getSpeed() * Math.cos(this.ballArr[i].getAngle());
+      this.ballArr[i].capsule.position.x += x_disp
+      this.ballArr[i].capsule.position.z += z_disp
+
+      for (var j = 0; j + i + 1 < nBalls; j++) {
+        var col = this.ballArr[i].checkBallCollision(this.ballArr[j + i + 1]);
+        if (col.happened) {
+          this.ballArr[i].treatBallCollision(this.ballArr[j + i + 1], col);
+        }
+      }
+    }
+
+    accum += delta;
+    if (accum > speedThreshold) {
+      for (var i = 0; i < nBalls; i++) {
+        this.ballArr[i].speed += initMaxSpeed;
+      }
+      accum = 0;
+    }
   }
 }
 
@@ -85,4 +123,9 @@ function genRandomColor()
   var g = Math.floor(Math.random() * 200) + 56;
   var b = Math.floor(Math.random() * 200) + 56;
   return (r * 256 + g) * 256 + b;
+}
+
+function genRandomAngle() 
+{
+  return Math.random() * 2 * Math.PI 
 }
