@@ -133,11 +133,8 @@ function setOrtographicCamera(camera)
   var view_size = scene.getHeight()
   var aspect = window.innerWidth / window.innerHeight
   console.log(scene.getHeight())
-  if (window.innerWidth > scene.getWidth()) {
-    camera.left = - view_size * aspect / factor
-    camera.right = view_size * aspect / factor
-  }
-  else { console.log("the width is smaller than the scene: resize ! ") }
+  camera.left = - view_size * aspect / factor
+  camera.right = view_size * aspect / factor
   camera.top = view_size / factor
   camera.bottom = - view_size / factor
   camera.updateProjectionMatrix();
