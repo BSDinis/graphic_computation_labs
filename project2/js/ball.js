@@ -10,6 +10,7 @@ const vertSegments = 20
 
 class Ball {
   constructor(radius, maxAngularSpeed, inputColor, parentObj) {
+    this.capsule = new THREE.Object3D();
     this.obj =  new THREE.Object3D();
     this.axis = new THREE.AxisHelper(2 * radius);
     this.axis.visible = true;
@@ -26,6 +27,7 @@ class Ball {
     var geometry = new THREE.SphereGeometry(radius, horizSegments, vertSegments);
     this.mesh = new THREE.Mesh(geometry, material);
     this.obj.add(this.mesh);
+    this.capsule.add(this.obj)
 
     /**
      * TODO
@@ -33,7 +35,7 @@ class Ball {
      *   - rotation
      */
 
-    parentObj.add(this.obj);
+    parentObj.add(this.capsule);
   }
 
   checkBallCollision(foeBall) {
@@ -45,11 +47,55 @@ class Ball {
   }
 
   checkWallCollision(foeWall) {
-    //FIXME
+    var collision = {
+      happened: false,
+      new_x: this.capsule.position.x,
+      new_z: this.capsule.position.z,
+      new_angle: this.angle
+    }
+
+    if (foeWall.left()) {
+      var targetX = foeWall.getX() + foeWall.getThickness()/2 + this.getRadius();
+      if (this.capsule.position.x <= targetX) {
+        collision.new_x = targetX + (targetX - this.capsule.position.x)
+        collision.happened = true;
+        collision.new_angle *= -1;
+      }
+    }
+    else if (foeWall.right()) {
+      var targetX = foeWall.getX() - foeWall.getThickness()/2 - this.getRadius();
+      if (this.capsule.position.x >= targetX) {
+        collision.new_x = targetX + (targetX - this.capsule.position.x)
+        collision.happened = true;
+        collision.new_angle *= -1;
+      }
+    }
+
+    if (foeWall.top()) {
+      var targetZ = foeWall.getZ() - foeWall.getThickness()/2 - this.getRadius();
+      if (this.capsule.position.z >= targetZ) {
+        collision.new_z = targetZ + (targetZ - this.capsule.position.z)
+        collision.happened = true;
+        collision.new_angle = Math.PI - collision.new_angle;
+      }
+    }
+    else if (foeWall.bottom()) {
+      var targetZ = foeWall.getZ() + foeWall.getThickness()/2 + this.getRadius();
+      if (this.capsule.position.z <= targetZ) {
+        collision.new_z = targetZ + (targetZ - this.capsule.position.z)
+        collision.happened = true;
+        collision.new_angle = Math.PI - collision.new_angle;
+      }
+    }
+
+    return collision
   }
 
-  treatWallCollision(foeWall, collision) {
-    //FIXME
+  treatWallCollision(collision) {
+    this.capsule.position.x = collision.new_x;
+    this.capsule.position.z = collision.new_z;
+    var angle_var = collision.new_angle - this.angle;
+    this.rotate(angle_var);
   }
 
   updateBall(delta) {
@@ -75,6 +121,6 @@ class Ball {
 
   rotate(increment) {
     this.angle += increment;
-    this.obj.rotateY(increment);
+    this.capsule.rotateY(increment);
   }
 }

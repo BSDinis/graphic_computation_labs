@@ -22,9 +22,9 @@ class Scene {
     this.ballArr = [];    
     for (var i = 0; i < nBalls; i++) {
       this.ballArr[i] = new Ball(radius, initMaxSpeed, genRandomColor(), this.scene);
-      this.ballArr[i].obj.position.x = initialPosition[i].x
-      this.ballArr[i].obj.position.z = initialPosition[i].z
-      this.ballArr[i].obj.position.y += radius;
+      this.ballArr[i].capsule.position.x = initialPosition[i].x
+      this.ballArr[i].capsule.position.z = initialPosition[i].z
+      this.ballArr[i].capsule.position.y += radius;
       this.ballArr[i].rotate(genRandomAngle())
     }
   }
@@ -48,10 +48,23 @@ class Scene {
   updateScene(delta) {
     for (var i = 0; i < nBalls; i++) {
       this.ballArr[i].updateBall(delta);
+
+      var col = [];
+      col.push(this.ballArr[i].checkWallCollision(this.ring.left))
+      col.push(this.ballArr[i].checkWallCollision(this.ring.right))
+      col.push(this.ballArr[i].checkWallCollision(this.ring.top))
+      col.push(this.ballArr[i].checkWallCollision(this.ring.bottom))
+
+      for (var j = 0; j < 4; j++) {
+        if (col[j].happened) {
+          this.ballArr[i].treatWallCollision(col[j]);
+        }
+      }
+
       var x_disp = delta * this.ballArr[i].getSpeed() * Math.sin(this.ballArr[i].getAngle());
       var z_disp = delta * this.ballArr[i].getSpeed() * Math.cos(this.ballArr[i].getAngle());
-      this.ballArr[i].obj.position.x += x_disp
-      this.ballArr[i].obj.position.z += z_disp
+      this.ballArr[i].capsule.position.x += x_disp
+      this.ballArr[i].capsule.position.z += z_disp
     }
   }
 }
