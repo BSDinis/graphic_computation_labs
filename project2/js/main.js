@@ -149,15 +149,11 @@ function initAttachedCamera(scene) {
   'use strict';
 
   var camera = new THREE.PerspectiveCamera(45, window.innerWidth/window.innerHeight, 1, 10000);
-  /*
-  camera.position.x = scene.ballArr[0].capsule.position.x - scene.ballArr[0].getRadius()
-  camera.position.y = scene.ballArr[0].capsule.position.y + 4 * scene.ballArr[0].getRadius()
-  camera.position.z = scene.ballArr[0].capsule.position.z - 4 * scene.ballArr[0].getRadius()
-  */
-  camera.position.x = 0;
-  camera.position.y = 4 * scene.ballArr[0].getRadius()
-  camera.position.z = 4 * scene.ballArr[0].getRadius()
   scene.ballArr[0].capsule.add(camera)
+  camera.position.x = 0;
+  camera.position.y = 3 * scene.ballArr[0].getRadius()
+  camera.position.z = -1 * scene.ballArr[0].getRadius()
+  camera.lookAt(new THREE.Vector3(0,0,0))
   return camera
 }
 
