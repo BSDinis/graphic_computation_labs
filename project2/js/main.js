@@ -27,11 +27,9 @@ function animate() {
         updateTopOrtographic(window.innerWidth, window.innerHeight);
         break;
       case 1:
-        break; // @FIXME
         updateFixedPerspective(window.innerWidth, window.innerHeight);
         break;
       case 2:
-        break; // @FIXME
         updateAttachedPerspective(window.innerWidth, window.innerHeight);
         break;
     }
@@ -70,13 +68,12 @@ function onKeyDown(e) {
   switch (e.keyCode) {
     case 49: // 1
     case 50: // 2
+    case 51: // 3
       var old_cameraNo = cameraNo;
       cameraNo = e.keyCode - 48 - 1;
       if (old_cameraNo != cameraNo) {
         updateCamera = true;
       }
-      // @FIXME 
-    case 51: // 3
       break;
 
     case 65: // A
@@ -111,7 +108,7 @@ function initCameras(scene) {
     initAttachedCamera(scene)
   ];
 
-  cameraNo = 0;
+  cameraNo = 2;
   return cameras;
 }
 
@@ -132,7 +129,6 @@ function setOrtographicCamera(camera)
   var factor = 2
   var view_size = scene.getHeight()
   var aspect = window.innerWidth / window.innerHeight
-  console.log(scene.getHeight())
   camera.left = - view_size * aspect / factor
   camera.right = view_size * aspect / factor
   camera.top = view_size / factor
@@ -143,7 +139,7 @@ function setOrtographicCamera(camera)
 function initFixedPerspective(scene) {
   'use strict';
   var camera = new THREE.PerspectiveCamera(45, window.innerWidth/window.innerHeight, 1, 10000);
-  camera.position.set(-scene.getWidth(), 100, scene.getHeight())
+  camera.position.set(-scene.getWidth(), 50, scene.getHeight())
   camera.lookAt(scene.scene.position)
   scene.scene.add(camera)
   return camera;
@@ -152,8 +148,17 @@ function initFixedPerspective(scene) {
 function initAttachedCamera(scene) {
   'use strict';
 
-  // FIXME
-  // fill
+  var camera = new THREE.PerspectiveCamera(45, window.innerWidth/window.innerHeight, 1, 10000);
+  /*
+  camera.position.x = scene.ballArr[0].capsule.position.x - scene.ballArr[0].getRadius()
+  camera.position.y = scene.ballArr[0].capsule.position.y + 4 * scene.ballArr[0].getRadius()
+  camera.position.z = scene.ballArr[0].capsule.position.z - 4 * scene.ballArr[0].getRadius()
+  */
+  camera.position.x = 0;
+  camera.position.y = 4 * scene.ballArr[0].getRadius()
+  camera.position.z = 4 * scene.ballArr[0].getRadius()
+  scene.ballArr[0].capsule.add(camera)
+  return camera
 }
 
 function onResize() {
@@ -183,5 +188,8 @@ function updateFixedPerspective(w, h) {
   }
 }
 function updateAttachedPerspective(w, h) {
-  // FIXME
+  if (w > 0 && h > 0) {                                                                                   
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+  }
 }

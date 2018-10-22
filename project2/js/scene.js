@@ -4,15 +4,17 @@
  * define the scene class
  */
 
-const nBalls = 1;
-const initMaxSpeed = 5;
+const nBalls = 10;
+const initMaxSpeed = 2.5;
+var accum = 0;
+const speedThreshold = 100;
 
 class Scene {
   constructor() {
     // public
     this.scene = new THREE.Scene();
 
-    this.ring = new Ring(100, 0xff0000, this.scene);
+    this.ring = new Ring(100, 0xffffff, 0x228b22, this.scene);
 
     var innerWidth = this.ring.getWidth() - this.ring.getDepth() * 1.1
     var innerHeight = this.ring.getHeight() - this.ring.getDepth() * 1.1
@@ -49,15 +51,15 @@ class Scene {
     for (var i = 0; i < nBalls; i++) {
       this.ballArr[i].updateBall(delta);
 
-      var col = [];
-      col.push(this.ballArr[i].checkWallCollision(this.ring.left))
-      col.push(this.ballArr[i].checkWallCollision(this.ring.right))
-      col.push(this.ballArr[i].checkWallCollision(this.ring.top))
-      col.push(this.ballArr[i].checkWallCollision(this.ring.bottom))
+      var wallCol = [];
+      wallCol.push(this.ballArr[i].checkWallCollision(this.ring.left))
+      wallCol.push(this.ballArr[i].checkWallCollision(this.ring.right))
+      wallCol.push(this.ballArr[i].checkWallCollision(this.ring.top))
+      wallCol.push(this.ballArr[i].checkWallCollision(this.ring.bottom))
 
       for (var j = 0; j < 4; j++) {
-        if (col[j].happened) {
-          this.ballArr[i].treatWallCollision(col[j]);
+        if (wallCol[j].happened) {
+          this.ballArr[i].treatWallCollision(wallCol[j]);
         }
       }
 
@@ -65,6 +67,21 @@ class Scene {
       var z_disp = delta * this.ballArr[i].getSpeed() * Math.cos(this.ballArr[i].getAngle());
       this.ballArr[i].capsule.position.x += x_disp
       this.ballArr[i].capsule.position.z += z_disp
+
+      for (var j = 0; j + i + 1 < nBalls; j++) {
+        var col = this.ballArr[i].checkBallCollision(this.ballArr[j + i + 1]);
+        if (col.happened) {
+          this.ballArr[i].treatBallCollision(this.ballArr[j + i + 1], col);
+        }
+      }
+    }
+
+    accum += delta;
+    if (accum > speedThreshold) {
+      for (var i = 0; i < nBalls; i++) {
+        this.ballArr[i].speed += initMaxSpeed;
+      }
+      accum = 0;
     }
   }
 }

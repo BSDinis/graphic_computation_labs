@@ -5,8 +5,8 @@
  */
 
 
-const horizSegments = 20
-const vertSegments = 20
+const horizSegments = 44
+const vertSegments = 44
 
 class Ball {
   constructor(radius, maxAngularSpeed, inputColor, parentObj) {
@@ -29,21 +29,35 @@ class Ball {
     this.obj.add(this.mesh);
     this.capsule.add(this.obj)
 
-    /**
-     * TODO
-     *   - speed
-     *   - rotation
-     */
-
     parentObj.add(this.capsule);
   }
 
   checkBallCollision(foeBall) {
-    //FIXME
+    var x1 = new THREE.Vector3(this.capsule.position.x, 0, this.capsule.position.z)
+    var x2 = new THREE.Vector3(foeBall.capsule.position.x, 0, foeBall.capsule.position.z)
+    var x3 = new THREE.Vector3();
+    x3.subVectors(x1, x2);
+    var currDist = x3.x * x3.x + x3.z * x3.z;
+    var targetDist = this.getRadius() * foeBall.getRadius() * 4;
+    if (currDist <= targetDist) {
+      return { happened: true, diff: x3, curr: currDist, target: targetDist };
+    }
+    
+    return {happened: false}
   }
 
   treatBallCollision(foeBall, collision) {
-    //FIXME
+    var diff = this.angle - foeBall.angle;
+    var foeSpeed = foeBall.speed
+    var displacement = (Math.sqrt(collision.target) - Math.sqrt(collision.curr)) / 2; 
+    this.capsule.position.x -= displacement * Math.sin(this.angle)
+    this.capsule.position.z -= displacement * Math.cos(this.angle)
+    foeBall.capsule.position.x -= displacement * Math.sin(foeBall.angle)
+    foeBall.capsule.position.z -= displacement * Math.cos(foeBall.angle)
+    this.rotate(-diff)
+    foeBall.rotate(diff)
+    foeBall.speed = this.speed;
+    this.speed = foeSpeed;
   }
 
   checkWallCollision(foeWall) {
@@ -113,6 +127,16 @@ class Ball {
 
   getSpeed() {
     return this.getRadius() * this.getAngularSpeed();
+  }
+
+  setSpeed(vec) {
+    console.log(vec)
+    var origin = new THREE.Vector3(0,0,1)
+    this.speed = vec.length() / this.getRadius();
+    var new_angle = vec.angleTo(origin)
+    this.rotate(new_angle - this.angle)
+    console.log(this.speed)
+    console.log(this.angle)
   }
 
   getAngle() {
