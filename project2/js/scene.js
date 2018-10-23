@@ -79,7 +79,7 @@ class Scene {
     accum += delta;
     if (accum > speedThreshold) {
       for (var i = 0; i < nBalls; i++) {
-        this.ballArr[i].speed += initMaxSpeed;
+        this.ballArr[i].speed += initMaxSpeed * .25;
       }
       accum = 0;
     }
