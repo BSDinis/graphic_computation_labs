@@ -108,7 +108,7 @@ function initCameras(scene) {
     initAttachedCamera(scene)
   ];
 
-  cameraNo = 2;
+  cameraNo = 0;
   return cameras;
 }
 
@@ -127,12 +127,21 @@ function initTopOrtographicCamera(scene) {
 function setOrtographicCamera(camera)
 {
   var factor = 2
-  var view_size = scene.getHeight()
+  var w = scene.getWidth()
+  var h = scene.getHeight()
   var aspect = window.innerWidth / window.innerHeight
-  camera.left = - view_size * aspect / factor
-  camera.right = view_size * aspect / factor
-  camera.top = view_size / factor
-  camera.bottom = - view_size / factor
+  if (aspect < w / h) {
+    camera.left = - w / factor
+    camera.right = + w / factor
+    camera.top = w / (aspect * factor);
+    camera.bottom = -w / (aspect * factor);
+  }
+  else {
+    camera.left = - h * aspect / factor
+    camera.right = + h * aspect / factor
+    camera.top = h / factor;
+    camera.bottom = - h / factor;
+  }
   camera.updateProjectionMatrix();
 }
 
