@@ -12,6 +12,9 @@ var cameraFactor, cameraArea;
 var viewSize;
 var clock;
 
+var old_h = window.innerWidth;
+
+
 function render()
 {
   'use strict';
@@ -188,13 +191,26 @@ function updateTopOrtographic(w, h) {
 
 function updateFixedPerspective(w, h) {
   if (w > 0 && h > 0) {                                                                                   
-      camera.aspect = w / h;
-      camera.updateProjectionMatrix();
+    let val = 1400 / window.innerWidth;
+    let vector = new THREE.Vector3(-scene.getWidth(), 50, scene.getHeight())
+    vector.multiplyScalar(val);
+    camera.aspect = w / h;
+    camera.position.x = vector.x
+    camera.position.y = vector.y
+    camera.position.z = vector.z
+    camera.updateProjectionMatrix();
+      
   }
 }
 function updateAttachedPerspective(w, h) {
   if (w > 0 && h > 0) {                                                                                   
-      camera.aspect = w / h;
-      camera.updateProjectionMatrix();
+    let val = 1400 / window.innerWidth;
+    let vector = new THREE.Vector3(0, 3 * scene.ballArr[0].getRadius(), -1.5 * scene.ballArr[0].getRadius())
+    vector.multiplyScalar(val);
+    camera.aspect = w / h;
+    camera.position.x = vector.x
+    camera.position.y = vector.y
+    camera.position.z = vector.z
+    camera.updateProjectionMatrix();
   }
 }
