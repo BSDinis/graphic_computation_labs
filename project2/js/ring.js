@@ -7,10 +7,9 @@
 const dimensions = {
   width: .5,
   height: .25,
-  thickness: 0.005
+  thickness: 0.005,
+  depth: 0.05590169943749475
 }
-
-dimensions.depth = dimensions.width * 0.11180339887498948482
 
 class Ring {
   constructor(factor, wallColor, baseColor, parentObj) {
