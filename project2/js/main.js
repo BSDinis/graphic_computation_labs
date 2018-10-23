@@ -161,7 +161,7 @@ function initAttachedCamera(scene) {
   scene.ballArr[0].capsule.add(camera)
   camera.position.x = 0;
   camera.position.y = 3 * scene.ballArr[0].getRadius()
-  camera.position.z = -1 * scene.ballArr[0].getRadius()
+  camera.position.z = -1.5 * scene.ballArr[0].getRadius()
   camera.lookAt(new THREE.Vector3(0,0,0))
   return camera
 }
