@@ -7,6 +7,7 @@
  */
 
 var scene, camera, renderer;
+var controls;
 var clock;
 
 var old_val = 1;
@@ -39,6 +40,7 @@ function init()
   scene = new Scene();
   camera = initCamera(scene);
   clock = new THREE.Clock(true);
+  controls = new THREE.OrbitControls(camera);
 
   render();
 
