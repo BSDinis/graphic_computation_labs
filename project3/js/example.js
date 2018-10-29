@@ -17,7 +17,7 @@ class Example {
     this.height = dimensions.height * factor;
     this.depth = dimensions.depth * factor;
 
-    var material = new THREE.MeshBasicMaterial(
+    var material = new THREE.MeshLambertMaterial(
       {color: inputColor, wireframe: false}
     )
     var geometry = new THREE.BoxGeometry(this.width, this.depth, this.height)
