@@ -9,7 +9,8 @@
 var scene, camera, renderer;
 var clock;
 
-var old_h = window.innerWidth;
+var old_val = 1;
+var orig_height;
 
 
 function render()
@@ -33,6 +34,7 @@ function init()
   renderer = new THREE.WebGLRenderer({antialias: true});
   renderer.setSize(window.innerWidth, window.innerHeight);
   document.body.appendChild(renderer.domElement);
+  orig_height = window.innerHeight;
 
   scene = new Scene();
   camera = initCamera(scene);
@@ -96,9 +98,12 @@ function initFixedPerspective(scene) {
 
 function updateFixedPerspective(w, h) {
   if (w > 0 && h > 0) {                                                                                   
-    let val = window.innerWidth / window.innerHeight;
-    let diff = (val - camera.aspect) / camera.aspect;
-    camera.position.multiplyScalar(1 + diff);
+    let val = 900 / window.innerWidth ;
+    let vector = new THREE.Vector3(-scene.getWidth(), 50, scene.getHeight())
+    vector.multiplyScalar(val);
+    camera.position.x = vector.x
+    camera.position.y = vector.y
+    camera.position.z = vector.z
     camera.aspect = w / h;
     camera.updateProjectionMatrix();
       
