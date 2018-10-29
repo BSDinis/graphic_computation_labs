@@ -57,7 +57,6 @@ function init()
   camera = cameras[cameraNo];
   clock = new THREE.Clock(true);
   updateCamera = false;
-
   render();
 
   window.addEventListener('resize', onResize);
