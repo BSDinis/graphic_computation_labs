@@ -40,8 +40,8 @@ function init()
   scene = new Scene();
   camera = initCamera(scene);
   clock = new THREE.Clock(true);
+  updateCamera = false;
   controls = new THREE.OrbitControls(camera);
-
   render();
 
   window.addEventListener('resize', onResize);
