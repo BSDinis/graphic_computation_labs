@@ -7,12 +7,11 @@
  */
 
 var scene, camera, renderer;
-var cameras, cameraNo, updateCamera;
-var cameraFactor, cameraArea;
-var viewSize;
+var controls;
 var clock;
 
-var old_h = window.innerWidth;
+var old_val = 1;
+var orig_height;
 
 
 function render()
@@ -23,21 +22,6 @@ function render()
 
 function animate() {
   'use strict';
-  camera = cameras[cameraNo];
-  if (updateCamera) {
-    switch(cameraNo) {
-      case 0:
-        updateTopOrtographic(window.innerWidth, window.innerHeight);
-        break;
-      case 1:
-        updateFixedPerspective(window.innerWidth, window.innerHeight);
-        break;
-      case 2:
-        updateAttachedPerspective(window.innerWidth, window.innerHeight);
-        break;
-    }
-    updateCamera = false;
-  }
 
   var delta = clock.getDelta();
   scene.updateScene(delta);
@@ -51,12 +35,12 @@ function init()
   renderer = new THREE.WebGLRenderer({antialias: true});
   renderer.setSize(window.innerWidth, window.innerHeight);
   document.body.appendChild(renderer.domElement);
+  orig_height = window.innerHeight;
 
   scene = new Scene();
-  cameras = initCameras(scene);
-  camera = cameras[cameraNo];
+  camera = initCamera(scene);
   clock = new THREE.Clock(true);
-  updateCamera = false;
+  controls = new THREE.OrbitControls(camera);
 
   render();
 
@@ -64,21 +48,17 @@ function init()
   window.addEventListener('keydown', onKeyDown);
 }                     
 
+function onResize() {
+  'use strict';
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  updateFixedPerspective(window.innerWidth, window.innerHeight);
+}
+
 
 function onKeyDown(e) {
   'use strict';
 
   switch (e.keyCode) {
-    case 49: // 1
-    case 50: // 2
-    //case 51: // 3
-      var old_cameraNo = cameraNo;
-      cameraNo = e.keyCode - 48 - 1;
-      if (old_cameraNo != cameraNo) {
-        updateCamera = true;
-      }
-      break;
-
     case 65: // A
     case 97: // a
       scene.scene.traverse(function (node) {
@@ -102,49 +82,11 @@ function onKeyDown(e) {
   }
 }
 
-function initCameras(scene) {
+function initCamera(scene) {
   'use strict';
 
-  var cameras = [
-    initTopOrtographicCamera(scene),
-    initFixedPerspective(scene),
-  ];
-
-  cameraNo = 0;
-  return cameras;
-}
-
-function initTopOrtographicCamera(scene) {
-  'use strict';
-  var camera = new THREE.OrthographicCamera(0, 0, 0, 0, -10000, 10000);
-  setOrtographicCamera(camera)
-  camera.position.y = 1000
-  camera.lookAt(scene.scene.position)
-  camera.updateProjectionMatrix();
-
-  scene.scene.add(camera)
+  var camera = initFixedPerspective(scene)
   return camera;
-}
-
-function setOrtographicCamera(camera)
-{
-  var factor = 2
-  var w = scene.getWidth()
-  var h = scene.getHeight()
-  var aspect = window.innerWidth / window.innerHeight
-  if (aspect < w / h) {
-    camera.left = - w / factor
-    camera.right = + w / factor
-    camera.top = w / (aspect * factor);
-    camera.bottom = -w / (aspect * factor);
-  }
-  else {
-    camera.left = - h * aspect / factor
-    camera.right = + h * aspect / factor
-    camera.top = h / factor;
-    camera.bottom = - h / factor;
-  }
-  camera.updateProjectionMatrix();
 }
 
 function initFixedPerspective(scene) {
@@ -156,32 +98,15 @@ function initFixedPerspective(scene) {
   return camera;
 }
 
-function onResize() {
-  'use strict';
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  switch (cameraNo) {
-    case 0:
-      updateTopOrtographic(window.innerWidth, window.innerHeight);
-      break;
-    case 1:
-      updateFixedPerspective(window.innerWidth, window.innerHeight);
-      break;
-  }
-}
-
-function updateTopOrtographic(w, h) {
-  setOrtographicCamera(cameras[0])
-}
-
 function updateFixedPerspective(w, h) {
   if (w > 0 && h > 0) {                                                                                   
-    let val = 1400 / window.innerWidth;
+    let val = 900 / window.innerWidth ;
     let vector = new THREE.Vector3(-scene.getWidth(), 50, scene.getHeight())
     vector.multiplyScalar(val);
-    camera.aspect = w / h;
     camera.position.x = vector.x
     camera.position.y = vector.y
     camera.position.z = vector.z
+    camera.aspect = w / h;
     camera.updateProjectionMatrix();
       
   }
