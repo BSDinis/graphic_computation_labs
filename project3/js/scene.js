@@ -6,9 +6,10 @@
 
 class Scene {
   constructor() {
-    // public
     this.scene = new THREE.Scene();
     this.example = new Example(100, 0x33ff22, this.scene);
+    var dim = {width: this.getWidth(), height: this.getHeight(), depth: this.getDepth()};
+    this.sunlight = new SunLight(this.scene, dim);
   }
 
   getAspect() {

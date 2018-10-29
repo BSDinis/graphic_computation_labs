@@ -7,7 +7,7 @@
  */
 
 var scene, camera, renderer;
-var controls;
+var orbitControls;
 var clock;
 
 var old_val = 1;
@@ -40,12 +40,18 @@ function init()
   scene = new Scene();
   camera = initCamera(scene);
   clock = new THREE.Clock(true);
-  updateCamera = false;
-  controls = new THREE.OrbitControls(camera);
+  orbitControls = new THREE.OrbitControls(camera, );
+  orbitControls = new THREE.OrbitControls( camera, renderer.domElement );
+  orbitControls.enabled = true;
+  orbitControls.enableZoom = false;
+  orbitControls.enablePan = false;
+  orbitControls.enableDamping = false;
+  orbitControls.autoRotate = true;
+  orbitControls.autoRotateSpeed = 10;
   render();
 
-  window.addEventListener('resize', onResize);
-  window.addEventListener('keydown', onKeyDown);
+  window.addEventListener('resize', onResize, false);
+  window.addEventListener('keydown', onKeyDown, false);
 }                     
 
 function onResize() {
@@ -108,6 +114,6 @@ function updateFixedPerspective(w, h) {
     camera.position.z = vector.z
     camera.aspect = w / h;
     camera.updateProjectionMatrix();
-      
+    orbitControls.update();
   }
 }
