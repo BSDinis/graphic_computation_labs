@@ -147,14 +147,8 @@ function initFixedPerspective(scene) {
 
 function updateFixedPerspective(w, h) {
   if (w > 0 && h > 0) {                                                                                   
-    let val = 900 / window.innerWidth ;
-    let vector = new THREE.Vector3(-scene.getWidth(), 50, scene.getHeight())
-    vector.multiplyScalar(val);
-    camera.position.x = vector.x
-    camera.position.y = vector.y
-    camera.position.z = vector.z
     camera.aspect = w / h;
     camera.updateProjectionMatrix();
-    orbitControls.update();
+    //orbitControls.update();
   }
 }
