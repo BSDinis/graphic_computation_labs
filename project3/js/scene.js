@@ -7,7 +7,7 @@
 class Scene {
   constructor() {
     this.scene = new THREE.Scene();
-    this.example = new Example(100, 0x33ff22, this.scene);
+    this.plane = new Plane(100, 0x33ff22, this.scene);
     var dim = {width: this.getWidth(), height: this.getHeight(), depth: this.getDepth()};
     this.sunlight = new SunLight(this.scene, dim);
   }
@@ -18,20 +18,32 @@ class Scene {
 
   getWidth() {
     // FIXME
-    return this.example.getWidth() * 1.15;
+    return this.plane.getWidth() * 1.15;
   }
 
   getHeight() {
     // FIXME
-    return this.example.getHeight() * 1.15;
+    return this.plane.getHeight() * 1.15;
   }
 
   getDepth() {
     // FIXME
-    return this.example.getDepth() * 1.15;
+    return this.plane.getDepth() * 1.15;
   }
 
-  updateScene(delta) {
-    // FIXME
+  updateScene(delta, arrows) {
+    const angle = Math.PI/4;
+    if (arrows.up) {
+      this.plane.obj.rotateZ(angle * delta);
+    }
+    if (arrows.down) {
+      this.plane.obj.rotateZ(- angle * delta);
+    }
+    if (arrows.left) {
+      this.plane.obj.rotateY(+ angle * delta);
+    }
+    if (arrows.right) {
+      this.plane.obj.rotateY(- angle * delta);
+    }
   }
 }
