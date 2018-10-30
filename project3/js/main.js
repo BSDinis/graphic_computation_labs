@@ -9,6 +9,12 @@
 var scene, camera, renderer;
 var orbitControls;
 var clock;
+var arrows = {
+  up: false,
+  down: false,
+  left: false,
+  right: false
+}
 
 var old_val = 1;
 var orig_height;
@@ -24,7 +30,7 @@ function animate() {
   'use strict';
 
   var delta = clock.getDelta();
-  scene.updateScene(delta);
+  scene.updateScene(delta, arrows);
   render();
   requestAnimationFrame(animate);
 }
@@ -52,6 +58,7 @@ function init()
 
   window.addEventListener('resize', onResize, false);
   window.addEventListener('keydown', onKeyDown, false);
+  window.addEventListener('keyup', onKeyUp, false);
 }                     
 
 function onResize() {
@@ -81,6 +88,40 @@ function onKeyDown(e) {
           node.visible = !node.visible;
         }
       });
+      break;
+
+    case 37:
+      arrows.left = true;
+      break;
+    case 38:
+      arrows.up = true;
+      break;
+    case 39:
+      arrows.right = true;
+      break;
+    case 40:
+      arrows.down = true;
+      break;
+    default:
+      break;
+  }
+}
+
+function onKeyUp(e) {
+  'use strict';
+
+  switch (e.keyCode) {
+    case 37: // left arrow
+      arrows.left = false;
+      break;
+    case 38:// up arrow
+      arrows.up = false;
+      break;
+    case 39: // right arrow
+      arrows.right = false;
+      break;
+    case 40: // down arrow
+      arrows.down = false;
       break;
 
     default:

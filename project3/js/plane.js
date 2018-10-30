@@ -1,7 +1,7 @@
 /*
- * example.js
+ * plane.js
  *
- * define example class: a box
+ * define a plane
  */
 
 const dimensions = {
@@ -10,7 +10,7 @@ const dimensions = {
   depth: .1
 }
 
-class Example {
+class Plane {
   constructor(factor, inputColor, parentObj) {
     this.obj = new THREE.Object3D();
     this.width = dimensions.width * factor;
