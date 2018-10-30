@@ -139,7 +139,7 @@ function initCamera(scene) {
 function initFixedPerspective(scene) {
   'use strict';
   var camera = new THREE.PerspectiveCamera(45, window.innerWidth/window.innerHeight, 1, 10000);
-  camera.position.set(-scene.getWidth(), 50, scene.getHeight())
+  camera.position.set(-scene.getWidth() * .8, scene.getDepth() * 1.5, scene.getHeight() * .8)
   camera.lookAt(scene.scene.position)
   scene.scene.add(camera)
   return camera;
