@@ -15,8 +15,15 @@ class Scene {
     this.plane.obj.position.y += this.plane.getDepth() / 2
     var dim = {width: this.getWidth(), height: this.getHeight(), depth: this.getDepth()};
     this.sunlight = new SunLight(this.scene, dim);
-    this.ambientlight = new THREE.AmbientLight(0xffffff)
+    this.ambientlight = new THREE.AmbientLight(0xffffff, 0.1)
     this.scene.add(this.ambientlight)
+    this.lamppos1t = new Lamppost(this.scene);
+    this.lamppost2 = new Lamppost(this.scene);
+    //transform
+    this.lamppost3 = new Lamppost(this.scene);
+    //transform
+    this.lamppost4 = new Lamppost(this.scene);
+    //transform
   }
 
   getAspect() {
