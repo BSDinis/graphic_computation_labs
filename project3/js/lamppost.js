@@ -10,9 +10,9 @@ const penumbra = .366
 const decay = 1.5
 
 class Lamppost {
-  constructor(parentObj, dim) {
+  constructor(parentObj, posx, posy, posz) {
     this.spotlight = new THREE.SpotLight(ccolour, iintensity);
-    this.spotlight.position.set( 15, 40, 35 );
+    this.spotlight.position.set(posx, posy, posz) ;
     this.spotlight.castShadow = true;
 
 

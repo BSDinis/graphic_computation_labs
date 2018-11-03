@@ -14,15 +14,15 @@ class Scene {
     this.plane = new Plane(100, 0x33ff22, this.scene);
     this.plane.obj.position.y += this.plane.getDepth() / 2
     var dim = {width: this.getWidth(), height: this.getHeight(), depth: this.getDepth()};
-    this.sunlight = new SunLight(this.scene, dim);
+    //this.sunlight = new SunLight(this.scene, dim);
     this.ambientlight = new THREE.AmbientLight(0xffffff, 0.1)
     this.scene.add(this.ambientlight)
-    this.lamppos1t = new Lamppost(this.scene);
-    this.lamppost2 = new Lamppost(this.scene);
+    this.lamppost1 = new Lamppost(this.scene, 100, 50, 0);
+    this.lamppost2 = new Lamppost(this.scene, 0, 50, -100);
+    // this.lamppost2.position = new THREE.Vector3(300,400, 0); why doesn't this work?
+    this.lamppost3 = new Lamppost(this.scene, 0, 50, 100);
     //transform
-    this.lamppost3 = new Lamppost(this.scene);
-    //transform
-    this.lamppost4 = new Lamppost(this.scene);
+    this.lamppost4 = new Lamppost(this.scene, -100, 50, 0);
     //transform
   }
 
