@@ -16,6 +16,9 @@ class Plane {
     this.width = dimensions.width * factor;
     this.height = dimensions.height * factor;
     this.depth = dimensions.depth * factor;
+    this.axis = new THREE.AxisHelper(1.5 * this.width);
+    this.axis.visible = true;
+    this.obj.add(this.axis)
 
     var material = new THREE.MeshLambertMaterial(
       {color: inputColor, wireframe: false}

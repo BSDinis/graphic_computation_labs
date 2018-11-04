@@ -5,14 +5,14 @@
  */
 
 const object_factor = 200
-const base_factor =  300
+const base_factor =  200
 
 class Scene {
   constructor() {
     this.scene = new THREE.Scene();
     this.base = new Base(base_factor, 0xff6666, this.scene);
     this.plane = new Plane(100, 0x33ff22, this.scene);
-    this.plane.obj.position.y += this.example.getDepth() / 2
+    this.plane.obj.position.y += this.plane.getDepth() / 2
     var dim = {width: this.getWidth(), height: this.getHeight(), depth: this.getDepth()};
     this.sunlight = new SunLight(this.scene, dim);
     this.ambientlight = new THREE.AmbientLight(0xffffff)
@@ -24,11 +24,11 @@ class Scene {
   }
 
   getWidth() {
-    return this.base.getWidth() * 1.15;
+    return this.base.getWidth();
   }
 
   getHeight() {
-    return this.base.getHeight() * 1.15;
+    return this.base.getHeight();
   }
 
   getDepth() {
