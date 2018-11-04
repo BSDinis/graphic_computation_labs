@@ -7,8 +7,16 @@
  */
 
 var scene, camera, renderer;
+var plane;
 var orbitControls;
 var clock;
+
+var arrows = {
+  up: false,
+  down: false,
+  left: false,
+  right: false
+}
 
 function render()
 {
@@ -20,6 +28,19 @@ function animate() {
   'use strict';
 
   var delta = clock.getDelta();
+  const angle = Math.PI/4;
+  if (arrows.up) {
+    plane.obj.rotateZ(angle * delta);
+  }
+  if (arrows.down) {
+    plane.obj.rotateZ(- angle * delta);
+  }
+  if (arrows.left) {
+    plane.obj.rotateY(+ angle * delta);
+  }
+  if (arrows.right) {
+    plane.obj.rotateY(- angle * delta);
+  }
   render();
   requestAnimationFrame(animate);
 }
@@ -32,7 +53,7 @@ function init()
   document.body.appendChild(renderer.domElement);
 
   scene = new THREE.Scene();
-  var plane = new Plane(300, 0xffaa00, scene);
+  plane = new Plane(300, 0xffaa00, scene);
   plane.obj.position.y += plane.getDepth() / 2;
 
   scene.add(new THREE.AmbientLight(0xffffff));
@@ -51,6 +72,7 @@ function init()
 
   window.addEventListener('resize', onResize, false);
   window.addEventListener('keydown', onKeyDown, false);
+  window.addEventListener('keyup', onKeyUp, false);
 }                     
 
 function onResize() {
@@ -90,7 +112,7 @@ function onKeyDown(e) {
   switch (e.keyCode) {
     case 65: // A
     case 97: // a
-      scene.traverse(function (node) {
+      scene.scene.traverse(function (node) {
         if (node instanceof THREE.Mesh) {
           node.material.wireframe = !node.material.wireframe;
         }
@@ -99,12 +121,48 @@ function onKeyDown(e) {
 
     case 69: // E
     case 101: // e
-      scene.traverse(function (node) {
+      scene.scene.traverse(function (node) {
         if (node instanceof THREE.AxisHelper) {
           node.visible = !node.visible;
         }
       });
       break;
+
+    case 37:
+      arrows.left = true;
+      break;
+    case 38:
+      arrows.up = true;
+      break;
+    case 39:
+      arrows.right = true;
+      break;
+    case 40:
+      arrows.down = true;
+      break;
+    default:
+      break;
   }
 }
 
+function onKeyUp(e) {
+  'use strict';
+
+  switch (e.keyCode) {
+    case 37: // left arrow
+      arrows.left = false;
+      break;
+    case 38:// up arrow
+      arrows.up = false;
+      break;
+    case 39: // right arrow
+      arrows.right = false;
+      break;
+    case 40: // down arrow
+      arrows.down = false;
+      break;
+
+    default:
+      break;
+  }
+}
