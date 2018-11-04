@@ -11,7 +11,7 @@ var cameras, cameraNo;
 var lamp, table, chair;
 var clock;
 
-const camFactor = 3;
+const camFactor = 2
 
 var keys = {
   left: {code: 37, pressed: false},
