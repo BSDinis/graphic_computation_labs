@@ -10,6 +10,7 @@ var scene, camera, renderer;
 var plane;
 var orbitControls;
 var clock;
+var wireframe = true;
 
 var arrows = {
   up: false,
@@ -53,7 +54,7 @@ function init()
   document.body.appendChild(renderer.domElement);
 
   scene = new THREE.Scene();
-  plane = new Plane(300, 0xffaa00, scene);
+  plane = new Plane(200, false, scene);
   plane.obj.position.y += plane.getDepth() / 2;
 
   scene.add(new THREE.AmbientLight(0xffffff));
@@ -92,7 +93,7 @@ function initCamera(scene) {
 function initFixedPerspective(scene) {
   'use strict';
   var camera = new THREE.PerspectiveCamera(45, window.innerWidth/window.innerHeight, 1, 10000);
-  camera.position.set(-300, 100, 300)
+  camera.position.set(-400, 400, 400)
   camera.lookAt(scene.position)
   scene.add(camera)
   return camera;
@@ -112,16 +113,17 @@ function onKeyDown(e) {
   switch (e.keyCode) {
     case 65: // A
     case 97: // a
-      scene.scene.traverse(function (node) {
+      wireframe = !wireframe
+      scene.traverse(function (node) {
         if (node instanceof THREE.Mesh) {
-          node.material.wireframe = !node.material.wireframe;
+          node.material.wireframe = wireframe
         }
       });
       break;
 
     case 69: // E
     case 101: // e
-      scene.scene.traverse(function (node) {
+      scene.traverse(function (node) {
         if (node instanceof THREE.AxisHelper) {
           node.visible = !node.visible;
         }
