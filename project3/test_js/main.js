@@ -31,10 +31,10 @@ function animate() {
   var delta = clock.getDelta();
   const angle = Math.PI/4;
   if (arrows.up) {
-    plane.obj.rotateZ(angle * delta);
+    plane.obj.rotateX(angle * delta);
   }
   if (arrows.down) {
-    plane.obj.rotateZ(- angle * delta);
+    plane.obj.rotateX(- angle * delta);
   }
   if (arrows.left) {
     plane.obj.rotateY(+ angle * delta);
