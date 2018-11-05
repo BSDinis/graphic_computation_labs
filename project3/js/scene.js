@@ -35,11 +35,11 @@ class Scene {
   }
 
   getWidth() {
-    return this.base.getWidth();
+    return this.base.getWidth() * 1.20;
   }
 
   getHeight() {
-    return this.base.getHeight();
+    return this.base.getHeight() * 1.20;
   }
 
   getDepth() {
