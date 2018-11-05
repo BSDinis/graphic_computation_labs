@@ -42,16 +42,16 @@ function constructMeshes(wireframe) {
   'use strict'
   var mesh = []
 
-  mesh[0] = constructWing(wireframe, 0xffff00);
-  mesh[1] = constructWing(wireframe, 0x00ffff, true);
-  mesh[2] = constructFuselage(wireframe, 0xff00ff);
-  mesh[3] = constructFuselage(wireframe, 0x00ff00, true);
-  mesh[4] = constructCockPit(wireframe, 0xffffff);
-  mesh[5] = constructCockPit(wireframe, 0xffffff, true);
-  mesh[6] = constructVerticalStabilizer(wireframe, 0xff0000);
-  mesh[7] = constructVerticalStabilizer(wireframe, 0x0000ff, true);
-  mesh[8] = constructHorizStabilizer(wireframe, 0x0000ff);
-  mesh[9] = constructHorizStabilizer(wireframe, 0xff0000, true);
+  mesh[0] = constructWing(wireframe, 0x004400);
+  mesh[1] = constructWing(wireframe, 0x004400, true);
+  mesh[2] = constructFuselage(wireframe, 0x005500);
+  mesh[3] = constructFuselage(wireframe, 0x005500, true);
+  mesh[4] = constructCockPit(wireframe, 0xcccccc);
+  mesh[5] = constructCockPit(wireframe, 0xcccccc, true);
+  mesh[6] = constructVerticalStabilizer(wireframe, 0x009900);
+  mesh[7] = constructVerticalStabilizer(wireframe, 0x009900, true);
+  mesh[8] = constructHorizStabilizer(wireframe, 0x00aa00);
+  mesh[9] = constructHorizStabilizer(wireframe, 0x00aa00, true);
 
   return mesh
 }
