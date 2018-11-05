@@ -26,33 +26,62 @@ class Lamppost {
     this.spotlight.position.y = factor * (rHeight + bHeight + sRadius/2)
 
     this.obj.add(this.spotlight)
-    parentObj.add(this.obj);
     this.spotlight.lookAt(parentObj)
+    this.material = genMaterials(inputColor, wireframe);
+    this.lampMaterial = genMaterials(ccolour, wireframe);
+    this.index = 1;
+    this.oldIndex = 0;
 
-    constructMesh(this.obj, factor, wireframe, inputColor)
+    this.meshes = constructMesh(factor, this.material[this.index], this.lampMaterial[this.index])
+    for (var i = 0; i < this.meshes.length; i++)
+      this.obj.add(this.meshes[i])
+
+
+    parentObj.add(this.obj);
   }
 
   toggle() {
     this.spotlight.visible = !this.spotlight.visible;
   }
+
+  toggleLightingCalc() {
+    var tmp = this.oldIndex;
+    this.oldIndex = this.index;
+    this.index = tmp;
+    this.updateMaterial();
+  }
+
+  togglePhongGouraud() {
+    if (this.index == 0) {
+      this.oldIndex = (this.oldIndex == 1) ? 2 : 1;
+    }
+    else {
+      this.index = (this.index == 1) ? 2 : 1;
+      this.updateMaterial();
+    }
+  }
+
+  updateMaterial() {
+    for (var i = 0; i < this.meshes.length - 1; i++)
+      this.meshes[i].material = this.material[this.index]
+    this.meshes[2].material = this.lampMaterial[this.index]
+  }
 }
 
 
-function constructMesh(parentObj, factor, _wireframe, inputColor) {
+function constructMesh(factor, material, lampMaterial) {
   var baseG = new THREE.CylinderGeometry(factor * bRadius, factor * bRadius, factor * bHeight, 10, 40)
   var rodG = new THREE.CylinderGeometry(factor * rRadius, factor * rRadius, factor * rHeight, 40, 10)
-  var bulbG = new THREE.SphereGeometry(factor * sRadius, 40, 40)
+  var bulbG = new THREE.SphereGeometry(factor * sRadius, 20, 20)
   baseG.computeVertexNormals();
   rodG.computeVertexNormals();
   bulbG.computeVertexNormals();
 
-  var base = new THREE.Mesh(baseG, new THREE.MeshStandardMaterial({color: inputColor, wireframe: _wireframe}))
-  var rod = new THREE.Mesh(rodG, new THREE.MeshStandardMaterial({color: inputColor, wireframe: _wireframe}))
-  var bulb = new THREE.Mesh(bulbG, new THREE.MeshBasicMaterial({color: ccolour, wireframe: _wireframe}))
-  base.position.y += factor * bHeight/2;
+  var base = new THREE.Mesh(baseG, material)
+  var rod = new THREE.Mesh(rodG, material)
+  var bulb = new THREE.Mesh(bulbG, lampMaterial)
+  base.position.y += factor * bHeight;
   rod.position.y += factor * (bHeight + rHeight/2);
   bulb.position.y += factor * (bHeight + rHeight + sRadius/2);
-  parentObj.add(base)
-  parentObj.add(rod)
-  parentObj.add(bulb)
+  return [base, rod, bulb];
 }
