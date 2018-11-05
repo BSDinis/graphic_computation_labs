@@ -4,14 +4,14 @@
  * define the scene class
  */
 
-const object_factor = 200
+const object_factor = 50
 const base_factor =  200
 
 class Scene {
-  constructor() {
+  constructor(wireframe) {
     this.scene = new THREE.Scene();
-    this.base = new Base(base_factor, 0xff6666, this.scene);
-    this.plane = new Plane(100, 0x33ff22, this.scene);
+    this.base = new Base(base_factor, wireframe, 0xff6666, this.scene);
+    this.plane = new Plane(object_factor, wireframe, this.scene);
     this.plane.obj.position.y += this.plane.getDepth() / 2
     var dim = {width: this.getWidth(), height: this.getHeight(), depth: this.getDepth()};
     this.sunlight = new SunLight(this.scene, dim);
@@ -38,10 +38,10 @@ class Scene {
   updateScene(delta, arrows) {
     const angle = Math.PI/4;
     if (arrows.up) {
-      this.plane.obj.rotateZ(angle * delta);
+      this.plane.obj.rotateX(angle * delta);
     }
     if (arrows.down) {
-      this.plane.obj.rotateZ(- angle * delta);
+      this.plane.obj.rotateX(- angle * delta);
     }
     if (arrows.left) {
       this.plane.obj.rotateY(+ angle * delta);

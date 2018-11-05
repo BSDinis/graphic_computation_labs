@@ -5,7 +5,7 @@
  */
 
 class Plane {
-  constructor(factor, parentObj) {
+  constructor(factor, wireframe, parentObj) {
     this.obj = new THREE.Object3D();
 
     this.axis = new THREE.AxisHelper(1.5 * factor);
@@ -13,7 +13,7 @@ class Plane {
     this.obj.add(this.axis)
     this.factor = factor
 
-    this.meshes = constructMeshes();
+    this.meshes = constructMeshes(wireframe);
 
     for (var i = 0; i < this.meshes.length; i++) {
       this.meshes[i].scale.set(factor/2, factor/2, factor/2);
@@ -38,28 +38,28 @@ class Plane {
 
 }
 
-function constructMeshes() {
+function constructMeshes(wireframe) {
   'use strict'
   var mesh = []
 
-  mesh[0] = constructWing(0xffff00);
-  mesh[1] = constructWing(0x00ffff, true);
-  mesh[2] = constructFuselage(0xff00ff);
-  mesh[3] = constructFuselage(0x00ff00, true);
-  mesh[4] = constructCockPit(0xffffff);
-  mesh[5] = constructCockPit(0xffffff, true);
-  mesh[6] = constructVerticalStabilizer(0xff0000);
-  mesh[7] = constructVerticalStabilizer(0x0000ff, true);
-  mesh[8] = constructHorizStabilizer(0x0000ff);
-  mesh[9] = constructHorizStabilizer(0xff0000, true);
+  mesh[0] = constructWing(wireframe, 0xffff00);
+  mesh[1] = constructWing(wireframe, 0x00ffff, true);
+  mesh[2] = constructFuselage(wireframe, 0xff00ff);
+  mesh[3] = constructFuselage(wireframe, 0x00ff00, true);
+  mesh[4] = constructCockPit(wireframe, 0xffffff);
+  mesh[5] = constructCockPit(wireframe, 0xffffff, true);
+  mesh[6] = constructVerticalStabilizer(wireframe, 0xff0000);
+  mesh[7] = constructVerticalStabilizer(wireframe, 0x0000ff, true);
+  mesh[8] = constructHorizStabilizer(wireframe, 0x0000ff);
+  mesh[9] = constructHorizStabilizer(wireframe, 0xff0000, true);
 
   return mesh
 }
 
 
-function constructFuselage(inputColor, flip = false) {
+function constructFuselage(_wireframe, inputColor, flip = false) {
   var material = new THREE.MeshBasicMaterial(
-    {color: inputColor, wireframe: true}
+    {color: inputColor, wireframe: _wireframe}
   )
   var geometry = new THREE.Geometry();
 
@@ -122,9 +122,9 @@ function constructFuselage(inputColor, flip = false) {
   return new THREE.Mesh(geometry, material);
 }
 
-function constructWing(inputColor, flip = false) {
+function constructWing(_wireframe, inputColor, flip = false) {
   var material = new THREE.MeshBasicMaterial(
-    {color: inputColor, wireframe: true}
+    {color: inputColor, wireframe: _wireframe}
   )
   var geometry = new THREE.Geometry();
 
@@ -166,9 +166,9 @@ function constructWing(inputColor, flip = false) {
   return new THREE.Mesh(geometry, material);
 }
 
-function constructCockPit(inputColor, flip = false) {
+function constructCockPit(_wireframe, inputColor, flip = false) {
   var material = new THREE.MeshBasicMaterial(
-    {color: inputColor, wireframe: true}
+    {color: inputColor, wireframe: _wireframe}
   )
   var geometry = new THREE.Geometry();
 
@@ -217,9 +217,9 @@ function constructCockPit(inputColor, flip = false) {
   return new THREE.Mesh(geometry, material);
 }
 
-function constructVerticalStabilizer(inputColor, flip = false) {
+function constructVerticalStabilizer(_wireframe, inputColor, flip = false) {
   var material = new THREE.MeshBasicMaterial(
-    {color: inputColor, wireframe: true}
+    {color: inputColor, wireframe: _wireframe}
   )
   var geometry = new THREE.Geometry();
 
@@ -263,9 +263,9 @@ function constructVerticalStabilizer(inputColor, flip = false) {
 
 
 
-function constructHorizStabilizer(inputColor, flip = false) {
+function constructHorizStabilizer(_wireframe, inputColor, flip = false) {
   var material = new THREE.MeshBasicMaterial(
-    {color: inputColor, wireframe: true}
+    {color: inputColor, wireframe: _wireframe}
   )
   var geometry = new THREE.Geometry();
 

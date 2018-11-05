@@ -18,6 +18,7 @@ var arrows = {
 
 var old_val = 1;
 var orig_height;
+var wireframe = false;
 
 
 function render()
@@ -43,7 +44,7 @@ function init()
   document.body.appendChild(renderer.domElement);
   orig_height = window.innerHeight;
 
-  scene = new Scene();
+  scene = new Scene(wireframe);
   camera = initCamera(scene);
   clock = new THREE.Clock(true);
   orbitControls = new THREE.OrbitControls(camera, );
@@ -74,9 +75,10 @@ function onKeyDown(e) {
   switch (e.keyCode) {
     case 65: // A
     case 97: // a
+      wireframe = !wireframe
       scene.scene.traverse(function (node) {
         if (node instanceof THREE.Mesh) {
-          node.material.wireframe = !node.material.wireframe;
+          node.material.wireframe = wireframe
         }
       });
       break;
