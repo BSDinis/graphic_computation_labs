@@ -20,7 +20,7 @@ class Plane {
     this.axis.visible = true;
     this.obj.add(this.axis)
 
-    var material = new THREE.MeshLambertMaterial(
+    var material = new THREE.MeshStandardMaterial(
       {color: inputColor, wireframe: false}
     )
     var geometry = new THREE.BoxGeometry(this.width, this.depth, this.height)

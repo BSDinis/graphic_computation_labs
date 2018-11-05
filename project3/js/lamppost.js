@@ -38,10 +38,13 @@ function constructMesh(parentObj, factor, _wireframe, inputColor) {
   var baseG = new THREE.CylinderGeometry(factor * bRadius, factor * bRadius, factor * bHeight, 10, 40)
   var rodG = new THREE.CylinderGeometry(factor * rRadius, factor * rRadius, factor * rHeight, 40, 10)
   var bulbG = new THREE.SphereGeometry(factor * sRadius, 40, 40)
+  baseG.computeVertexNormals();
+  rodG.computeVertexNormals();
+  bulbG.computeVertexNormals();
 
-  var base = new THREE.Mesh(baseG, new THREE.MeshBasicMaterial({color: inputColor, wireframe: _wireframe}))
-  var rod = new THREE.Mesh(rodG, new THREE.MeshBasicMaterial({color: inputColor, wireframe: _wireframe}))
-  var bulb = new THREE.Mesh(bulbG, new THREE.MeshBasicMaterial({color: inputColor, wireframe: _wireframe}))
+  var base = new THREE.Mesh(baseG, new THREE.MeshStandardMaterial({color: inputColor, wireframe: _wireframe}))
+  var rod = new THREE.Mesh(rodG, new THREE.MeshStandardMaterial({color: inputColor, wireframe: _wireframe}))
+  var bulb = new THREE.Mesh(bulbG, new THREE.MeshStandardMaterial({color: inputColor, wireframe: _wireframe}))
   base.position.y += factor * bHeight/2;
   rod.position.y += factor * (bHeight + rHeight/2);
   bulb.position.y += factor * (bHeight + rHeight + sRadius/2);

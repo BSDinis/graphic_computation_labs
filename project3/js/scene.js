@@ -15,7 +15,7 @@ class Scene {
     this.plane = new Plane(100, 0x33ff22, this.scene);
     this.plane.obj.position.y += this.plane.getDepth() / 2
     var dim = {width: this.getWidth(), height: this.getHeight(), depth: this.getDepth()};
-    //this.sunlight = new SunLight(this.scene, dim);
+    this.sunlight = new SunLight(this.scene, dim);
     this.ambientlight = new THREE.AmbientLight(0xffffff, 0.1)
     this.scene.add(this.ambientlight)
 
