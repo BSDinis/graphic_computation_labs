@@ -75,11 +75,13 @@ class Scene {
     for (var i = 0; i < this.post.length; i++)
       this.post[i].toggleLightingCalc();
     this.base.toggleLightingCalc();
+    this.plane.toggleLightingCalc();
   }
 
   togglePhongGouraud() {
     for (var i = 0; i < this.post.length; i++)
       this.post[i].togglePhongGouraud();
     this.base.togglePhongGouraud();
+    this.plane.togglePhongGouraud();
   }
 }

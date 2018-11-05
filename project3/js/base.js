@@ -24,7 +24,6 @@ class Base {
     backGeometry.faces.push(new THREE.Face3(1, 3, 2));
     backGeometry.computeVertexNormals();
 
-    console.log(this.material1)
     this.mesh1 = new THREE.Mesh(geometry, this.material1[1])
     this.mesh2 = new THREE.Mesh(backGeometry, this.material2[1])
     parentObj.add(this.mesh1)

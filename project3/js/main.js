@@ -175,6 +175,6 @@ function updateFixedPerspective(w, h) {
   if (w > 0 && h > 0) {                                                                                   
     camera.aspect = w / h;
     camera.updateProjectionMatrix();
-    orbitControls.update();
+    //orbitControls.update();
   }
 }
