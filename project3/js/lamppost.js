@@ -2,8 +2,11 @@
  * lamppost
  */
 
-const ccolour = 0xaaaaaa
-const iintensity = .3
+const _colour = 0xffffff
+const _intensity = 1
+const _decay = 1.9
+const _penumbra = .9
+const _angle = Math.PI/4
 
 const bRadius = .3
 const bHeight = .05
@@ -14,21 +17,24 @@ const sRadius = .2
 class Lamppost {
   constructor(factor, wireframe, inputColor, parentObj) {
     this.obj = new THREE.Object3D();
-    this.spotlight = new THREE.SpotLight(ccolour, iintensity);
-    this.spotlight.castShadow = true;
+    this.spotlight = new THREE.SpotLight(_colour, _intensity);
+    this.spotlight.angle = _angle
+    this.spotlight.decay = _decay
+    this.spotlight.penumbra = _penumbra
 
+    this.spotlight.castShadow = true;
     this.spotlight.shadow.mapSize.width = 1024;
     this.spotlight.shadow.mapSize.height = 1024;
-
     this.spotlight.shadow.camera.near = 500;
     this.spotlight.shadow.camera.far = 4000;
     this.spotlight.shadow.camera.fov = 10;
+
     this.spotlight.position.y = factor * (rHeight + bHeight + sRadius/2)
 
     this.obj.add(this.spotlight)
     this.spotlight.lookAt(parentObj)
     this.material = genMaterials(inputColor, wireframe);
-    this.lampMaterial = genMaterials(ccolour, wireframe);
+    this.lampMaterial = genMaterials(_colour, wireframe);
     this.index = 1;
     this.oldIndex = 0;
 
