@@ -7,8 +7,11 @@
  */
 
 var scene, camera, renderer;
+var plane;
 var orbitControls;
 var clock;
+var wireframe = true;
+
 var arrows = {
   up: false,
   down: false,
@@ -16,22 +19,29 @@ var arrows = {
   right: false
 }
 
-var old_val = 1;
-var orig_height;
-var wireframe = false;
-
-
 function render()
 {
   'use strict';
-  renderer.render(scene.scene, camera);
+  renderer.render(scene, camera);
 }
 
 function animate() {
   'use strict';
 
   var delta = clock.getDelta();
-  scene.updateScene(delta, arrows);
+  const angle = Math.PI/4;
+  if (arrows.up) {
+    plane.obj.rotateX(angle * delta);
+  }
+  if (arrows.down) {
+    plane.obj.rotateX(- angle * delta);
+  }
+  if (arrows.left) {
+    plane.obj.rotateY(+ angle * delta);
+  }
+  if (arrows.right) {
+    plane.obj.rotateY(- angle * delta);
+  }
   render();
   requestAnimationFrame(animate);
 }
@@ -42,9 +52,13 @@ function init()
   renderer = new THREE.WebGLRenderer({antialias: true});
   renderer.setSize(window.innerWidth, window.innerHeight);
   document.body.appendChild(renderer.domElement);
-  orig_height = window.innerHeight;
 
-  scene = new Scene(wireframe);
+  scene = new THREE.Scene();
+  plane = new Plane(200, false, scene);
+  plane.obj.position.y += plane.getDepth() / 2;
+
+  scene.add(new THREE.AmbientLight(0xffffff));
+
   camera = initCamera(scene);
   clock = new THREE.Clock(true);
   orbitControls = new THREE.OrbitControls(camera, );
@@ -69,6 +83,30 @@ function onResize() {
 }
 
 
+function initCamera(scene) {
+  'use strict';
+
+  var camera = initFixedPerspective(scene)
+  return camera;
+}
+
+function initFixedPerspective(scene) {
+  'use strict';
+  var camera = new THREE.PerspectiveCamera(45, window.innerWidth/window.innerHeight, 1, 10000);
+  camera.position.set(-400, 400, 400)
+  camera.lookAt(scene.position)
+  scene.add(camera)
+  return camera;
+}
+
+function updateFixedPerspective(w, h) {
+  if (w > 0 && h > 0) {                                                                                   
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+    orbitControls.update();
+  }
+}
+
 function onKeyDown(e) {
   'use strict';
 
@@ -76,7 +114,7 @@ function onKeyDown(e) {
     case 65: // A
     case 97: // a
       wireframe = !wireframe
-      scene.scene.traverse(function (node) {
+      scene.traverse(function (node) {
         if (node instanceof THREE.Mesh) {
           node.material.wireframe = wireframe
         }
@@ -85,7 +123,7 @@ function onKeyDown(e) {
 
     case 69: // E
     case 101: // e
-      scene.scene.traverse(function (node) {
+      scene.traverse(function (node) {
         if (node instanceof THREE.AxisHelper) {
           node.visible = !node.visible;
         }
@@ -128,29 +166,5 @@ function onKeyUp(e) {
 
     default:
       break;
-  }
-}
-
-function initCamera(scene) {
-  'use strict';
-
-  var camera = initFixedPerspective(scene)
-  return camera;
-}
-
-function initFixedPerspective(scene) {
-  'use strict';
-  var camera = new THREE.PerspectiveCamera(45, window.innerWidth/window.innerHeight, 1, 10000);
-  camera.position.set(-scene.getWidth() * .8, scene.getDepth() * 1.5, scene.getHeight() * .8)
-  camera.lookAt(scene.scene.position)
-  scene.scene.add(camera)
-  return camera;
-}
-
-function updateFixedPerspective(w, h) {
-  if (w > 0 && h > 0) {                                                                                   
-    camera.aspect = w / h;
-    camera.updateProjectionMatrix();
-    //orbitControls.update();
   }
 }

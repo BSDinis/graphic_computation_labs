@@ -1,6 +1,6 @@
 class Base {
-  constructor(factor, inputColour, parentObj) {
-    var material = new THREE.MeshStandardMaterial({color: inputColour, wireframe: false});
+  constructor(factor, _wireframe, inputColour, parentObj) {
+    var material = new THREE.MeshStandardMaterial({color: inputColour, wireframe: _wireframe});
     var geometry = new THREE.Geometry();
     this.width = this.height = factor;
     geometry.vertices.push(new THREE.Vector3(-factor / 2, 0, -factor / 2));
