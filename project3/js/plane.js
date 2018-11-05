@@ -19,13 +19,6 @@ class Plane {
       this.meshes[i].scale.set(factor/2, factor/2, factor/2);
       this.obj.add(this.meshes[i])
     }
-
-    var material = new THREE.MeshStandardMaterial(
-      {color: inputColor, wireframe: false}
-    )
-    var geometry = new THREE.BoxGeometry(this.width, this.depth, this.height)
-    this.mesh = new THREE.Mesh(geometry, material);
-    this.obj.add(this.mesh)
     parentObj.add(this.obj);
   }
 
@@ -64,7 +57,7 @@ function constructMeshes(wireframe) {
 
 
 function constructFuselage(_wireframe, inputColor, flip = false) {
-  var material = new THREE.MeshBasicMaterial(
+  var material = new THREE.MeshStandardMaterial(
     {color: inputColor, wireframe: _wireframe}
   )
   var geometry = new THREE.Geometry();
@@ -125,11 +118,12 @@ function constructFuselage(_wireframe, inputColor, flip = false) {
   for (var i = 0; i < faceOrder.length; i++)
     geometry.faces.push(new THREE.Face3(faceOrder[i].a, faceOrder[i].b, faceOrder[i].c));
 
+  geometry.computeVertexNormals();
   return new THREE.Mesh(geometry, material);
 }
 
 function constructWing(_wireframe, inputColor, flip = false) {
-  var material = new THREE.MeshBasicMaterial(
+  var material = new THREE.MeshStandardMaterial(
     {color: inputColor, wireframe: _wireframe}
   )
   var geometry = new THREE.Geometry();
@@ -169,11 +163,12 @@ function constructWing(_wireframe, inputColor, flip = false) {
     geometry.faces.push(new THREE.Face3(faceOrder[i].a, faceOrder[i].b, faceOrder[i].c));
 
   geometry.translate(f * 1, 1/20, 0)
+  geometry.computeVertexNormals();
   return new THREE.Mesh(geometry, material);
 }
 
 function constructCockPit(_wireframe, inputColor, flip = false) {
-  var material = new THREE.MeshBasicMaterial(
+  var material = new THREE.MeshStandardMaterial(
     {color: inputColor, wireframe: _wireframe}
   )
   var geometry = new THREE.Geometry();
@@ -220,11 +215,12 @@ function constructCockPit(_wireframe, inputColor, flip = false) {
     geometry.faces.push(new THREE.Face3(faceOrder[i].a, faceOrder[i].b, faceOrder[i].c));
 
   geometry.translate(0, 1/20, 1)
+  geometry.computeVertexNormals();
   return new THREE.Mesh(geometry, material);
 }
 
 function constructVerticalStabilizer(_wireframe, inputColor, flip = false) {
-  var material = new THREE.MeshBasicMaterial(
+  var material = new THREE.MeshStandardMaterial(
     {color: inputColor, wireframe: _wireframe}
   )
   var geometry = new THREE.Geometry();
@@ -264,13 +260,14 @@ function constructVerticalStabilizer(_wireframe, inputColor, flip = false) {
     geometry.faces.push(new THREE.Face3(faceOrder[i].a, faceOrder[i].b, faceOrder[i].c));
 
   geometry.translate(0, 0, -2.75)
+  geometry.computeVertexNormals();
   return new THREE.Mesh(geometry, material);
 }
 
 
 
 function constructHorizStabilizer(_wireframe, inputColor, flip = false) {
-  var material = new THREE.MeshBasicMaterial(
+  var material = new THREE.MeshStandardMaterial(
     {color: inputColor, wireframe: _wireframe}
   )
   var geometry = new THREE.Geometry();
@@ -311,6 +308,7 @@ function constructHorizStabilizer(_wireframe, inputColor, flip = false) {
     geometry.faces.push(new THREE.Face3(faceOrder[i].a, faceOrder[i].b, faceOrder[i].c));
 
   geometry.translate(0, 3/10, -2.70)
+  geometry.computeVertexNormals();
   return new THREE.Mesh(geometry, material);
 }
 
