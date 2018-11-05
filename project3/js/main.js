@@ -98,6 +98,16 @@ function onKeyDown(e) {
       scene.toggleSunlight();
       break;
 
+    case 71: // G
+    case 103: // g
+      scene.togglePhongGouraud();
+      break;
+
+    case 76: // H
+    case 108: // h
+      scene.toggleLightingCalc();
+      break;
+
     case 49: // 1
     case 50: // 2
     case 51: // 3
