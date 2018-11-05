@@ -9,6 +9,9 @@
 var scene, camera, renderer;
 var orbitControls;
 var clock;
+var old_width;
+var old_height;
+var wireframe = false;
 
 var arrows = {
   up: false,
@@ -16,10 +19,6 @@ var arrows = {
   left: false,
   right: false
 }
-
-var old_val = 1;
-var orig_height;
-var wireframe = false;
 
 
 function render()
@@ -43,7 +42,6 @@ function init()
   renderer = new THREE.WebGLRenderer({antialias: true});
   renderer.setSize(window.innerWidth, window.innerHeight);
   document.body.appendChild(renderer.domElement);
-  orig_height = window.innerHeight;
 
   scene = new Scene(wireframe);
   camera = initCamera(scene);
@@ -159,6 +157,8 @@ function initCamera(scene) {
   'use strict';
 
   var camera = initFixedPerspective(scene)
+  old_width = window.innerWidth;
+  old_height = window.innerHeight;
   return camera;
 }
 
@@ -172,9 +172,12 @@ function initFixedPerspective(scene) {
 }
 
 function updateFixedPerspective(w, h) {
-  if (w > 0 && h > 0) {                                                                                   
-    camera.aspect = w / h;
-    camera.updateProjectionMatrix();
-    //orbitControls.update();
-  }
+  let tmp = camera.aspect
+  camera.aspect = w / h;
+  if (w != old_width)
+    camera.fov = 2 * Math.atan(Math.tan((camera.fov * Math.PI/180) / 2) * (tmp/camera.aspect)) * 180 / Math.PI
+
+  old_width = w;
+  old_height = h;
+  camera.updateProjectionMatrix();
 }
