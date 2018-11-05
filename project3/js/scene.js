@@ -6,6 +6,7 @@
 
 const object_factor = 200
 const base_factor =  200
+const lamp_factor =  20
 
 class Scene {
   constructor() {
@@ -17,13 +18,16 @@ class Scene {
     //this.sunlight = new SunLight(this.scene, dim);
     this.ambientlight = new THREE.AmbientLight(0xffffff, 0.1)
     this.scene.add(this.ambientlight)
-    this.lamppost1 = new Lamppost(this.scene, 100, 50, 0);
-    this.lamppost2 = new Lamppost(this.scene, 0, 50, -100);
-    // this.lamppost2.position = new THREE.Vector3(300,400, 0); why doesn't this work?
-    this.lamppost3 = new Lamppost(this.scene, 0, 50, 100);
-    //transform
-    this.lamppost4 = new Lamppost(this.scene, -100, 50, 0);
-    //transform
+
+    this.post = []
+    let n = 4
+    for (var i = 0; i < n; i++) {
+      var x = .5 * base_factor * Math.cos(Math.PI/n + 2 * Math.PI/n * i)
+      var z = .5 * base_factor * Math.sin(Math.PI/n + 2 * Math.PI/n * i)
+      this.post[i] = new Lamppost(lamp_factor, false, 0x00ff00, this.scene);
+      this.post[i].obj.position.x = x;
+      this.post[i].obj.position.z = z;
+    }
   }
 
   getAspect() {
