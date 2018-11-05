@@ -8,6 +8,7 @@
 
 var scene, camera, renderer;
 var plane;
+var base;
 var orbitControls;
 var clock;
 var wireframe = true;
@@ -54,8 +55,9 @@ function init()
   document.body.appendChild(renderer.domElement);
 
   scene = new THREE.Scene();
-  plane = new Plane(200, false, scene);
-  plane.obj.position.y += plane.getDepth() / 2;
+  base = new Base(200, false, 0x008800, scene)
+  //plane = new Plane(200, false, scene);
+  //plane.obj.position.y += plane.getDepth() / 2;
 
   scene.add(new THREE.AmbientLight(0xffffff));
 

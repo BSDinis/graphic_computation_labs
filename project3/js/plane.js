@@ -316,34 +316,23 @@ function constructHorizStabilizer(material, flip = false) {
     new THREE.Vector3(1.5 * width * f, -depth, 0), // 7
   )
 
-  var faceOrder = []
-  faceOrder[0] = orderVertices(0, 1, 2, flip);  
-  faceOrder[1] = orderVertices(0, 2, 3, flip);
+  faceTesselate(geometry, 0, 1, 2, 10, 10, flip);  
+  faceTesselate(geometry, 0, 2, 3, 10, 10, flip);
 
-  faceOrder[2] = orderVertices(4, 6, 5, flip);  
-  faceOrder[3] = orderVertices(4, 7, 6, flip);
+  faceTesselate(geometry, 4, 6, 5, 10, 10, flip);  
+  faceTesselate(geometry, 4, 7, 6, 10, 10, flip);
 
-  faceOrder[4] = orderVertices(1, 5, 6, flip);  
-  faceOrder[5] = orderVertices(1, 6, 2, flip);
+  faceTesselate(geometry, 1, 5, 6, 10, 10, flip);  
+  faceTesselate(geometry, 1, 6, 2, 10, 10, flip);
 
-  faceOrder[6] = orderVertices(2, 6, 7, flip);  
-  faceOrder[7] = orderVertices(2, 7, 3, flip);
+  faceTesselate(geometry, 2, 6, 7, 10, 10, flip);  
+  faceTesselate(geometry, 2, 7, 3, 10, 10, flip);
 
-  faceOrder[8] = orderVertices(3, 7, 4, flip);  
-  faceOrder[9] = orderVertices(3, 4, 0, flip);
-
-  for (var i = 0; i < faceOrder.length; i++)
-    geometry.faces.push(new THREE.Face3(faceOrder[i].a, faceOrder[i].b, faceOrder[i].c));
+  faceTesselate(geometry, 3, 7, 4, 10, 10, flip);  
+  faceTesselate(geometry, 3, 4, 0, 10, 10, flip);
 
   geometry.translate(0, 3/10, -2.70)
   geometry.computeVertexNormals();
   return new THREE.Mesh(geometry, material);
 }
 
-function orderVertices(one, two, three, flip = false)
-{
-  if (!flip) 
-    return {a: one, b: two, c: three}
-  else 
-    return {a: two, b: one, c: three}
-}

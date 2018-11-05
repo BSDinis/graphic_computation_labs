@@ -11,8 +11,8 @@ class Base {
     geometry.vertices.push(new THREE.Vector3(factor / 2, 0, -factor / 2));
     geometry.vertices.push(new THREE.Vector3(-factor / 2, 0, factor / 2));
     geometry.vertices.push(new THREE.Vector3(factor / 2, 0, factor / 2));
-    geometry.faces.push(new THREE.Face3(0, 2, 1));
-    geometry.faces.push(new THREE.Face3(1, 2, 3));
+    faceTesselate(geometry, 0, 2, 1, 10, 10, false);
+    faceTesselate(geometry, 1, 2, 3, 10, 10, false);
     geometry.computeVertexNormals();
 
     var backGeometry = new THREE.Geometry();
@@ -20,14 +20,15 @@ class Base {
     backGeometry.vertices.push(new THREE.Vector3(factor / 2, 0, -factor / 2));
     backGeometry.vertices.push(new THREE.Vector3(-factor / 2, 0, factor / 2));
     backGeometry.vertices.push(new THREE.Vector3(factor / 2, 0, factor / 2));
-    backGeometry.faces.push(new THREE.Face3(0, 1, 2));
-    backGeometry.faces.push(new THREE.Face3(1, 3, 2));
+
+    faceTesselate(backGeometry, 0, 2, 1, 10, 10, true);
+    faceTesselate(backGeometry, 1, 2, 3, 10, 10, true);
     backGeometry.computeVertexNormals();
 
     this.mesh1 = new THREE.Mesh(geometry, this.material1[1])
     this.mesh2 = new THREE.Mesh(backGeometry, this.material2[1])
     parentObj.add(this.mesh1)
-    parentObj.add(this.mesh2)
+    //parentObj.add(this.mesh2)
   }
 
   getHeight() {
