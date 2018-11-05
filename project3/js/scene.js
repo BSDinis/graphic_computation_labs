@@ -6,6 +6,7 @@
 
 const object_factor = 50
 const base_factor =  200
+const lamp_factor =  20
 
 class Scene {
   constructor(wireframe) {
@@ -15,8 +16,18 @@ class Scene {
     this.plane.obj.position.y += this.plane.getDepth() / 2
     var dim = {width: this.getWidth(), height: this.getHeight(), depth: this.getDepth()};
     this.sunlight = new SunLight(this.scene, dim);
-    this.ambientlight = new THREE.AmbientLight(0xffffff)
+    this.ambientlight = new THREE.AmbientLight(0xffffff, 0.1)
     this.scene.add(this.ambientlight)
+
+    this.post = []
+    let n = 4
+    for (var i = 0; i < n; i++) {
+      var x = .5 * base_factor * Math.cos(Math.PI/n + 2 * Math.PI/n * i)
+      var z = .5 * base_factor * Math.sin(Math.PI/n + 2 * Math.PI/n * i)
+      this.post[i] = new Lamppost(lamp_factor, false, 0x888888, this.scene);
+      this.post[i].obj.position.x = x;
+      this.post[i].obj.position.z = z;
+    }
   }
 
   getAspect() {
@@ -49,5 +60,14 @@ class Scene {
     if (arrows.right) {
       this.plane.obj.rotateY(- angle * delta);
     }
+  }
+
+  toggleSunlight() {
+    this.sunlight.toggle();
+  }
+
+  toggleLamp(n) {
+    if (n < this.post.length)
+      this.post[n].toggle();
   }
 }

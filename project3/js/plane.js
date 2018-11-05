@@ -20,6 +20,12 @@ class Plane {
       this.obj.add(this.meshes[i])
     }
 
+    var material = new THREE.MeshStandardMaterial(
+      {color: inputColor, wireframe: false}
+    )
+    var geometry = new THREE.BoxGeometry(this.width, this.depth, this.height)
+    this.mesh = new THREE.Mesh(geometry, material);
+    this.obj.add(this.mesh)
     parentObj.add(this.obj);
   }
 

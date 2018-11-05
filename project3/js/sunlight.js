@@ -12,4 +12,8 @@ class SunLight {
     this.light.castShadow = true;
     parentObj.add(this.light);
   }
+
+  toggle() {
+    this.light.visible = ! this.light.visible;
+  }
 }
