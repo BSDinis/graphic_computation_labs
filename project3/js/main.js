@@ -9,6 +9,7 @@
 var scene, camera, renderer;
 var orbitControls;
 var clock;
+
 var arrows = {
   up: false,
   down: false,
@@ -90,6 +91,19 @@ function onKeyDown(e) {
       });
       break;
 
+    case 78: // N
+    case 110: // n
+      scene.toggleSunlight();
+      break;
+
+    case 49: // 1
+    case 50: // 2
+    case 51: // 3
+    case 52: // 4
+      var n = e.keyCode - 48 - 1
+      scene.toggleLamp(n)
+      break;
+
     case 37:
       arrows.left = true;
       break;
@@ -149,6 +163,6 @@ function updateFixedPerspective(w, h) {
   if (w > 0 && h > 0) {                                                                                   
     camera.aspect = w / h;
     camera.updateProjectionMatrix();
-    //orbitControls.update();
+    orbitControls.update();
   }
 }

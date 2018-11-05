@@ -24,7 +24,7 @@ class Scene {
     for (var i = 0; i < n; i++) {
       var x = .5 * base_factor * Math.cos(Math.PI/n + 2 * Math.PI/n * i)
       var z = .5 * base_factor * Math.sin(Math.PI/n + 2 * Math.PI/n * i)
-      this.post[i] = new Lamppost(lamp_factor, false, 0x00ff00, this.scene);
+      this.post[i] = new Lamppost(lamp_factor, false, 0x888888, this.scene);
       this.post[i].obj.position.x = x;
       this.post[i].obj.position.z = z;
     }
@@ -60,5 +60,14 @@ class Scene {
     if (arrows.right) {
       this.plane.obj.rotateY(- angle * delta);
     }
+  }
+
+  toggleSunlight() {
+    this.sunlight.toggle();
+  }
+
+  toggleLamp(n) {
+    if (n < this.post.length)
+      this.post[n].toggle();
   }
 }

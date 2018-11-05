@@ -2,7 +2,7 @@
  * lamppost
  */
 
-const ccolour = 0xffffff
+const ccolour = 0xaaaaaa
 const iintensity = .3
 
 const bRadius = .3
@@ -31,6 +31,10 @@ class Lamppost {
 
     constructMesh(this.obj, factor, wireframe, inputColor)
   }
+
+  toggle() {
+    this.spotlight.visible = !this.spotlight.visible;
+  }
 }
 
 
@@ -44,7 +48,7 @@ function constructMesh(parentObj, factor, _wireframe, inputColor) {
 
   var base = new THREE.Mesh(baseG, new THREE.MeshStandardMaterial({color: inputColor, wireframe: _wireframe}))
   var rod = new THREE.Mesh(rodG, new THREE.MeshStandardMaterial({color: inputColor, wireframe: _wireframe}))
-  var bulb = new THREE.Mesh(bulbG, new THREE.MeshStandardMaterial({color: inputColor, wireframe: _wireframe}))
+  var bulb = new THREE.Mesh(bulbG, new THREE.MeshBasicMaterial({color: ccolour, wireframe: _wireframe}))
   base.position.y += factor * bHeight/2;
   rod.position.y += factor * (bHeight + rHeight/2);
   bulb.position.y += factor * (bHeight + rHeight + sRadius/2);
