@@ -11,8 +11,8 @@ class Base {
     geometry.vertices.push(new THREE.Vector3(factor / 2, 0, -factor / 2));
     geometry.vertices.push(new THREE.Vector3(-factor / 2, 0, factor / 2));
     geometry.vertices.push(new THREE.Vector3(factor / 2, 0, factor / 2));
-    geometry.faces.push(new THREE.Face3(0, 2, 1));
-    geometry.faces.push(new THREE.Face3(1, 2, 3));
+    faceTesselate(geometry, 0, 2, 1, 30, false);
+    faceTesselate(geometry, 1, 2, 3, 30, false);
     geometry.computeVertexNormals();
 
     var backGeometry = new THREE.Geometry();
@@ -20,8 +20,9 @@ class Base {
     backGeometry.vertices.push(new THREE.Vector3(factor / 2, 0, -factor / 2));
     backGeometry.vertices.push(new THREE.Vector3(-factor / 2, 0, factor / 2));
     backGeometry.vertices.push(new THREE.Vector3(factor / 2, 0, factor / 2));
-    backGeometry.faces.push(new THREE.Face3(0, 1, 2));
-    backGeometry.faces.push(new THREE.Face3(1, 3, 2));
+
+    faceTesselate(backGeometry, 0, 2, 1, 1, true);
+    faceTesselate(backGeometry, 1, 2, 3, 1, true);
     backGeometry.computeVertexNormals();
 
     this.mesh1 = new THREE.Mesh(geometry, this.material1[1])
@@ -55,7 +56,9 @@ class Base {
   }
 
   updateMaterial() {
+    this.material1[this.index].wireframe = this.mesh1.material.wireframe
     this.mesh1.material = this.material1[this.index]
+    this.material2[this.index].wireframe = this.mesh2.material.wireframe
     this.mesh2.material = this.material2[this.index]
   }
 }

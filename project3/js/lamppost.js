@@ -2,11 +2,12 @@
  * lamppost
  */
 
-const _colour = 0xffffff
+const _colour = 0xffff00
 const _intensity = 1
 const _decay = 1.9
 const _penumbra = .9
 const _angle = Math.PI/4
+const _distance = 15
 
 const bRadius = .3
 const bHeight = .05
@@ -21,6 +22,7 @@ class Lamppost {
     this.spotlight.angle = _angle
     this.spotlight.decay = _decay
     this.spotlight.penumbra = _penumbra
+    this.spotlight.distance = _distance * factor
 
     this.spotlight.castShadow = true;
     this.spotlight.shadow.mapSize.width = 1024;
@@ -68,8 +70,11 @@ class Lamppost {
   }
 
   updateMaterial() {
-    for (var i = 0; i < this.meshes.length - 1; i++)
+    for (var i = 0; i < this.meshes.length - 1; i++) {
+      this.material[this.index].wireframe = this.meshes[i].material.wireframe
       this.meshes[i].material = this.material[this.index]
+    }
+    this.lampMaterial[this.index].wireframe = this.meshes[2].material.wireframe
     this.meshes[2].material = this.lampMaterial[this.index]
   }
 }
