@@ -8,6 +8,7 @@
 
 var scene, camera, renderer;
 var plane;
+var base;
 var orbitControls;
 var clock;
 var wireframe = true;
@@ -54,8 +55,10 @@ function init()
   document.body.appendChild(renderer.domElement);
 
   scene = new THREE.Scene();
-  plane = new Plane(200, false, scene);
-  plane.obj.position.y += plane.getDepth() / 2;
+  scene.add(new THREE.AxisHelper(900))
+  base = new Base(200, false, 0x008800, scene)
+  //plane = new Plane(200, false, scene);
+  //plane.obj.position.y += plane.getDepth() / 2;
 
   scene.add(new THREE.AmbientLight(0xffffff));
 
@@ -93,7 +96,7 @@ function initCamera(scene) {
 function initFixedPerspective(scene) {
   'use strict';
   var camera = new THREE.PerspectiveCamera(45, window.innerWidth/window.innerHeight, 1, 10000);
-  camera.position.set(-400, 400, 400)
+  camera.position.set(-400, 400, -400)
   camera.lookAt(scene.position)
   scene.add(camera)
   return camera;
