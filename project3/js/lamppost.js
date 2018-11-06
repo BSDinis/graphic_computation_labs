@@ -68,8 +68,11 @@ class Lamppost {
   }
 
   updateMaterial() {
-    for (var i = 0; i < this.meshes.length - 1; i++)
+    for (var i = 0; i < this.meshes.length - 1; i++) {
+      this.material[this.index].wireframe = this.meshes[i].material.wireframe
       this.meshes[i].material = this.material[this.index]
+    }
+    this.lampMaterial[this.index].wireframe = this.meshes[2].material.wireframe
     this.meshes[2].material = this.lampMaterial[this.index]
   }
 }
