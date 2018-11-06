@@ -11,8 +11,8 @@ class Base {
     geometry.vertices.push(new THREE.Vector3(factor / 2, 0, -factor / 2));
     geometry.vertices.push(new THREE.Vector3(-factor / 2, 0, factor / 2));
     geometry.vertices.push(new THREE.Vector3(factor / 2, 0, factor / 2));
-    faceTesselate(geometry, 0, 2, 1, 5, false);
-    faceTesselate(geometry, 1, 2, 3, 5, false);
+    faceTesselate(geometry, 0, 2, 1, 30, false);
+    faceTesselate(geometry, 1, 2, 3, 30, false);
     geometry.computeVertexNormals();
 
     var backGeometry = new THREE.Geometry();

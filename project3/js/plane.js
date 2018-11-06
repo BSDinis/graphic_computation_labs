@@ -4,8 +4,8 @@
  * define a plane
  */
 
-const big_surface_tesselate_factor = 3
-const small_surface_tesselate_factor = 1
+const big_surface_tesselate_factor = 25
+const small_surface_tesselate_factor = 5
 
 class Plane {
   constructor(factor, wireframe, parentObj) {
@@ -23,7 +23,7 @@ class Plane {
     this.meshes = constructMeshes(this.materials, this.index);
 
     for (var i = 0; i < this.meshes.length; i++) {
-      this.meshes[i].scale.set(factor/2, factor/2, factor/2);
+      this.meshes[i].scale.set(factor/8, factor/8, factor/8);
       this.obj.add(this.meshes[i])
     }
     parentObj.add(this.obj);

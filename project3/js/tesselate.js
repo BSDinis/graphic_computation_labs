@@ -14,7 +14,6 @@ function orderVertices(one, two, three, flip = false)
 function faceTesselate(geometry, one, two, three, segs, flip = false)
 {
   faceOrder = []
-  faceOrder.push(orderVertices(one, two, three, flip))
 
   var v1 = geometry.vertices[one]
   var v2 = geometry.vertices[two]

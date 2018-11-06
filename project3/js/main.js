@@ -172,10 +172,10 @@ function initFixedPerspective(scene) {
 }
 
 function updateFixedPerspective(w, h) {
-  let tmp = camera.aspect
+  let old_aspect = camera.aspect
   camera.aspect = w / h;
   if (w != old_width)
-    camera.fov = 2 * Math.atan(Math.tan((camera.fov * Math.PI/180) / 2) * (tmp/camera.aspect)) * 180 / Math.PI
+    camera.fov = 2 * Math.atan(Math.tan((camera.fov * Math.PI/180) / 2) * (old_aspect/camera.aspect)) * 180 / Math.PI
 
   old_width = w;
   old_height = h;
