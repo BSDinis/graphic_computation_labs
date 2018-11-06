@@ -4,8 +4,8 @@
  * define a plane
  */
 
-const big_surface_tesselate_factor = 10
-const small_surface_tesselate_factor = 2
+const big_surface_tesselate_factor = 25
+const small_surface_tesselate_factor = 5
 
 class Plane {
   constructor(factor, wireframe, parentObj) {
