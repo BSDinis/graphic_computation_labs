@@ -89,12 +89,12 @@ function onKeyDown(e) {
 
     case 71: // G
     case 103: // g
-      scene.togglePhongGouraud();
+      //scene.togglePhongGouraud();
       break;
 
     case 76: // H
     case 108: // h
-      scene.toggleLightingCalc();
+      //scene.toggleLightingCalc();
       break;
 
     case 49: // 1
@@ -102,7 +102,7 @@ function onKeyDown(e) {
     case 51: // 3
     case 52: // 4
       var n = e.keyCode - 48 - 1
-      scene.toggleLamp(n)
+      //scene.toggleLamp(n)
       break;
 
     case 37:

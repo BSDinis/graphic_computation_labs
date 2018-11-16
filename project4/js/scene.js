@@ -10,6 +10,8 @@
 class Scene {
   constructor(wireframe) {
     this.scene = new THREE.Scene();
+    this.board = new Board(200, wireframe, 0x4455cc, this.scene);
+
   }
 
   getAspect() {
