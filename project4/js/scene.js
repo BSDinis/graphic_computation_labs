@@ -10,6 +10,8 @@
 class Scene {
   constructor(wireframe) {
     this.scene = new THREE.Scene();
+    this.amb = new THREE.AmbientLight(0xffffff, 0.3);
+    this.scene.add(this.amb);
     this.board = new Board(200, wireframe, 0x4455cc, this.scene);
     var dim = {width: this.getWidth(), height: this.getHeight(), depth: this.getDepth()};
     this.dirlight = new DirLight(this.scene, dim);
