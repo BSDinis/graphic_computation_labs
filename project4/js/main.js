@@ -82,9 +82,8 @@ function onKeyDown(e) {
       });
       break;
 
-    case 78: // N
-    case 110: // n
-      scene.toggleSunlight();
+    case 68: // d
+      scene.toggleDirlight();
       break;
 
     case 71: // G

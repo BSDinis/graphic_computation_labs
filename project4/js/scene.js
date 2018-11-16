@@ -11,6 +11,9 @@ class Scene {
   constructor(wireframe) {
     this.scene = new THREE.Scene();
     this.board = new Board(200, wireframe, 0x4455cc, this.scene);
+    var dim = {width: this.getWidth(), height: this.getHeight(), depth: this.getDepth()};
+    this.dirlight = new DirLight(this.scene, dim);
+    this.poolball = new PoolBall(100, 5, 0xffffff, this.scene);
 
   }
 
