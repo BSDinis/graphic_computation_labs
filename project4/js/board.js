@@ -1,17 +1,20 @@
+const depth = 0.01;
+
 class Board {
   constructor(factor, _wireframe, inputColour, parentObj) {
-
-    this.dicc = new THREE.PlaneGeometry(1000,1000,100);         
     this.texture =  new THREE.TextureLoader().load( 'resources/chess_chess_board_game_board_flag_target_start_black_and_white_checkered-1195657.jpg' );
-    this.material = new THREE.MeshBasicMaterial({color: 0xffffff, map: this.texture});   //can remove the color
+    this.materials = genMaterials(0xffffff, _wireframe, this.texture, 0.5, 1, 20, false); 
+    this.basematerials = genMaterials(inputColour, _wireframe);   
 
-    this.base = new THREE.CubeGeometry(1000,50,1000);
-    this.basemat = new THREE.MeshPhongMaterial({color: 0xB87333});
+    this.index=1;
+
+    this.dicc = new THREE.PlaneGeometry(factor,factor,10);         
+    this.base = new THREE.CubeGeometry(factor,depth*factor,factor);
    
-    this.mesh1 = new THREE.Mesh(this.dicc, this.material);  
-    this.mesh2 = new THREE.Mesh(this.base, this.basemat);
+    this.mesh1 = new THREE.Mesh(this.dicc, this.materials[this.materialIndex]);  
+    this.mesh2 = new THREE.Mesh(this.base, this.basematerials[this.materialIndex]);
     this.mesh1.rotation.x=(-Math.PI/2);
-    this.mesh2.position.y = -26;
+    this.mesh1.position.y = 0.55 * depth * factor;
     parentObj.add(this.mesh1);
     parentObj.add(this.mesh2);
   }
@@ -24,27 +27,18 @@ class Board {
   }
 
   toggleLightingCalc() {
-    var tmp = this.oldIndex;
-    this.oldIndex = this.index;
-    this.index = tmp;
-    this.updateMaterial();
+    //FIXME
   }
 
   togglePhongGouraud() {
-    if (this.index == 0) {
-      this.oldIndex = (this.oldIndex == 1) ? 2 : 1;
-    }
-    else {
-      this.index = (this.index == 1) ? 2 : 1;
-      this.updateMaterial();
-    }
+    //FIXME
   }
 
   updateMaterial() {
-    this.material1[this.index].wireframe = this.mesh1.material.wireframe
-    this.mesh1.material = this.material1[this.index]
-    this.material2[this.index].wireframe = this.mesh2.material.wireframe
-    this.mesh2.material = this.material2[this.index]
+    this.materials[this.index].wireframe = this.mesh1.material.wireframe
+    this.mesh1.material = this.materials[this.index]
+    this.basematerials2[this.index].wireframe = this.mesh2.basematerials.wireframe
+    this.mesh2.basematerials = this.basematerials2[this.index]
   }
 }
 

@@ -3,11 +3,8 @@
  * 
  * */
 
-
-
-
 class PoolBall{
-constructor(radius, maxAngularSpeed, inputColor, parentObj) {
+  constructor(radius, maxAngularSpeed, inputColor, parentObj) {
     this.capsule = new THREE.Object3D();
     this.obj =  new THREE.Object3D();
     this.axis = new THREE.AxisHelper(2 * radius);
@@ -18,11 +15,10 @@ constructor(radius, maxAngularSpeed, inputColor, parentObj) {
     this.speed = min + (Math.random() * (maxAngularSpeed - min));
 
     this.texture =  new THREE.TextureLoader().load( 'resources/16079.jpg' );
-    var material = new THREE.MeshBasicMaterial(
-      {color: inputColor, wireframe: false, transparent: false, opacity:0.5, map: this.texture }
-    );
+    this.materials = genMaterials(inputColor, false, this.texture, 0.5, 1, 100);
+    this.mat=1;
     var geometry = new THREE.SphereGeometry(radius, 80, 80);
-    this.mesh = new THREE.Mesh(geometry, material);
+    this.mesh = new THREE.Mesh(geometry, this.materials[1]);
 
     this.mesh.position.set(300, 101,0);
 
