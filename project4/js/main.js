@@ -25,30 +25,30 @@ var sceneIndex = 0;
 function render()
 {
   'use strict';
-  renderer.render(scene.scene, scene.getCamera());
+  renderer.render(scene[sceneIndex].scene, scene[sceneIndex].getCamera());
 }
 
 function animate() {
   'use strict';
 
-  if (toggleBallMov) { scene.toggleBallMove(); toggleBallMov = false; }
-  if (toggleWireframe) { scene.toggleWireframe(); toggleWireframe = false; }
-  if (toggleDirLight) { scene.toggleDirLight(); toggleDirLight = false; }
-  if (togglePointLight) { scene.togglePointLight(); togglePointLight = false; }
-  if (toggleCalc) { scene.toggleCalc(); toggleCalc = false; }
+  if (toggleBallMov) { scene[sceneIndex].toggleBallMove(); toggleBallMov = false; }
+  if (toggleWireframe) { scene[sceneIndex].toggleWireframe(); toggleWireframe = false; }
+  if (toggleDirLight) { scene[sceneIndex].toggleDirLight(); toggleDirLight = false; }
+  if (togglePointLight) { scene[sceneIndex].togglePointLight(); togglePointLight = false; }
+  if (toggleCalc) { scene[sceneIndex].toggleCalc(); toggleCalc = false; }
   if (pause) {
     paused = ! paused;
     pause = false;
   }
   if (refresh) { 
-    scene.reset(); 
+    scene[sceneIndex].reset(); 
     refresh = false; 
     paused = false; 
   }
 
   var delta = clock.getDelta();
   if (paused) delta = 0;
-  scene.updateScene(delta);
+  scene[sceneIndex].updateScene(delta);
   render();
   requestAnimationFrame(animate);
 }
@@ -60,10 +60,13 @@ function init()
   renderer.setSize(window.innerWidth, window.innerHeight);
   document.body.appendChild(renderer.domElement);
 
-  scene = new Scene(1000);
+  scene = []
+  scene.push(new MainScene(1000));
+  scene.push(new MessageScene(1000));
+  sceneIndex = 1;
   clock = new THREE.Clock(true);
-  orbitControls = new THREE.OrbitControls(scene.getCamera());
-  orbitControls = new THREE.OrbitControls(scene.getCamera(), renderer.domElement );
+  orbitControls = new THREE.OrbitControls(scene[sceneIndex].getCamera());
+  orbitControls = new THREE.OrbitControls(scene[sceneIndex].getCamera(), renderer.domElement );
   orbitControls.enabled = true;
   orbitControls.enableZoom = false;
   orbitControls.enablePan = false;
@@ -79,7 +82,7 @@ function init()
 function onResize() {
   'use strict';
   renderer.setSize(window.innerWidth, window.innerHeight);
-  scene.resize(window.innerWidth, window.innerHeight);
+  scene[sceneIndex].resize(window.innerWidth, window.innerHeight);
 }
 
 
