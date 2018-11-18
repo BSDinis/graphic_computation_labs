@@ -5,14 +5,20 @@ class RotatingCamera{
   constructor(factor, parentObj) {
     this.capsule = new THREE.Object3D();
     this.obj =  new THREE.Object3D();
-    this.axis = new THREE.AxisHelper(2 * radius);
+    this.factor = factor;
+    this.angle = 0;
 
     this.camera = new THREE.PerspectiveCamera(45, window.innerWidth/window.innerHeight, 1, 10000);
-    this.camera.position.set( factor,factor,factor);
     this.camerawidth = window.innerWidth;
+    this.camera.position.set(this.factor,this.factor,this.factor);
     this.obj.add(this.camera);
     this.camera.lookAt(this.obj.position);
     parentObj.add(this.obj);
+  }
+
+  reset() {
+    this.obj.rotateY(-this.angle);
+    this.angle = 0;
   }
 
   resizeCamera(w, h) {
@@ -26,6 +32,7 @@ class RotatingCamera{
   }
 
   updateCamera(delta) {
+    this.angle += delta * angSpeed;
     this.obj.rotateY(delta * angSpeed);
   }
 }

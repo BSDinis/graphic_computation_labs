@@ -27,6 +27,11 @@ class Scene {
   getHeight() { return this.board.getHeight(); }
   getDepth() { return this.board.getDepth() + this.poolball.getDepth(); }
 
+  reset() {
+    this.board.reset();
+    this.poolball.reset();
+    this.camera.reset();
+  }
 
   resize(w, h) {
     this.camera.resizeCamera(w, h);

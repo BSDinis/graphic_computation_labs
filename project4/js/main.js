@@ -17,6 +17,10 @@ var toggleWireframe = false;
 var toggleDirLight = false;
 var togglePointLight = false;
 var toggleCalc = false;
+var pause = false;
+var paused = false;
+var refresh = false;
+var sceneIndex = 0;
 
 function render()
 {
@@ -27,13 +31,24 @@ function render()
 function animate() {
   'use strict';
 
-  var delta = clock.getDelta();
-  scene.updateScene(delta);
   if (toggleBallMov) { scene.toggleBallMove(); toggleBallMov = false; }
   if (toggleWireframe) { scene.toggleWireframe(); toggleWireframe = false; }
   if (toggleDirLight) { scene.toggleDirLight(); toggleDirLight = false; }
   if (togglePointLight) { scene.togglePointLight(); togglePointLight = false; }
   if (toggleCalc) { scene.toggleCalc(); toggleCalc = false; }
+  if (pause) {
+    paused = ! paused;
+    pause = false;
+  }
+  if (refresh) { 
+    scene.reset(); 
+    refresh = false; 
+    paused = false; 
+  }
+
+  var delta = clock.getDelta();
+  if (paused) delta = 0;
+  scene.updateScene(delta);
   render();
   requestAnimationFrame(animate);
 }
@@ -90,6 +105,16 @@ function onKeyDown(e) {
     case 80: // P
     case 112: // p
       togglePointLight=true
+      break;
+
+    case 82: // R
+    case 114: // r
+      refresh = true && paused;
+      break;
+
+    case 83: // S
+    case 115: // s
+      pause = true;
       break;
 
 

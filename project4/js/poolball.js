@@ -12,12 +12,12 @@ class PoolBall{
     this.texture =  new THREE.TextureLoader().load( 'resources/16079.jpg' );
     this.materials = genMaterials(inputColor, false, this.texture, 0.5, 1, 100);
     var geometry = new THREE.SphereGeometry(this.radius, 20, 20);
+    this.angle = 0;
+    this.rotAngle = 0;
 
     this.mesh = new THREE.Mesh(geometry, this.materials[1]);
-    this.reset();
     this.capsule.add(this.mesh);
-    this.capsule.position.x += this.orbitRadius;
-    this.capsule.position.y +=  this.radius;
+    this.reset();
     this.obj.add(this.capsule);
 
     parentObj.add(this.obj);
@@ -29,6 +29,13 @@ class PoolBall{
     this.speed = 0;
     this.moving = 1;
     this.mesh.material = this.materials[this.index];
+    this.capsule.position.x = this.orbitRadius;
+    this.capsule.position.y = this.radius;
+    this.capsule.position.z = 0;
+    this.obj.rotateY(-this.angle);
+    this.angle = 0;
+    this.capsule.rotateX(-this.rotAngle);
+    this.rotAngle = 0;
   }
 
   toggleWireframe() {
@@ -47,7 +54,9 @@ class PoolBall{
   }
 
   updateBall(delta) {
+    this.angle += delta * this.speed
     this.obj.rotateY(delta * this.speed);
+    this.rotAngle += -delta * this.orbitRadius/this.radius * this.speed;
     this.capsule.rotateX(-delta * this.orbitRadius/this.radius * this.speed);
     this.speed += delta * (this.moving * maxSpeed - this.speed) 
   }
