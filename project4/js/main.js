@@ -15,6 +15,7 @@ var old_height;
 var toggleBallMov = false;
 var toggleWireframe = false;
 var toggleDirLight = false;
+var togglePointLight = false;
 var toggleCalc = false;
 
 function render()
@@ -31,6 +32,7 @@ function animate() {
   if (toggleBallMov) { scene.toggleBallMove(); toggleBallMov = false; }
   if (toggleWireframe) { scene.toggleWireframe(); toggleWireframe = false; }
   if (toggleDirLight) { scene.toggleDirLight(); toggleDirLight = false; }
+  if (togglePointLight) { scene.togglePointLight(); togglePointLight = false; }
   if (toggleCalc) { scene.toggleCalc(); toggleCalc = false; }
   render();
   requestAnimationFrame(animate);
@@ -85,10 +87,11 @@ function onKeyDown(e) {
       toggleCalc=true;
       break;
 
-    case 76: // H
-    case 108: // h
-      //scene.toggleLightingCalc();
+    case 80: // P
+    case 112: // p
+      togglePointLight=true
       break;
+
 
     case 87: // W
     case 119: // w 

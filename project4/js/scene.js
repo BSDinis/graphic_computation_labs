@@ -10,9 +10,11 @@
 class Scene {
   constructor(factor) {
     this.scene = new THREE.Scene();
-    this.amb = new THREE.AmbientLight(0xffffff, 0.3);
-    this.dirlight = new DirLight(this.scene, {width: factor, height: factor, depth: 0.15 * factor});
+    this.amb = new THREE.AmbientLight(0xffffff, 0.1);
     this.scene.add(this.amb);
+    this.dirlight = new DirLight(this.scene, {width: factor, height: factor, depth: 0.15 * factor});
+    this.pointlight = new PointLight(this.scene, {width: factor, height: factor, depth: 0.15 * factor});
+
     this.board = new Board(factor, 0xB87333, this.scene);
     this.poolball = new PoolBall(factor, 0xffffff, this.scene);
     this.camera = new RotatingCamera(factor, this.scene);
@@ -37,6 +39,7 @@ class Scene {
 
   toggleBallMove() { this.poolball.toggleMovement();}
   toggleDirLight() { this.dirlight.toggle();}
+  togglePointLight() { this.pointlight.toggle();}
   toggleCalc() { 
     this.poolball.toggleLighting();
     this.board.toggleLighting();

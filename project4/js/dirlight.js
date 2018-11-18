@@ -2,7 +2,7 @@
  */
 
 const colour = 0xffffff
-const intensity = 1.0
+const intensity = 0.5
 
 class DirLight {
   constructor(parentObj, dim) {
