@@ -8,33 +8,30 @@
 
 
 class Scene {
-  constructor(wireframe) {
+  constructor(factor, wireframe) {
     this.scene = new THREE.Scene();
     this.amb = new THREE.AmbientLight(0xffffff, 0.3);
+    this.dirlight = new DirLight(this.scene, {width: factor, height: factor, depth: 0.15 * factor});
     this.scene.add(this.amb);
-    this.board = new Board(1000, wireframe, 0xB87333, this.scene);
-    var dim = {width: this.getWidth(), height: this.getHeight(), depth: this.getDepth()};
-    this.dirlight = new DirLight(this.scene, dim);
-    this.poolball = new PoolBall(100, 5, 0xffffff, this.scene);
-
+    this.board = new Board(factor, wireframe, 0xB87333, this.scene);
+    this.poolball = new PoolBall(factor, 0xffffff, this.scene);
+    this.camera = new RotatingCamera(factor, this.scene);
   }
 
-  getAspect() {
-    return this.getWidth() / this.getHeight();
+  getCamera() { return this.camera.camera;}
+
+  getAspect() { return this.getWidth() / this.getHeight(); }
+  getWidth() { return this.board.getWidth(); }
+  getHeight() { return this.board.getHeight(); }
+  getDepth() { return this.board.getDepth() + this.poolball.getDepth(); }
+
+
+  resize(w, h) {
+    this.camera.resizeCamera(w, h);
   }
 
-  getWidth() {
-    return 1000;
-  }
-
-  getHeight() {
-    return 1000;
-  }
-
-  getDepth() {
-    return 1000;
-  }
-
-  updateScene(delta, arrows) {
+  updateScene(delta) {
+    this.poolball.updateBall(delta);
+    this.camera.updateCamera(delta);
   }
 }
