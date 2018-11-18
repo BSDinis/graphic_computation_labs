@@ -34,6 +34,9 @@ function animate() {
   scene.updateScene(delta, arrows);
   render();
   requestAnimationFrame(animate);
+
+
+
 }
 
 function init()

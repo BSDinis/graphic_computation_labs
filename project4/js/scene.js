@@ -16,6 +16,13 @@ class Scene {
     var dim = {width: this.getWidth(), height: this.getHeight(), depth: this.getDepth()};
     this.dirlight = new DirLight(this.scene, dim);
     this.poolball = new PoolBall(100, 5, 0xffffff, this.scene);
+    var time = Date.now() * 0.0005;
+	this.poolball.obj.position.x = Math.cos( time * 10 ) * 5;
+	this.poolball.obj.position.y = Math.cos( time * 7 ) * 3;
+        this.poolball.obj.position.z = Math.cos( time * 8 ) * 4;  
+    this.rubiks = new Rubiks(100, wireframe, 0xffffff, this.scene);
+
+    
 
   }
 
