@@ -38,7 +38,7 @@ function animate() {
   if (toggleCalc) { scene[sceneIndex].toggleCalc(); toggleCalc = false; }
   if (pause) {
     paused = ! paused;
-    //sceneIndex = (paused) ? 1 : 0;
+    sceneIndex = (paused) ? 1 : 0;
     orbitControls.autoRotate = ! paused
     orbitControls.update();
     pause = false;
