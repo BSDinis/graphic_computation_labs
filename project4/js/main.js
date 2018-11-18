@@ -38,9 +38,11 @@ function animate() {
   if (toggleCalc) { scene[sceneIndex].toggleCalc(); toggleCalc = false; }
   if (pause) {
     paused = ! paused;
+    sceneIndex = (paused) ? 1 : 0;
     pause = false;
   }
   if (refresh) { 
+    sceneIndex = 0;
     scene[sceneIndex].reset(); 
     refresh = false; 
     paused = false; 
@@ -63,7 +65,7 @@ function init()
   scene = []
   scene.push(new MainScene(1000));
   scene.push(new MessageScene(1000));
-  sceneIndex = 1;
+  sceneIndex = 0;
   clock = new THREE.Clock(true);
   orbitControls = new THREE.OrbitControls(scene[sceneIndex].getCamera());
   orbitControls = new THREE.OrbitControls(scene[sceneIndex].getCamera(), renderer.domElement );
@@ -82,7 +84,8 @@ function init()
 function onResize() {
   'use strict';
   renderer.setSize(window.innerWidth, window.innerHeight);
-  scene[sceneIndex].resize(window.innerWidth, window.innerHeight);
+  scene[0].resize(window.innerWidth, window.innerHeight);
+  scene[1].resize(window.innerWidth, window.innerHeight);
 }
 
 

@@ -11,14 +11,14 @@ class MessageScene {
     this.amb = new THREE.AmbientLight(0xffffff, 1);
     this.scene.add(this.amb);
     this.factor = factor;
-    this.message = new Message(factor, 'resources/chess_chess_board_game_board_flag_target_start_black_and_white_checkered-1195657.jpg', this.scene);
+    this.message = new Message(factor, 'resources/paused.gif', this.scene);
     this.camera = new MessageCamera(factor, this.getWidth(), this.getHeight(), this.scene);
   }
 
   getCamera() { return this.camera.camera;}
 
   resize(w, h) {
-    //this.camera.resizeCamera(w, h);
+    this.camera.resizeCamera(w, h);
   }
 
   getWidth() { return this.factor; }
@@ -29,7 +29,5 @@ class MessageScene {
   toggleDirLight() {}
   togglePointLight() {}
   toggleCalc() { }
-  toggleWireframe() { 
-    this.message.toggleWireframe();
-  }
+  toggleWireframe() { }
 }
