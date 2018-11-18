@@ -9,7 +9,7 @@ class Board {
     this.basematerials = genMaterials(inputColour, wireframeDefault);   
     this.depth = depth * factor;
 
-    this.dicc = new THREE.PlaneGeometry(factor,factor,10);         
+    this.dicc = new THREE.PlaneGeometry(factor,factor,90);         
     this.base = new THREE.CubeGeometry(factor,depth*factor,factor);
     this.mesh1 = new THREE.Mesh(this.dicc, this.materials[1]);  
     this.mesh2 = new THREE.Mesh(this.base, this.basematerials[1]);
