@@ -9,7 +9,7 @@ class PoolBall{
     this.radius = radius * factor;
     this.orbitRadius = orbitRadius * factor;
 
-    this.texture =  new THREE.TextureLoader().load( 'resources/16079.jpg' );
+    this.texture =  new THREE.TextureLoader().load( 'resources/poolBallText.jpg' );
     this.materials = genMaterials(0xffffff, false, this.texture, 0.5, 1, 1000);
     var geometry = new THREE.SphereGeometry(this.radius, 20, 20);
     this.angle = 0;

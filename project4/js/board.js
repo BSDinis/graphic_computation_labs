@@ -4,7 +4,7 @@ const wireframeDefault = false;
 class Board {
   constructor(factor, inputColour, parentObj) {
     this.obj = new THREE.Object3D();
-    this.texture =  new THREE.TextureLoader().load( 'resources/chess_chess_board_game_board_flag_target_start_black_and_white_checkered-1195657.jpg' );
+    this.texture =  new THREE.TextureLoader().load( 'resources/chessBoardText.jpg' );
     this.materials = genMaterials(0xffffff, wireframeDefault, this.texture, 0.5, 1, 20, false); 
     this.basematerials = genMaterials(inputColour, wireframeDefault);   
     this.depth = depth * factor;

@@ -1,15 +1,19 @@
 const rubiksSide = .2 
 class Rubiks {
   constructor(factor, parentObj) {
-
-    this.rubiks = new THREE.BoxGeometry(factor * rubiksSide,factor * rubiksSide,factor * rubiksSide, 10, 10, 10);
-    this.texture =  new THREE.TextureLoader().load( 'resources/1.png' );
-    this.bmap = new THREE.TextureLoader().load('resources/gridBMap.bmp'); //ainda vou arranjar uma grid melhor do que esta
-    this.material = [new THREE.MeshBasicMaterial({color: 0xffffff, map:this.texture, bumpMap: this.bmap}), new THREE.MeshPhongMaterial({color: 0xffffff, map:this.texture, bumpMap: this.bmap})]
+    this.obj = new THREE.Object3D();
+    this.geometry = new THREE.BoxGeometry(factor*rubiksSide,factor*rubiksSide,factor*rubiksSide, 1, 1, 1);
+    this.texture =  new THREE.TextureLoader().load( 'resources/cubeText.png' );
+    this.bmap = new THREE.TextureLoader().load('resources/cubeMap.bmp'); //ainda vou arranjar uma grid melhor do que esta
+    this.material = [];
+    this.material.push(new THREE.MeshBasicMaterial({color: 0xffffff, map:this.texture}))
+    this.material.push(new THREE.MeshPhongMaterial({color: 0xffffff, map:this.texture, bumpMap: this.bmap, shininess: 1000, reflectivity: 2}))
     this.index = 1;
-    this.mesh = new THREE.Mesh(this.rubiks, this.material);
+    this.mesh = new THREE.Mesh(this.geometry, this.material[this.index]);
     this.mesh.position.y = factor * rubiksSide / 2;
-    parentObj.add(this.mesh);
+    this.mesh.rotateY(Math.PI/4);
+    this.obj.add(this.mesh);
+    parentObj.add(this.obj);
   }
 
   toggleWireframe() {
