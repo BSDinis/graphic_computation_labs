@@ -38,19 +38,24 @@ function animate() {
   if (toggleCalc) { scene[sceneIndex].toggleCalc(); toggleCalc = false; }
   if (pause) {
     paused = ! paused;
-    sceneIndex = (paused) ? 1 : 0;
+    //sceneIndex = (paused) ? 1 : 0;
+    orbitControls.autoRotate = ! paused
+    orbitControls.update();
     pause = false;
   }
   if (refresh) { 
     sceneIndex = 0;
+    orbitControls.autoRotate = true;
     scene[sceneIndex].reset(); 
     refresh = false; 
     paused = false; 
+    orbitControls.reset();
   }
 
   var delta = clock.getDelta();
   if (paused) delta = 0;
   scene[sceneIndex].updateScene(delta);
+  orbitControls.update();
   render();
   requestAnimationFrame(animate);
 }
@@ -67,14 +72,13 @@ function init()
   scene.push(new MessageScene(1000));
   sceneIndex = 0;
   clock = new THREE.Clock(true);
-  orbitControls = new THREE.OrbitControls(scene[sceneIndex].getCamera());
-  orbitControls = new THREE.OrbitControls(scene[sceneIndex].getCamera(), renderer.domElement );
+  orbitControls = new THREE.OrbitControls(scene[0].getCamera());
   orbitControls.enabled = true;
-  orbitControls.enableZoom = false;
+  orbitControls.enableZoom = true;
   orbitControls.enablePan = false;
   orbitControls.enableDamping = false;
   orbitControls.autoRotate = true;
-  orbitControls.autoRotateSpeed = 10;
+  orbitControls.autoRotateSpeed = -9;
   render();
 
   window.addEventListener('resize', onResize, false);

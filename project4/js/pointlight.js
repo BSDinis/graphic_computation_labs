@@ -15,6 +15,7 @@ class PointLight {
     parentObj.add(this.light);
   }
 
+  turnOn() { this.light.visible = true; }
   toggle() {
     this.light.visible = ! this.light.visible;
   }

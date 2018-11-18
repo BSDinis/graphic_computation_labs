@@ -31,6 +31,8 @@ class MainScene {
     this.board.reset();
     this.poolball.reset();
     this.camera.reset();
+    this.dirlight.turnOn();
+    this.pointlight.turnOn();
   }
 
   resize(w, h) {
