@@ -3,14 +3,14 @@ const radius = 0.1
 const orbitRadius = 0.35
 
 class PoolBall{
-  constructor(factor, inputColor, parentObj) {
+  constructor(factor, parentObj) {
     this.capsule = new THREE.Object3D();
     this.obj =  new THREE.Object3D();
     this.radius = radius * factor;
     this.orbitRadius = orbitRadius * factor;
 
     this.texture =  new THREE.TextureLoader().load( 'resources/16079.jpg' );
-    this.materials = genMaterials(inputColor, false, this.texture, 0.5, 1, 1000);
+    this.materials = genMaterials(0xffffff, false, this.texture, 0.5, 1, 1000);
     var geometry = new THREE.SphereGeometry(this.radius, 20, 20);
     this.angle = 0;
     this.rotAngle = 0;

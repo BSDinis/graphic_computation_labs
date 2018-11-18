@@ -16,7 +16,8 @@ class MainScene {
     this.pointlight = new PointLight(this.scene, {width: factor, height: factor, depth: 0.15 * factor});
 
     this.board = new Board(factor, 0xB87333, this.scene);
-    this.poolball = new PoolBall(factor, 0xffffff, this.scene);
+    this.poolball = new PoolBall(factor, this.scene);
+    this.rubiks = new Rubiks(factor, this.scene);
     this.camera = new RotatingCamera(factor, this.scene);
   }
 
