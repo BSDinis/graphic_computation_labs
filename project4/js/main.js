@@ -11,8 +11,11 @@ var orbitControls;
 var clock;
 var old_width;
 var old_height;
-var wireframe = false;
 
+var toggleBallMov = false;
+var toggleWireframe = false;
+var toggleDirLight = false;
+var toggleCalc = false;
 
 function render()
 {
@@ -25,6 +28,10 @@ function animate() {
 
   var delta = clock.getDelta();
   scene.updateScene(delta);
+  if (toggleBallMov) { scene.toggleBallMove(); toggleBallMov = false; }
+  if (toggleWireframe) { scene.toggleWireframe(); toggleWireframe = false; }
+  if (toggleDirLight) { scene.toggleDirLight(); toggleDirLight = false; }
+  if (toggleCalc) { scene.toggleCalc(); toggleCalc = false; }
   render();
   requestAnimationFrame(animate);
 }
@@ -36,7 +43,7 @@ function init()
   renderer.setSize(window.innerWidth, window.innerHeight);
   document.body.appendChild(renderer.domElement);
 
-  scene = new Scene(1000, wireframe);
+  scene = new Scene(1000);
   clock = new THREE.Clock(true);
   orbitControls = new THREE.OrbitControls(scene.getCamera());
   orbitControls = new THREE.OrbitControls(scene.getCamera(), renderer.domElement );
@@ -63,23 +70,19 @@ function onKeyDown(e) {
   'use strict';
 
   switch (e.keyCode) {
-    case 69: // E
-    case 101: // e 
-      // FIXME
-      scene.scene.traverse(function (node) {
-        if (node instanceof THREE.AxisHelper) {
-          node.visible = !node.visible;
-        }
-      });
+    case 66: // B
+    case 98: // b 
+      toggleBallMov=true;
       break;
 
-    case 68: // d
-      scene.toggleDirlight();
+    case 68: // D
+    case 100: // d
+      toggleDirLight=true
       break;
 
-    case 71: // G
-    case 103: // g
-      //scene.togglePhongGouraud();
+    case 76: // L
+    case 108: // l
+      toggleCalc=true;
       break;
 
     case 76: // H
@@ -87,13 +90,11 @@ function onKeyDown(e) {
       //scene.toggleLightingCalc();
       break;
 
-    case 49: // 1
-    case 50: // 2
-    case 51: // 3
-    case 52: // 4
-      var n = e.keyCode - 48 - 1
-      //scene.toggleLamp(n)
+    case 87: // W
+    case 119: // w 
+      toggleWireframe=true;
       break;
+
 
     default:
       break;

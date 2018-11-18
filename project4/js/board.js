@@ -1,26 +1,48 @@
 const depth = 0.01;
+const wireframeDefault = false;
 
 class Board {
-  constructor(factor, _wireframe, inputColour, parentObj) {
+  constructor(factor, inputColour, parentObj) {
     this.obj = new THREE.Object3D();
     this.texture =  new THREE.TextureLoader().load( 'resources/chess_chess_board_game_board_flag_target_start_black_and_white_checkered-1195657.jpg' );
-    this.materials = genMaterials(0xffffff, _wireframe, this.texture, 0.5, 1, 20, false); 
-    this.basematerials = genMaterials(inputColour, _wireframe);   
-    this.width = this.height = factor;
+    this.materials = genMaterials(0xffffff, wireframeDefault, this.texture, 0.5, 1, 20, false); 
+    this.basematerials = genMaterials(inputColour, wireframeDefault);   
     this.depth = depth * factor;
-
-    this.index=1;
 
     this.dicc = new THREE.PlaneGeometry(factor,factor,10);         
     this.base = new THREE.CubeGeometry(factor,depth*factor,factor);
-   
-    this.mesh1 = new THREE.Mesh(this.dicc, this.materials[this.materialIndex]);  
-    this.mesh2 = new THREE.Mesh(this.base, this.basematerials[this.materialIndex]);
+    this.mesh1 = new THREE.Mesh(this.dicc, this.materials[1]);  
+    this.mesh2 = new THREE.Mesh(this.base, this.basematerials[1]);
+    this.reset();
+
     this.mesh1.rotation.x=(-Math.PI/2);
+    this.mesh2.position.y -= 0.55 * this.depth;
     this.obj.add(this.mesh1);
     this.obj.add(this.mesh2);
     this.obj.position.y -= this.depth/2;
     parentObj.add(this.obj);
+  }
+
+  reset() {
+    this.index=1;
+    this.materials[this.index].wireframe = wireframeDefault;
+    this.basematerials[this.index].wireframe = wireframeDefault;
+    this.mesh1.material = this.materials[this.index];
+    this.mesh2.material = this.basematerials[this.index];
+  }
+
+  toggleWireframe() {
+    this.materials[this.index].wireframe = ! this.materials[this.index].wireframe;
+    this.basematerials[this.index].wireframe = ! this.basematerials[this.index].wireframe;
+  }
+
+  toggleLighting() {
+    var wireframe = this.materials[this.index].wireframe;
+    this.index = (this.index == 0) ? 1 : 0;
+    this.materials[this.index].wireframe = wireframe
+    this.basematerials[this.index].wireframe = wireframe
+    this.mesh1.material = this.materials[this.index];
+    this.mesh2.material = this.basematerials[this.index];
   }
 
   getHeight() {
@@ -31,14 +53,6 @@ class Board {
   }
   getDepth() {                                                                                                                      
     return this.depth;
-  }
-
-  toggleLightingCalc() {
-    //FIXME
-  }
-
-  togglePhongGouraud() {
-    //FIXME
   }
 
   updateMaterial() {

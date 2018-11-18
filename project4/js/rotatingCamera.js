@@ -1,5 +1,4 @@
-const angSpeed = -1;
-const orbitradius = 0.35
+const angSpeed = -0.5;
 
 
 class RotatingCamera{
@@ -7,7 +6,6 @@ class RotatingCamera{
     this.capsule = new THREE.Object3D();
     this.obj =  new THREE.Object3D();
     this.axis = new THREE.AxisHelper(2 * radius);
-    this.orbitRadius = orbitradius * factor;
 
     this.camera = new THREE.PerspectiveCamera(45, window.innerWidth/window.innerHeight, 1, 10000);
     this.camera.position.set( factor,factor,factor);

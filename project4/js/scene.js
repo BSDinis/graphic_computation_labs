@@ -8,12 +8,12 @@
 
 
 class Scene {
-  constructor(factor, wireframe) {
+  constructor(factor) {
     this.scene = new THREE.Scene();
     this.amb = new THREE.AmbientLight(0xffffff, 0.3);
     this.dirlight = new DirLight(this.scene, {width: factor, height: factor, depth: 0.15 * factor});
     this.scene.add(this.amb);
-    this.board = new Board(factor, wireframe, 0xB87333, this.scene);
+    this.board = new Board(factor, 0xB87333, this.scene);
     this.poolball = new PoolBall(factor, 0xffffff, this.scene);
     this.camera = new RotatingCamera(factor, this.scene);
   }
@@ -33,5 +33,17 @@ class Scene {
   updateScene(delta) {
     this.poolball.updateBall(delta);
     this.camera.updateCamera(delta);
+  }
+
+  toggleBallMove() { this.poolball.toggleMovement();}
+  toggleDirLight() { this.dirlight.toggle();}
+  toggleCalc() { 
+    this.poolball.toggleLighting();
+    this.board.toggleLighting();
+  }
+
+  toggleWireframe() { 
+    this.poolball.toggleWireframe();
+    this.board.toggleWireframe();
   }
 }
