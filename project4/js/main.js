@@ -45,7 +45,7 @@ function animate() {
   }
   if (refresh) { 
     sceneIndex = 0;
-    orbitControls.autoRotate = true;
+    orbitControls.autoRotate = false;
     scene[sceneIndex].reset(); 
     refresh = false; 
     paused = false; 
@@ -77,7 +77,7 @@ function init()
   orbitControls.enableZoom = true;
   orbitControls.enablePan = false;
   orbitControls.enableDamping = false;
-  orbitControls.autoRotate = true;
+  orbitControls.autoRotate = false;
   orbitControls.autoRotateSpeed = -9;
   render();
 
@@ -133,6 +133,9 @@ function onKeyDown(e) {
       toggleWireframe=true;
       break;
 
+    case 32:
+      orbitControls.autoRotate = ! orbitControls.autoRotate;
+      break;
 
     default:
       break;

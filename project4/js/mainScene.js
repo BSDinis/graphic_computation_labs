@@ -33,6 +33,7 @@ class MainScene {
     this.board.reset();
     this.poolball.reset();
     this.camera.reset();
+    this.rubiks.reset();
     this.dirlight.turnOn();
     this.pointlight.turnOn();
   }
