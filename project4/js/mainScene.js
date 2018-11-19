@@ -52,10 +52,12 @@ class MainScene {
   toggleCalc() { 
     this.poolball.toggleLighting();
     this.board.toggleLighting();
+    this.rubiks.toggleLighting();
   }
 
   toggleWireframe() { 
     this.poolball.toggleWireframe();
     this.board.toggleWireframe();
+    this.rubiks.toggleWireframe();
   }
 }
