@@ -20,6 +20,7 @@ var toggleCalc = false;
 var pause = false;
 var paused = false;
 var refresh = false;
+var saved;
 var sceneIndex = 0;
 
 function render()
@@ -39,7 +40,14 @@ function animate() {
   if (pause) {
     paused = ! paused;
     sceneIndex = (paused) ? 1 : 0;
-    orbitControls.autoRotate = ! paused
+    if (paused) {
+      saved = orbitControls.autoRotate;
+      orbitControls.autoRotate = false
+    }
+    else {
+      orbitControls.autoRotate = saved;
+    }
+
     orbitControls.update();
     pause = false;
   }
