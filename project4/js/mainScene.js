@@ -10,6 +10,7 @@
 class MainScene {
   constructor(factor) {
     this.scene = new THREE.Scene();
+    this.scene.background = new THREE.Color(0x228b22);
     this.amb = new THREE.AmbientLight(0xffffff, 0.1);
     this.scene.add(this.amb);
     this.dirlight = new DirLight(this.scene, {width: factor, height: factor, depth: 0.15 * factor});
