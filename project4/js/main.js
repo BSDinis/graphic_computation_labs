@@ -20,6 +20,7 @@ var toggleCalc = false;
 var pause = false;
 var paused = false;
 var refresh = false;
+var saved;
 var sceneIndex = 0;
 
 function render()
@@ -39,13 +40,20 @@ function animate() {
   if (pause) {
     paused = ! paused;
     sceneIndex = (paused) ? 1 : 0;
-    orbitControls.autoRotate = ! paused
+    if (paused) {
+      saved = orbitControls.autoRotate;
+      orbitControls.autoRotate = false
+    }
+    else {
+      orbitControls.autoRotate = saved;
+    }
+
     orbitControls.update();
     pause = false;
   }
   if (refresh) { 
     sceneIndex = 0;
-    orbitControls.autoRotate = true;
+    orbitControls.autoRotate = false;
     scene[sceneIndex].reset(); 
     refresh = false; 
     paused = false; 
@@ -77,7 +85,7 @@ function init()
   orbitControls.enableZoom = true;
   orbitControls.enablePan = false;
   orbitControls.enableDamping = false;
-  orbitControls.autoRotate = true;
+  orbitControls.autoRotate = false;
   orbitControls.autoRotateSpeed = -9;
   render();
 
@@ -133,6 +141,9 @@ function onKeyDown(e) {
       toggleWireframe=true;
       break;
 
+    case 32:
+      orbitControls.autoRotate = ! orbitControls.autoRotate;
+      break;
 
     default:
       break;
