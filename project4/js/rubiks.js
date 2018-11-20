@@ -3,45 +3,6 @@ class Rubiks {
   constructor(factor, parentObj) {
 
     const rubiksShininess = 500;
-    function generateFace(i, material) {
-      var face = new THREE.PlaneGeometry(factor*rubiksSide, factor*rubiksSide, 5, 5);
-      var plane = new THREE.Mesh(face, material);
-
-      if (i % 2 == 0) 
-        plane.rotateY(Math.PI);
-
-      switch (i) {
-        case 0:
-        case 1:
-          var f = (i % 2 == 0) ? -1 : 1;
-          plane.position.z += f * factor*rubiksSide/2;
-          break;
-
-        case 2:
-        case 3:
-          plane.rotateY(Math.PI/2);
-          var f = (i % 2 == 0) ? -1 : 1;
-          plane.position.x += f * factor*rubiksSide/2;
-          break;
-
-        case 4:
-        case 5:
-          if (i % 2 == 0) 
-            plane.rotateX(Math.PI/2);
-          else 
-            plane.rotateX(-Math.PI/2);
-          var f = (i % 2 == 0) ? -1 : 1;
-          plane.position.y += f * factor*rubiksSide/2;
-          break;
-
-        default:
-          break;
-
-      }
-
-      return plane;
-    }
-
     function generateBasicMaterial() {
       var material = [];
       var bmap = new THREE.TextureLoader().load('resources/cubeMap.bmp'); 
@@ -76,7 +37,7 @@ class Rubiks {
     this.meshes = [];
 
     for (var i = 0; i < 6; i++) {
-      this.meshes.push(generateFace(i, this.material[this.index][i]));
+      this.meshes.push(generateFace(i, rubiksSide * factor, this.material[this.index][i]));
       this.obj.add(this.meshes[i]);
     }
 
